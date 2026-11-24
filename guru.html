@@ -426,14 +426,27 @@ async function reportHTML(){
   return {css,body};
 }
 window.QL=QL;window.LL=LL;window.reportHTML=reportHTML;
-$('#bReset').onclick=async()=>{
-  const pin=prompt('KOSONGKAN SEMUA DATA\n\nSemua bilik, kumpulan dan markah ketiga-tiga stesen akan dipadam dan TIDAK boleh dikembalikan.\n\nMasukkan PIN guru untuk teruskan:');
-  if(pin==null)return;
-  if(!confirm('Pasti mahu padam SEMUA rekod pemain dan markah?'))return;
-  const b=$('#bReset'),o=b.innerHTML;b.disabled=true;b.textContent='Memadam…';
-  try{const r=await api({action:'reset',pin});if(!r.ok)throw new Error(r.err||'Gagal');alert('✅ Semua data sudah dikosongkan. Sistem kini seperti baharu.');location.reload()}
-  catch(e){alert('❌ '+(e.message==='PIN salah'?'PIN salah. Data tidak dipadam.':'Tidak dapat memadam: '+e.message))}
-  b.disabled=false;b.innerHTML=o};
+function resetModal(){
+  let m=document.getElementById('rsM');if(m)m.remove();
+  m=document.createElement('div');m.id='rsM';
+  m.style.cssText='position:fixed;inset:0;z-index:200;background:#0b242799;display:grid;place-items:center;padding:16px';
+  m.innerHTML=`<div style="background:#fffdf7;border-top:5px solid #c92a2a;border-radius:22px;max-width:440px;width:100%;padding:22px;box-shadow:0 30px 60px #0005;font-family:inherit;text-align:center">
+   <div style="font-size:44px">🗑️</div><h2 style="margin:4px 0" class="arL">مَسْحُ جَمِيعِ الْبَيَانَاتِ</h2><b>Kosongkan semua data</b>
+   <p style="color:#5a7477;margin:10px 0 14px">Semua bilik, kumpulan dan markah ketiga-tiga stesen akan dipadam dan <b>tidak boleh dikembalikan</b>.</p>
+   <input id="rsPin" type="password" inputmode="text" autocomplete="off" placeholder="Masukkan PIN guru" style="width:100%;font:inherit;font-size:20px;padding:12px 14px;border-radius:14px;border:2px solid #e7d6a0;text-align:center;letter-spacing:2px">
+   <div id="rsMsg" style="min-height:24px;margin:8px 0;font-weight:700"></div>
+   <div style="display:flex;gap:10px;justify-content:center"><button id="rsNo" class="btn" style="background:#fff;color:#0b2427;border:1px solid #d6e2e0;box-shadow:none">Batal</button><button id="rsYes" class="btn" style="background:#c92a2a">🗑️ Padam semua</button></div></div>`;
+  document.body.appendChild(m);setTimeout(()=>m.querySelector('#rsPin').focus(),50);
+  const close=()=>m.remove();m.querySelector('#rsNo').onclick=close;m.onclick=e=>{if(e.target===m)close()};
+  const go=async()=>{const pin=m.querySelector('#rsPin').value.trim(),msg=m.querySelector('#rsMsg'),y=m.querySelector('#rsYes');
+    if(!pin){msg.style.color='#c92a2a';msg.textContent='Sila masukkan PIN.';return}
+    y.disabled=true;msg.style.color='#0e7c7b';msg.textContent='Memadam…';
+    try{const r=await api({action:'reset',pin});if(!r.ok)throw new Error(r.err||'Gagal');
+      msg.textContent='✅ Semua data sudah dikosongkan!';setTimeout(()=>location.reload(),1200)}
+    catch(e){msg.style.color='#c92a2a';msg.textContent=e.message==='PIN salah'?'❌ PIN salah. Data tidak dipadam.':'❌ Tidak dapat memadam: '+e.message;y.disabled=false}};
+  m.querySelector('#rsYes').onclick=go;m.querySelector('#rsPin').onkeydown=e=>{if(e.key==='Enter')go()};
+}
+$('#bReset').onclick=resetModal;
 $('#bPdf').onclick=async()=>{const b=$('#bPdf');b.disabled=true;const o=b.innerHTML;b.textContent='Menjana PDF…';
   try{const {css,body}=await reportHTML();const el=document.createElement('div');el.innerHTML=`<style>${css}</style>${body}`;el.style.cssText='width:190mm;padding:0 4mm;background:#fff';
     await html2pdf().set({margin:[10,8,12,8],filename:'Laporan-Arabic-e-Camp-SKBM.pdf',image:{type:'jpeg',quality:.96},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy'],avoid:'tr'}}).from(el).save()}
