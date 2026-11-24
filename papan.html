@@ -81,6 +81,7 @@ footer{text-align:center;color:var(--mut);font-size:14px;padding:16px}
         <div id="qr"></div>
         <div class="mut">atau masukkan kod bilik</div>
         <div class="code" id="code"></div>
+        <button class="btn sun" id="bDl" style="font-size:18px;padding:10px 20px">⬇ Muat turun QR</button>
       </div>
       <div>
         <div id="warn"></div>
@@ -163,6 +164,20 @@ $('#bCreate').onclick=async()=>{
 };
 $('#bStart').onclick=async()=>{$('#bStart').disabled=true;ding();try{await run('startRoom',room.bilik);show('sLive')}catch(e){$('#warn').innerHTML='<div class="warn">Ralat: '+esc(e.message)+'</div>';$('#bStart').disabled=false}};
 $('#bEnd').onclick=async()=>{$('#bEnd').disabled=true;try{const b=await run('endRoom',room.bilik);winner(b)}catch(e){$('#bEnd').disabled=false}};
+$('#bDl').onclick=()=>{
+  const src=$('#qr canvas');if(!src||!room)return;
+  const W=900,H=1150,c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');
+  x.fillStyle='#ffffff';x.fillRect(0,0,W,H);
+  x.fillStyle='#0e7c7b';x.fillRect(0,0,W,150);
+  x.fillStyle='#fff';x.textAlign='center';x.font='bold 52px Fredoka, sans-serif';x.fillText('Isyarat Tangan Arab',W/2,95);
+  x.fillStyle='#0d2b2e';x.font='600 34px Fredoka, sans-serif';x.fillText('Imbas QR dengan kamera iPad',W/2,220);
+  x.fillStyle='#ffc531';x.fillRect(110,260,680,680);x.fillStyle='#fff';x.fillRect(125,275,650,650);
+  x.imageSmoothingEnabled=false;x.drawImage(src,150,300,600,600);
+  x.fillStyle='#5a7477';x.font='28px Fredoka, sans-serif';x.fillText('Kod bilik',W/2,1000);
+  x.fillStyle='#0e7c7b';x.font='bold 80px Fredoka, sans-serif';x.fillText(room.bilik.split('').join(' '),W/2,1080);
+  x.fillStyle='#5a7477';x.font='24px Fredoka, sans-serif';x.fillText('Arabic e-Camp · Ustaz Syazwan',W/2,1130);
+  const a=document.createElement('a');a.download='QR-Isyarat-Tangan-Arab-'+room.bilik+'.png';a.href=c.toDataURL('image/png');document.body.appendChild(a);a.click();a.remove();
+};
 $('#bNew').onclick=()=>{clearInterval(pollT);music(false);show('sSet')};
 
 function startPoll(){clearInterval(pollT);let busy=false;pollT=setInterval(async()=>{if(busy)return;busy=true;try{render(await run('getBoard',room.bilik))}catch(e){}busy=false},2000)}
