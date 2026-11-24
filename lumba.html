@@ -269,6 +269,9 @@ async function push(){if(!G||G.demo)return;if(sending){pending=true;return}sendi
 
 /* ===== SERTAI ===== */
 $('#inBilik').value=(qs.get('bilik')||'').toUpperCase();
+/* ingat nama kumpulan & kelas (dikongsi antara kedua-dua permainan) */
+try{const m=JSON.parse(localStorage.getItem('ae-kumpulan')||'null');if(m){if(!$('#inNama').value)$('#inNama').value=m.nama||'';if(m.kelas&&!$('#inKelas').value)$('#inKelas').value=m.kelas;if(m.nama){const n=document.createElement('div');n.className='err';n.style.color='#0e7c7b';n.textContent='✓ Nama kumpulan diisi automatik. Semak, kemudian tekan Masuk.';$('#joinErr').before(n)}}}catch(e){}
+
 if($('#inBilik').value)setTimeout(()=>$('#inNama').focus(),300);
 (function(){try{const o=JSON.parse(localStorage.getItem('lpa-sesi')||'null');if(o&&o.bilik&&(!qs.get('bilik')||qs.get('bilik').toUpperCase()===o.bilik)&&o.betul<o.n){G=o;$('#inBilik').value=o.bilik;{const p=String(o.nama).split(' · ');$('#inNama').value=p[0];if(p[1])$('#inKelas').value=p[1]}$('#btnJoin').textContent='Sambung semula sebagai '+o.nama}}catch(e){}})();
 $('#fJoin').onsubmit=async e=>{
@@ -283,6 +286,7 @@ $('#fJoin').onsubmit=async e=>{
       const r=await api({action:'join',bilik,kumpulan:nama});if(!r.ok)throw new Error(r.err||'Gagal masuk');
       G={bilik,id:r.id,nama:r.nama||nama,n:15,betul:0,dijawab:0,streak:0};
     }
+    try{localStorage.setItem('ae-kumpulan',JSON.stringify({nama:$('#inNama').value.trim(),kelas:$('#inKelas').value}))}catch(e){}
     $('#joinErr').textContent='';save();goWait();
   }catch(err){$('#joinErr').textContent=err.name==='AbortError'?'Sambungan lambat. Cuba lagi.':err.message}
   $('#btnJoin').disabled=false;

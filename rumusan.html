@@ -301,7 +301,7 @@ return {makeGen,W,HADHA,HADHIHI};})();
 const TYPE_T={abcd:'ABCD (jari)',seret:'Seret ke kotak',belon:'Pecah belon'},TYPE_L={gambar:'Gambar → perkataan',dengar:'Dengar → gambar',pola:'Pola ayat هٰذَا/هٰذِهِ'};
 const wMs=id=>{const w=LL.W.find(x=>x.id===id);return w?`${w.ar} (${w.rm}, ${w.ms})`:id};
 function qRowsT(b,g){if(!b||!b.seed)return [];const qs=QL.buildQs(b.seed,b.soalan),rk=g.rekod||'',jw=(g.jaw||'').split(',');
-  return qs.slice(0,Math.max(rk.length,g.dijawab)).map((q,i)=>({no:i+1,jenis:TYPE_T[q.type],soalan:q.type==='abcd'?`Nombor ${q.ans.n}`:`${q.ans.ar} (${q.ans.rm})`,betul:`${q.ans.n} · ${q.ans.ar}`,murid:jw[i]===undefined||jw[i]===''?'—':jw[i]==='-'?'Masa tamat':(()=>{const p=QL.buildQs?Number(jw[i]):0;return p+''})(),ok:rk[i]==='1'}))}
+  return qs.slice(0,Math.max(rk.length,g.dijawab)).map((q,i)=>({no:i+1,jenis:TYPE_T[q.type],soalan:q.type==='abcd'?`Nombor ${q.ans.n}`:`${q.ans.ar} (${q.ans.rm})`,betul:`${q.ans.n} · ${q.ans.ar}`,murid:jw[i]===undefined||jw[i]===''?'—':jw[i]==='-'?'Masa tamat':String(jw[i]).replace(/^n/,''),ok:rk[i]==='1'}))}
 function qRowsL(b,g){if(!b||!b.seed)return [];const gen=LL.makeGen(b.seed),rk=g.rekod||'',jw=(g.jaw||'').split(','),n=Math.max(rk.length,g.dijawab),out=[];
   for(let i=0;i<n;i++){const q=gen(),corr=q.type==='pola'?(q.ans.f?LL.HADHIHI:LL.HADHA):q.ans.id;let m=jw[i];
     m=m===undefined||m===''?'—':m==='HADHA'?LL.HADHA+' '+q.ans.ar:m==='HADHIHI'?LL.HADHIHI+' '+q.ans.ar:wMs(m);

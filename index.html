@@ -341,6 +341,9 @@ async function pushScore(){
 
 /* ================= SERTAI & TUNGGU ================= */
 $('#inBilik').value=(qs.get('bilik')||'').toUpperCase();
+/* ingat nama kumpulan & kelas (dikongsi antara kedua-dua permainan) */
+try{const m=JSON.parse(localStorage.getItem('ae-kumpulan')||'null');if(m){if(!$('#inNama').value)$('#inNama').value=m.nama||'';if(m.kelas&&!$('#inKelas').value)$('#inKelas').value=m.kelas;if(m.nama){const n=document.createElement('div');n.className='err';n.style.color='#0e7c7b';n.textContent='✓ Nama kumpulan diisi automatik. Semak, kemudian tekan Masuk.';$('#joinErr').before(n)}}}catch(e){}
+
 if($('#inBilik').value)setTimeout(()=>$('#inNama').focus(),300);
 (function resume(){try{const o=JSON.parse(localStorage.getItem('ita-sesi')||'null');if(o&&o.bilik&&(!qs.get('bilik')||qs.get('bilik').toUpperCase()===o.bilik)&&o.i<o.n){S=o;$('#inBilik').value=o.bilik;{const p=String(o.nama).split(' · ');$('#inNama').value=p[0];if(p[1])$('#inKelas').value=p[1]}$('#btnJoin').textContent='Sambung semula sebagai '+o.nama}}catch(e){}})();
 $('#fJoin').onsubmit=async e=>{
@@ -356,6 +359,7 @@ $('#fJoin').onsubmit=async e=>{
       if(!r.ok)throw new Error(r.err||'Gagal sertai');
       S={bilik,id:r.id,nama:r.nama||nama,n:0,i:0,skor:0,betul:0,streak:0};
     }
+    try{localStorage.setItem('ae-kumpulan',JSON.stringify({nama:$('#inNama').value.trim(),kelas:$('#inKelas').value}))}catch(e){}
     $('#joinErr').textContent='';save();goWait();
   }catch(err){$('#joinErr').textContent=err.name==='AbortError'?'Sambungan lambat. Cuba lagi.':err.message}
   $('#btnJoin').disabled=false;
@@ -410,7 +414,7 @@ function nextQ(){
 }
 function result(q,picked,left){
   clearInterval(tId);
-  const ok=picked===q.ans.n;S.i++;S.rekod=(S.rekod||'')+(ok?'1':'0');S.jaw=(S.jaw?S.jaw+',':'')+(picked==null?'-':picked);
+  const ok=picked===q.ans.n;S.i++;S.rekod=(S.rekod||'')+(ok?'1':'0');S.jaw=(S.jaw?S.jaw+',':'')+(picked==null?'-':'n'+picked);
   if(ok){S.betul++;S.streak++;const add=10+Math.round(left/5)+(S.streak>=3?5:0);S.skor+=add;SFX.ok();burst(80);if(S.streak>=3)setTimeout(SFX.streak,350);fb(true,`+${add} mata`+(S.streak>=3?' · 🔥 '+S.streak+' berturut':''))}
   else{S.streak=0;SFX.no();fb(false,`Jawapan: ${q.ans.n} = ${q.ans.rm}`,picked==null)}
   speakQ(ok?PRAISE[Math.floor(Math.random()*PRAISE.length)]:(picked==null?'انتهى الوقت':'خطأ'),1);setTimeout(()=>speak(q.ans),1100);
