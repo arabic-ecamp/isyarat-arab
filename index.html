@@ -335,7 +335,7 @@ let sending=false,pending=false;
 async function pushScore(){
   if(!S||S.demo)return;if(sending){pending=true;return}
   sending=true;pending=false;
-  try{await api({action:'score',bilik:S.bilik,id:S.id,skor:S.skor,betul:S.betul,dijawab:S.i,selesai:S.i>=S.n?1:0,rekod:S.rekod||''})}catch(e){pending=true}
+  try{await api({action:'score',bilik:S.bilik,id:S.id,skor:S.skor,betul:S.betul,dijawab:S.i,selesai:S.i>=S.n?1:0,rekod:S.rekod||'',jaw:S.jaw||''})}catch(e){pending=true}
   sending=false;if(pending)setTimeout(pushScore,1500);
 }
 
@@ -410,7 +410,7 @@ function nextQ(){
 }
 function result(q,picked,left){
   clearInterval(tId);
-  const ok=picked===q.ans.n;S.i++;S.rekod=(S.rekod||'')+(ok?'1':'0');
+  const ok=picked===q.ans.n;S.i++;S.rekod=(S.rekod||'')+(ok?'1':'0');S.jaw=(S.jaw?S.jaw+',':'')+(picked==null?'-':picked);
   if(ok){S.betul++;S.streak++;const add=10+Math.round(left/5)+(S.streak>=3?5:0);S.skor+=add;SFX.ok();burst(80);if(S.streak>=3)setTimeout(SFX.streak,350);fb(true,`+${add} mata`+(S.streak>=3?' · 🔥 '+S.streak+' berturut':''))}
   else{S.streak=0;SFX.no();fb(false,`Jawapan: ${q.ans.n} = ${q.ans.rm}`,picked==null)}
   speakQ(ok?PRAISE[Math.floor(Math.random()*PRAISE.length)]:(picked==null?'انتهى الوقت':'خطأ'),1);setTimeout(()=>speak(q.ans),1100);

@@ -162,6 +162,7 @@ footer{font-weight:600}
 .pod2 b{font-size:44px}.pod2 span{font-size:17px}
 .closeS{position:absolute;top:16px;right:16px;z-index:2}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 <canvas id="fx"></canvas>
@@ -173,7 +174,7 @@ footer{font-weight:600}
 <main>
   <div class="bar">
     <h1 class="bi" style="margin:0"><span class="arL">تَرْتِيبُ الْفِرَقِ الْعَامُّ</span><span class="ms">Kedudukan keseluruhan kumpulan · dikira automatik</span></h1>
-    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span class="live"><i></i> Dikemas kini automatik</span><button class="btn sun" id="bShow"><span class="arL">إِعْلَانُ الْبَطَلِ</span> · Umum Johan Keseluruhan</button></div>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span class="live"><i></i> Dikemas kini automatik</span><button class="btn" id="bPdf">📄 <span class="arL">تَقْرِيرٌ</span> · Laporan PDF</button><button class="btn" id="bDoc" style="background:linear-gradient(135deg,#1e4f9a,#2b6cd4)">📝 Laporan Word</button><button class="btn sun" id="bShow"><span class="arL">إِعْلَانُ الْبَطَلِ</span> · Umum Johan Keseluruhan</button></div>
   </div>
   <div class="sum">
     <div class="gcard"><h3><span><span class="arL">لُعْبَةُ الْإِشَارَةِ</span><br><small style="color:var(--mut)">Permainan 1 · Isyarat Tangan</small></span><select id="selT"></select></h3><div class="mini" id="miniT"></div></div>
@@ -248,6 +249,102 @@ $('#bShow').onclick=async()=>{
     try{speechSynthesis.cancel()}catch(e){}
     say('مبروك! بطل المخيم هو '+w.map(o=>o.nm.split(' · ')[0]).join(' و '),'ar',()=>say('Tahniah! Johan keseluruhan Arabic e-Camp ialah '+w.map(o=>o.nm).join(' dan ')+'!','ms'))},2600);
 };
+
+/* ===== LAPORAN LENGKAP (PDF / WORD) ===== */
+const QL=(()=>{
+const RAW=[[21,"وَاحِدٌ وَعِشْرُونَ","wahid wa 'isyrun"],[22,"اِثْنَانِ وَعِشْرُونَ","ithnan wa 'isyrun"],[23,"ثَلَاثَةٌ وَعِشْرُونَ","thalathah wa 'isyrun"],[24,"أَرْبَعَةٌ وَعِشْرُونَ","arba'ah wa 'isyrun"],[25,"خَمْسَةٌ وَعِشْرُونَ","khamsah wa 'isyrun"],[26,"سِتَّةٌ وَعِشْرُونَ","sittah wa 'isyrun"],[27,"سَبْعَةٌ وَعِشْرُونَ","sab'ah wa 'isyrun"],[28,"ثَمَانِيَةٌ وَعِشْرُونَ","thamaniyah wa 'isyrun"],[29,"تِسْعَةٌ وَعِشْرُونَ","tis'ah wa 'isyrun"],[30,"ثَلَاثُونَ","thalathun"]];
+const POOL=RAW.map(([n,ar,rm])=>({n,ar,rm,say:ar.replace(/[ً-ْ]/g,'')}));
+function rng(seed){let a=seed>>>0||1;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function buildQs(seed,count){
+  const R=rng(seed),sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(R()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+  let p=[];while(p.length<count)p=p.concat(sh(POOL));p=p.slice(0,count);
+  for(let i=1;i<p.length;i++)if(p[i].n===p[i-1].n){const j=(i+1)%p.length;[p[i],p[j]]=[p[j],p[i]]}
+  const T=['abcd','seret','belon'];
+  return p.map((a,i)=>{
+    const type=T[i%3],k={abcd:3,seret:2,belon:4}[type];
+    const o=POOL.filter(d=>d.n!==a.n),near=sh(o.filter(d=>Math.abs(d.n-a.n)<=3)),far=sh(o.filter(d=>Math.abs(d.n-a.n)>3));
+    return {type,ans:a,opts:sh([a,...near.concat(far).slice(0,k)])};
+  });
+}
+
+return {buildQs};})();
+const LL=(()=>{
+const W=[
+ {id:'qamis',ar:'قَمِيْصٌ',rm:'qamis',ms:'baju kemeja',f:0},
+ {id:'fustan',ar:'فُسْتَانٌ',rm:'fustan',ms:'gaun',f:0},
+ {id:'bantalun',ar:'بَنْطَلُوْنٌ',rm:'bantalun',ms:'seluar',f:0},
+ {id:'hizam',ar:'حِزَامٌ',rm:'hizam',ms:'tali pinggang',f:0},
+ {id:'hiza',ar:'حِذَاءٌ',rm:"hiza'",ms:'kasut',f:0},
+ {id:'jaurab',ar:'جَوْرَبٌ',rm:'jaurab',ms:'stoking',f:0},
+ {id:'mindil',ar:'مِنْدِيْلٌ',rm:'mindil',ms:'sapu tangan',f:0},
+ {id:'khimar',ar:'خِمَارٌ',rm:'khimar',ms:'tudung',f:0},
+ {id:'mihfazah',ar:'مِحْفَظَةٌ',rm:'mihfazah',ms:'beg',f:1},
+ {id:'nazzarah',ar:'نَظَّارَةٌ',rm:'nazzarah',ms:'cermin mata',f:1},
+ {id:'rabtah',ar:'رَبْطَةُ الْعُنُقِ',rm:"rabtatul 'unuq",ms:'tali leher',f:1}
+];
+const HADHA='هٰذَا',HADHIHI='هٰذِهِ';
+function rng(seed){let a=seed>>>0||1;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function makeGen(seed){
+  const R=rng(seed),sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(R()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+  let bag=[],last=null,n=0;
+  return ()=>{
+    if(!bag.length){bag=sh(W);if(bag[0]===last)bag.push(bag.shift())}
+    const a=bag.shift();last=a;const k=n++%3;
+    const others=sh(W.filter(w=>w!==a)).slice(0,3);
+    if(k===2)return {type:'pola',ans:a,opts:sh([HADHA,HADHIHI])};
+    return {type:k===0?'gambar':'dengar',ans:a,opts:sh([a,...others])};
+  };
+}
+
+return {makeGen,W,HADHA,HADHIHI};})();
+
+const TYPE_T={abcd:'ABCD (jari)',seret:'Seret ke kotak',belon:'Pecah belon'},TYPE_L={gambar:'Gambar → perkataan',dengar:'Dengar → gambar',pola:'Pola ayat هٰذَا/هٰذِهِ'};
+const wMs=id=>{const w=LL.W.find(x=>x.id===id);return w?`${w.ar} (${w.rm}, ${w.ms})`:id};
+function qRowsT(b,g){if(!b||!b.seed)return [];const qs=QL.buildQs(b.seed,b.soalan),rk=g.rekod||'',jw=(g.jaw||'').split(',');
+  return qs.slice(0,Math.max(rk.length,g.dijawab)).map((q,i)=>({no:i+1,jenis:TYPE_T[q.type],soalan:q.type==='abcd'?`Nombor ${q.ans.n}`:`${q.ans.ar} (${q.ans.rm})`,betul:`${q.ans.n} · ${q.ans.ar}`,murid:jw[i]===undefined||jw[i]===''?'—':jw[i]==='-'?'Masa tamat':(()=>{const p=QL.buildQs?Number(jw[i]):0;return p+''})(),ok:rk[i]==='1'}))}
+function qRowsL(b,g){if(!b||!b.seed)return [];const gen=LL.makeGen(b.seed),rk=g.rekod||'',jw=(g.jaw||'').split(','),n=Math.max(rk.length,g.dijawab),out=[];
+  for(let i=0;i<n;i++){const q=gen(),corr=q.type==='pola'?(q.ans.f?LL.HADHIHI:LL.HADHA):q.ans.id;let m=jw[i];
+    m=m===undefined||m===''?'—':m==='HADHA'?LL.HADHA+' '+q.ans.ar:m==='HADHIHI'?LL.HADHIHI+' '+q.ans.ar:wMs(m);
+    out.push({no:i+1,jenis:TYPE_L[q.type],soalan:q.type==='pola'?`مَا هٰذَا؟ (${q.ans.ms})`:q.type==='gambar'?`Gambar: ${q.ans.ms}`:`${q.ans.ar} (${q.ans.rm})`,betul:q.type==='pola'?`${corr} ${q.ans.ar}`:wMs(corr),murid:m,ok:rk[i]==='1'})}
+  return out}
+async function toData(u){try{const b=await (await fetch(u)).blob();return await new Promise(r=>{const f=new FileReader();f.onload=()=>r(f.result);f.readAsDataURL(b)})}catch(e){return u}}
+async function reportHTML(){
+  await refresh();const T=data.tangan,L=data.lumba,[lenc,ust]=await Promise.all([toData('lencana.png'),toData('ustaz.jpg')]);
+  const today=new Date().toLocaleDateString('ms-MY',{day:'numeric',month:'long',year:'numeric'});
+  const champ=result.filter(o=>o.rk===1);
+  const css=`body{font-family:'Plus Jakarta Sans',Arial,sans-serif;color:#0b2427;font-size:11pt}
+  .ar{font-family:'Noto Naskh Arabic','Traditional Arabic',serif;direction:rtl}
+  .hd{display:flex;align-items:center;gap:14px;border-bottom:3px solid #c9a227;padding-bottom:10px}
+  .hd img.l{width:70px;height:70px;object-fit:contain}.hd img.u{width:70px;height:70px;border-radius:50%;object-fit:cover;border:3px solid #c9a227}
+  .hd .t{flex:1;text-align:center}.hd h1{margin:0;font-size:20pt;color:#0b6e6d}.hd .ar{font-size:18pt;color:#0b6e6d}
+  .meta{font-size:9.5pt;color:#5d7376;margin:6px 0 14px;text-align:center}
+  h2{color:#0b6e6d;font-size:14pt;border-left:5px solid #c9a227;padding-left:8px;margin:18px 0 8px}
+  h3{font-size:12pt;margin:12px 0 6px}
+  table{width:100%;border-collapse:collapse;margin-bottom:8px;font-size:9.5pt}
+  th{background:#0b6e6d;color:#fff;padding:6px;text-align:left}td{padding:5px 6px;border-bottom:1px solid #e3ebe9;vertical-align:top}
+  tr:nth-child(even) td{background:#f6faf9}.ok{color:#1a9c5a;font-weight:800}.no{color:#d64545;font-weight:800}
+  .champ{background:linear-gradient(135deg,#fff8e1,#fff);border:2px solid #c9a227;border-radius:12px;padding:12px;text-align:center;margin:10px 0}
+  .champ b{font-size:18pt;color:#0b6e6d}.grp{page-break-before:always}.stat{font-size:10pt;color:#334}
+  .ft{margin-top:20px;font-size:9pt;color:#5d7376;text-align:center;border-top:1px solid #e3ebe9;padding-top:8px}`;
+  const head=`<div class="hd"><img class="l" src="${lenc}"><div class="t"><div class="ar">التَّقْرِيرُ الشَّامِلُ</div><h1>Laporan Keseluruhan Arabic e-Camp</h1><div style="font-weight:700">SK Bukit Mutiara · Tahun 3</div></div><img class="u" src="${ust}"></div>
+  <div class="meta">Disediakan oleh Ustaz Mohd Syazwan Ab Rahman · <span class="ar">إِعْدَادُ: الْأُسْتَاذ مُحَمَّد شَزْوَان عَبْدُ الرَّحْمٰن</span><br>Tarikh: ${today} · Sesi Isyarat Tangan: ${esc(selT||'-')} · Sesi Lumba Kereta: ${esc(selL||'-')}</div>`;
+  const sum=`<h2>1. Johan dan Kedudukan Keseluruhan</h2>${champ.length?`<div class="champ"><div class="ar" style="font-size:16pt">بَطَلُ الْمُخَيَّمِ</div><b>🏆 ${champ.map(o=>esc(o.nm)).join(' & ')}</b><div>${champ[0].tot} mata · ${champ[0].betul} jawapan betul</div></div>`:''}
+  <table><tr><th>Kedudukan</th><th>Kumpulan · Kelas</th><th>Isyarat Tangan</th><th>Lumba Kereta</th><th>Jumlah Betul</th><th>Jumlah Mata</th></tr>${result.map(o=>`<tr><td>${o.rk}</td><td><b>${esc(o.nm)}</b></td><td>${o.t?`${o.t.pt} mata (#${o.t.rk})`:'Tidak main'}</td><td>${o.l?`${o.l.pt} mata (#${o.l.rk})`:'Tidak main'}</td><td>${o.betul}</td><td><b>${o.tot}</b></td></tr>`).join('')}</table>
+  <p class="stat">Mata kedudukan: Johan 10 · Naib Johan 8 · Ketiga 6 · Keempat 5 · Kelima 4 · lain-lain 3 · tidak bermain 0.</p>`;
+  const gsec=(title,o,b,rows,lumba)=>{if(!o)return `<h3>${title}</h3><p class="stat">Kumpulan ini tidak bermain permainan ini.</p>`;const g=o.raw,acc=g.dijawab?Math.round(g.betul/g.dijawab*100):0;
+    return `<h3>${title} · Kedudukan #${o.rk} (${o.pt} mata kedudukan)</h3><p class="stat">${lumba?`Kemajuan: ${g.skor}/${b.soalan}${g.selesai?' · Sampai penamat 🏁':''}`:`Markah: ${g.skor}`} · Betul: ${g.betul} · Salah: ${g.dijawab-g.betul} · Ketepatan: ${acc}%</p>
+    ${rows.length?`<table><tr><th>No</th><th>Jenis</th><th>Soalan</th><th>Jawapan Betul</th><th>Jawapan Murid</th><th>Status</th></tr>${rows.map(r=>`<tr><td>${r.no}</td><td>${r.jenis}</td><td>${esc(r.soalan)}</td><td>${esc(r.betul)}</td><td>${esc(r.murid)}</td><td class="${r.ok?'ok':'no'}">${r.ok?'✓ Betul':'✗ Salah'}</td></tr>`).join('')}</table>`:'<p class="stat">Tiada butiran soalan.</p>'}`};
+  const groups=result.map((o,i)=>`<div class="grp"><h2>${i+2}. ${esc(o.nm)} · Kedudukan Keseluruhan #${o.rk} · ${o.tot} mata</h2>${gsec('Permainan 1: Isyarat Tangan (Nombor 21–30)',o.t,T,o.t?qRowsT(T,o.t.raw):[],false)}${gsec('Permainan 2: Lumba Pakaian (Unit 2)',o.l,L,o.l?qRowsL(L,o.l.raw):[],true)}</div>`).join('');
+  const body=head+sum+groups+`<div class="ft">Laporan dijana secara automatik · Arabic e-Camp 2026 · SK Bukit Mutiara</div>`;
+  return {css,body};
+}
+$('#bPdf').onclick=async()=>{const b=$('#bPdf');b.disabled=true;const o=b.innerHTML;b.textContent='Menjana PDF…';
+  try{const {css,body}=await reportHTML();const el=document.createElement('div');el.innerHTML=`<style>${css}</style>${body}`;el.style.cssText='width:190mm;padding:0 4mm;background:#fff';
+    await html2pdf().set({margin:[10,8,12,8],filename:'Laporan-Arabic-e-Camp-SKBM.pdf',image:{type:'jpeg',quality:.96},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy'],avoid:'tr'}}).from(el).save()}
+  catch(e){alert?0:0;console.error(e)}b.disabled=false;b.innerHTML=o};
+$('#bDoc').onclick=async()=>{const {css,body}=await reportHTML();
+  const html=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>Laporan Arabic e-Camp</title><style>@page{size:A4;margin:1.5cm}${css}.hd{display:block;text-align:center}.hd img{display:inline-block;margin:0 10px}</style></head><body>${body}</body></html>`;
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿',html],{type:'application/msword'}));a.download='Laporan-Arabic-e-Camp-SKBM.doc';document.body.appendChild(a);a.click();a.remove()};
 $('#bClose').onclick=()=>{$('#show').classList.remove('on');try{speechSynthesis.cancel()}catch(e){}};
 }
 </script>

@@ -264,7 +264,7 @@ let G=null; // {bilik,id,nama,seed,n,betul,dijawab,demo,streak}
 const save=()=>{try{if(G&&!G.demo)localStorage.setItem('lpa-sesi',JSON.stringify(G))}catch(e){}};
 let sending=false,pending=false;
 async function push(){if(!G||G.demo)return;if(sending){pending=true;return}sending=true;pending=false;
-  try{await api({action:'score',bilik:G.bilik,id:G.id,skor:G.betul,betul:G.betul,dijawab:G.dijawab,selesai:G.betul>=G.n?1:0,rekod:G.rekod||''})}catch(e){pending=true}
+  try{await api({action:'score',bilik:G.bilik,id:G.id,skor:G.betul,betul:G.betul,dijawab:G.dijawab,selesai:G.betul>=G.n?1:0,rekod:G.rekod||'',jaw:G.jaw||''})}catch(e){pending=true}
   sending=false;if(pending)setTimeout(push,1500)}
 
 /* ===== SERTAI ===== */
@@ -335,7 +335,7 @@ function answer(b){
   const q=cur,k=b.dataset.k,right=q.type==='pola'?k===(q.ans.f?HADHIHI:HADHA):k===q.ans.id;
   const correctKey=q.type==='pola'?(q.ans.f?HADHIHI:HADHA):q.ans.id;
   $('#qwrap').querySelectorAll('.op').forEach(o=>o.classList.add(o.dataset.k===correctKey?'good':o===b?'bad':'dim'));
-  G.dijawab++;G.rekod=(G.rekod||'')+(right?'1':'0');
+  G.dijawab++;G.rekod=(G.rekod||'')+(right?'1':'0');G.jaw=(G.jaw?G.jaw+',':'')+(q.type==='pola'?(k===HADHA?'HADHA':'HADHIHI'):k);
   if(right){
     G.betul++;G.streak++;SFX.vroom();{const OK=[['صَحِيْحٌ!','Betul!'],['مُمْتَازٌ!','Cemerlang!'],['أَحْسَنْتَ!','Bagus!']],[ar,ms]=OK[Math.floor(Math.random()*3)],e=document.createElement('div');e.className='okpop';e.innerHTML=`<span class="ar">${ar}</span><small>${ms}</small>`;$('#qwrap').appendChild(e);setTimeout(()=>e.remove(),640)}const bz=document.createElement('div');bz.className='boost';$('#qwrap').appendChild(bz);
     $('#track').style.setProperty('--run','running');setTimeout(()=>$('#track').style.setProperty('--run','paused'),800);
