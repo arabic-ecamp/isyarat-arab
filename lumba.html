@@ -85,6 +85,8 @@ input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
 .credj{background:#ffffffe6;border:1px solid #d6ece8;border-radius:18px;padding:8px 14px;color:#0d2b2e;box-shadow:0 8px 20px #0001}
 .cred .uimg{width:52px;height:52px;border-radius:50%;object-fit:cover;border:3px solid #c9a227;padding:0;background:none}
 .qcard .say .ar{font-size:16px;line-height:1}.qcard .lbl .qa{font-size:clamp(20px,2.6vw,26px);line-height:1.4}
+.backb{font:inherit;font-weight:700;font-size:15px;background:#fff;border:1px solid #d6e2e0;border-radius:12px;padding:9px 16px;cursor:pointer;color:#0b2427;box-shadow:0 4px 12px #0b24270d;margin-bottom:12px;display:inline-flex;align-items:center;gap:6px}
+.backb:hover{border-color:#0b6e6d;color:#0b6e6d}
 #fx{position:fixed;inset:0;pointer-events:none;z-index:20;width:100%;height:100%}
 .brandz{position:fixed;right:12px;bottom:calc(6px + env(safe-area-inset-bottom));font-size:12px;color:var(--mut);z-index:1}
 @media(prefers-reduced-motion:reduce){*{animation:none!important}}
@@ -110,6 +112,7 @@ input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
 </div></section>
 
 <section class="scr" id="sWait"><div class="center">
+  <button class="backb" data-back="sJoin" data-stoppoll="1">← Kembali</button>
   <span class="chip"><span class="pulse"></span> <span id="wName"></span> di garisan mula · bilik <b id="wBilik"></b></span>
   <div id="waitCar" class="carbig"></div>
   <h2 class="ar" style="margin:0;font-size:clamp(30px,4.5vw,44px)">اِنْتَظِرْ مِنْ فَضْلِكَ…</h2><p class="sub" style="margin-top:-8px">Tunggu cikgu tekan MULA</p>
@@ -128,6 +131,7 @@ input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
 </section>
 
 <section class="scr" id="sEnd"><div class="center">
+  <button class="backb" data-back="sJoin" data-reload="1">← Kembali ke skrin masuk</button>
   <div style="font-size:100px" id="eIcon">🏁</div>
   <h2 style="margin:0;font-size:clamp(28px,5vw,44px)" id="eTitle">Penamat!</h2>
   <div class="big" id="eScore"></div>
@@ -292,7 +296,7 @@ $('#fJoin').onsubmit=async e=>{
   $('#btnJoin').disabled=false;
 };
 $('#btnDemo').onclick=()=>{audio();SFX.horn();G={demo:true,nama:'Latihan',n:10,betul:0,dijawab:0,streak:0,seed:Math.floor(Math.random()*1e9)};goWait(true)};
-let pollT=null;
+let pollT=null;window.__stopPoll=()=>clearInterval(pollT);
 function goWait(demo){show('sWait');$('#wName').textContent=G.nama;$('#wBilik').textContent=G.demo?'LATIHAN':G.bilik;
   if(demo){setTimeout(()=>lights(1500),1200);return}
   clearInterval(pollT);pollT=setInterval(poll,1500);poll()}
@@ -375,6 +379,12 @@ $('#bMus').onclick=()=>{musOn=!musOn;$('#bMus').style.opacity=musOn?1:.4;music(m
 addEventListener('resize',()=>G&&moveCar());
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&ac)ac.resume().catch(()=>{})});
 }
+</script>
+<script>
+document.addEventListener('click',e=>{const b=e.target.closest('[data-back]');if(!b)return;
+  if(b.dataset.reload){location.href=location.pathname+location.search;return}
+  try{if(b.dataset.stoppoll&&window.__stopPoll)window.__stopPoll()}catch(x){}
+  document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id===b.dataset.back))});
 </script>
 </body>
 </html>

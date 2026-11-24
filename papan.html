@@ -124,6 +124,8 @@ footer{font-weight:600}
 .navbar .steps{display:flex;gap:6px;flex-wrap:wrap}
 .navbar .steps a.cur{background:#fbf1d3;border-color:#c9a227;color:#5a4300}
 .navbar .dis{opacity:.35;pointer-events:none}
+.backb{font:inherit;font-weight:700;font-size:15px;background:#fff;border:1px solid #d6e2e0;border-radius:12px;padding:9px 16px;cursor:pointer;color:#0b2427;box-shadow:0 4px 12px #0b24270d;margin-bottom:12px;display:inline-flex;align-items:center;gap:6px}
+.backb:hover{border-color:#0b6e6d;color:#0b6e6d}
 </style>
 </head>
 <body>
@@ -146,6 +148,7 @@ footer{font-weight:600}
   </section>
 
   <section class="scr" id="sLobby">
+    <button class="backb" data-back="sSet" data-ask="Kembali ke tetapan? Bilik ini tidak lagi dipaparkan (murid yang sudah masuk tidak terjejas).">← Kembali ke tetapan</button>
     <div class="lobby">
       <div class="card qrbox">
         <div class="lbl2"><span class="arL">اِمْسَحْ رَمْزَ QR مِنْ فَضْلِكَ</span><div class="ms">Sila imbas QR</div></div>
@@ -166,11 +169,13 @@ footer{font-weight:600}
   </section>
 
   <section class="scr" id="sLive">
+    <button class="backb" data-back="sLobby">← Kembali ke QR &amp; bilik</button>
     <div class="head"><h1 style="margin:0" class="bi"><span class="arL">النَّتَائِجُ الْمُبَاشِرَةُ</span><span class="ms">Markah langsung</span></h1><div><span class="mut" id="liveInfo"></span> &nbsp; <button class="btn red" id="bEnd"><span class="arL">إِعْلَانُ الْفَائِزِ</span> · Tamat &amp; umum pemenang</button></div></div>
     <div class="lb" id="lb"></div>
   </section>
 
   <section class="scr" id="sWin">
+    <button class="backb" data-back="sLive">← Kembali ke markah langsung</button>
     <div class="card win">
       <div class="tro">🏆</div>
       <div class="bi"><span class="arL" style="color:#c9a227">الْفَائِزُ</span><span class="ms">PEMENANG</span></div>
@@ -293,6 +298,11 @@ function winner(b){
 document.addEventListener('click',e=>{const a=e.target.closest('[data-nav]');if(!a)return;
   const live=document.querySelector('#sLive.on,#sLobby.on');
   if(live&&!confirm('Permainan/bilik sedang dibuka. Keluar ke halaman lain? (Markah yang sudah masuk tetap disimpan)'))e.preventDefault()});
+</script>
+<script>
+document.addEventListener('click',e=>{const b=e.target.closest('[data-back]');if(!b)return;const t=b.dataset.back;
+  if(b.dataset.ask&&!confirm(b.dataset.ask))return;
+  document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id===t));scrollTo({top:0})});
 </script>
 </body>
 </html>
