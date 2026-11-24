@@ -144,6 +144,8 @@ footer{font-weight:600}
 @keyframes cheer{to{transform:translateY(-4px)}}
 .banner{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 18px;background:linear-gradient(90deg,#0b6e6d,#11908e);color:#fff;font-weight:800;font-size:13px;letter-spacing:.6px}
 .banner .arL{font-size:22px;color:var(--gold2)}
+.r3d{position:relative;height:clamp(380px,58vh,640px);border-radius:22px;overflow:hidden;box-shadow:inset 0 0 0 2px #e7d6a0,0 14px 40px #0b242722;background:#d8f0ff}
+.r3d canvas{display:block;width:100%!important;height:100%!important}
 .trackS{position:relative;padding:12px 0 14px;background:linear-gradient(#7bbd64,#86c86f 8px,#86c86f calc(100% - 8px),#7bbd64)}
 #lanes{position:relative;margin:0 14px;border-radius:10px;overflow:hidden;box-shadow:0 0 0 6px #fff,0 0 0 12px #d62828}
 .ln{position:relative;height:var(--lh,64px);background:#4b535c;border-bottom:3px dashed #ffffff55}
@@ -191,15 +193,18 @@ footer{font-weight:600}
 .backb{font:inherit;font-weight:700;font-size:15px;background:#fff;border:1px solid #d6e2e0;border-radius:12px;padding:9px 16px;cursor:pointer;color:#0b2427;box-shadow:0 4px 12px #0b24270d;margin-bottom:12px;display:inline-flex;align-items:center;gap:6px}
 .backb:hover{border-color:#0b6e6d;color:#0b6e6d}
 </style>
+<script src="ae-media.js"></script>
+<script type="module" src="race3d.js"></script>
+<link rel="stylesheet" href="ae-theme.css">
 </head>
-<body>
+<body data-mus="sSet:tunggu,sLobby:tunggu,sLive:live,sWin:menang" data-musvol=".75">
 <canvas id="fx"></canvas>
 <header class="hdr"><div class="hdr-in">
   <div class="school"><img src="lencana.png" alt="Lencana SK Bukit Mutiara" onerror="this.style.display='none'"><div><b>SK BUKIT MUTIARA</b><span>Arabic e-Camp 2026</span></div></div>
   <div class="ttl"><span class="arL">سِبَاقُ الْمَلَابِسِ</span><small>LUMBA PAKAIAN ARAB · UNIT 2 MALABISI AL-JAMILAH</small></div>
   <div class="byline"><div><span class="arL">إِعْدَادُ: الْأُسْتَاذ مُحَمَّد شَزْوَان عَبْدُ الرَّحْمٰن</span><small>Oleh Ustaz Mohd Syazwan Ab Rahman</small></div><img src="ustaz.jpg" alt="Ustaz Mohd Syazwan Ab Rahman" onerror="this.style.display='none'"><button class="mbtn" id="bMus">🎵</button></div>
 </div></header>
-<nav class="navbar" aria-label="Navigasi permainan"><a class="home" href="guru.html" data-nav>🏠 <span class="arL" style="font-size:16px">الرَّئِيسِيَّةُ</span> Utama</a><a href="#" class="dis" data-nav>← Sebelum</a><div class="steps"><a href="papan-lumba.html" class="cur" data-nav>Stesen 1 · Lumba</a><a href="papan.html" class="" data-nav>Stesen 2 · Isyarat Tangan</a><a href="papan-irama.html" class="" data-nav>Stesen 3 · Irama Warna</a><a href="guru.html#rumusan" class="" data-nav>Rumusan Johan</a></div><a class="next" href="papan.html" data-nav>Seterusnya: Stesen 2 · Isyarat Tangan →</a></nav>
+<nav class="navbar" aria-label="Navigasi permainan"><a class="back2" href="guru.html" onclick="event.preventDefault();if(document.querySelector('#sLive.on,#sLobby.on')&&!confirm('Permainan sedang berjalan. Keluar dari skrin ini? (Markah yang sudah masuk tetap disimpan)'))return;if(history.length>1&&document.referrer.indexOf(location.host)>-1)history.back();else location.href='guru.html'">← <span class="arL" style="font-size:16px">رُجُوعٌ</span> Kembali</a><a class="home" href="guru.html" data-nav>🏠 <span class="arL" style="font-size:16px">الرَّئِيسِيَّةُ</span> Utama</a><a href="guru.html" data-nav>← Sebelum: Utama</a><div class="steps"><a href="papan-lumba.html" class="cur" data-nav>Stesen 1 · Lumba</a><a href="papan.html" class="" data-nav>Stesen 2 · Isyarat Tangan</a><a href="papan-irama.html" class="" data-nav>Stesen 3 · Irama Warna</a><a href="guru.html#rumusan" class="" data-nav>Rumusan Johan</a></div><a class="next" href="papan.html" data-nav>Seterusnya: Stesen 2 · Isyarat Tangan →</a></nav>
 <main>
   <section class="scr on" id="sSet"><div class="setwrap">
     <div><span class="bi"><span class="arL">سِبَاقٌ جَدِيْدٌ</span><span class="ms">Cipta perlumbaan baharu · semua kumpulan berlumba serentak di iPad</span></span><div class="feat"><div><i>🏎️</i><div><span class="arL">سِبَاقٌ مُبَاشِرٌ</span><small>Kereta bergerak setiap jawapan betul</small></div></div><div><i>🔥</i><div><span class="arL">الْمُحَرِّكُ حَارٌّ</span><small>Salah jawab: berhenti 2 saat</small></div></div><div><i>🏁</i><div><span class="arL">خَطُّ النِّهَايَةِ</span><small>Pertama sampai penamat menang</small></div></div></div></div>
@@ -279,9 +284,9 @@ function tone(f,d,type,v,at,dest){if(!audio())return;const t=ac.currentTime+(at|
 const midi=m=>440*Math.pow(2,(m-69)/12);
 const HIJ=[62,63,66,67,69,70,72,74],MEL2=[0,1,2,3,4,3,2,1,4,5,4,3,2,3,1,0,4,4,5,6,7,6,5,4,3,4,2,3,1,2,0,0],DRUM='D.tkD.t.D.tkDttk';
 let nb=null;function noise(d,v,freq,at,type){if(!audio())return;if(!nb){nb=ac.createBuffer(1,ac.sampleRate*1.5,ac.sampleRate);const x=nb.getChannelData(0);for(let i=0;i<x.length;i++)x[i]=Math.random()*2-1}const t=ac.currentTime+(at||0),s=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();s.buffer=nb;f.type=type||'bandpass';f.frequency.value=freq;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+Math.min(.3,d/3));g.gain.exponentialRampToValueAtTime(.0008,t+d);s.connect(f);f.connect(g);g.connect(ac.destination);s.start(t);s.stop(t+d+.05)}
-const vroom=()=>{tone(80,.7,'sawtooth',.16,0,null);tone(160,.6,'square',.05,.05);noise(.6,.25,700,0,'lowpass')};
+const vroom=()=>{try{window.AE&&AE.sfx('lumba',0.6)}catch(e){};tone(80,.7,'sawtooth',.16,0,null);tone(160,.6,'square',.05,.05);noise(.6,.25,700,0,'lowpass')};
 const horn=()=>{tone(392,.22,'square',.1);tone(494,.22,'square',.08);tone(392,.3,'square',.1,.28);tone(494,.3,'square',.08,.28)};
-const cheer=()=>{noise(2.4,.35,1400,0,'bandpass');noise(2.4,.2,3200,.1,'bandpass');[0,.25,.5].forEach(t=>tone(1046,.15,'triangle',.1,t+.2))};
+const cheer=()=>{try{window.AE&&AE.sfx('sorak',0.8)}catch(e){};noise(2.4,.35,1400,0,'bandpass');noise(2.4,.2,3200,.1,'bandpass');[0,.25,.5].forEach(t=>tone(1046,.15,'triangle',.1,t+.2))};
 const beep=hi=>tone(hi?880:440,hi?.7:.3,'square',.15);
 function tick(){while(nextT<ac.currentTime+.3){const t=nextT-ac.currentTime,q=step%16,m=MEL2[step%32],dr=DRUM[q];tone(midi(HIJ[m]+12),.13,'triangle',.05,t,musG);if(step%2===0)tone(midi(HIJ[m]),.2,'sawtooth',.02,t,musG);if(q%8===0)tone(midi(38),.3,'sine',.14,t,musG);if(dr==='D')tone(110,.2,'sine',.22,t,musG);if(dr==='t'||dr==='k')tone(dr==='t'?2600:4200,.04,'square',.02,t,musG);nextT+=.12;step++}}
 /* ===== MUZIK LUMBA (maqam Hijaz + darbuka Maqsum) ===== */
@@ -308,8 +313,8 @@ const RM=(()=>{let bus=null,comp=null,t=null,step=0,nt=0,spd=1,nb=null,on=false;
  return{start(){if(on)return;const a=init();if(!a)return;on=true;nt=a.currentTime+.06;step=0;t=setInterval(tick,60)},
    stop(){on=false;clearInterval(t)},setSpeed(x){spd=Math.max(1,Math.min(1.35,x))},get on(){return on}};})();
 
-function music(on){if(on&&musOn)RM.start();else RM.stop()}
-const ding=()=>{tone(784,.2,'triangle',.2);tone(1175,.3,'triangle',.2,.1)};
+function music(on){if(window.AE&&!AE.failed){if(typeof RM!=="undefined"&&RM.stop)RM.stop();return}if(on&&musOn)RM.start();else RM.stop()}
+const ding=()=>{try{window.AE&&AE.sfx('betul',0.5)}catch(e){};tone(784,.2,'triangle',.2);tone(1175,.3,'triangle',.2,.1)};
 const fanfare=()=>[[523,0],[659,.15],[784,.3],[1047,.45],[784,.62],[1047,.75],[1319,.9]].forEach(([f,t])=>{tone(f,.45,'triangle',.25,t);tone(f/2,.45,'sine',.12,t)});
 function announceAr(t,then){try{const v=speechSynthesis.getVoices().find(x=>/^ar/i.test(x.lang)),u=new SpeechSynthesisUtterance(t);u.lang='ar-SA';if(v)u.voice=v;u.rate=.9;u.onend=u.onerror=then;speechSynthesis.speak(u)}catch(e){then&&then()}}
 function announce(t){try{speechSynthesis.cancel();const v=speechSynthesis.getVoices().find(x=>/^(ms|id)/i.test(x.lang)),u=new SpeechSynthesisUtterance(t);u.lang=v?v.lang:'ms-MY';if(v)u.voice=v;u.rate=.95;speechSynthesis.speak(u)}catch(e){}}
@@ -356,7 +361,7 @@ $('#bNew').onclick=()=>{clearInterval(pollT);music(false);show('sSet')};
 
 function startPoll(){clearInterval(pollT);let busy=false;pollT=setInterval(async()=>{if(busy)return;busy=true;try{render(await run('getBoard',room.bilik))}catch(e){}busy=false},2000)}
 let prevSk={},prevDone={};
-function lightsBoard(){const o=document.createElement('div');o.className='lightsov';o.innerHTML='<div class="lights"><i></i><i></i><i></i></div><div class="lt">Bersedia…</div>';document.body.appendChild(o);const L=[...o.querySelectorAll('i')],t0=performance.now()+3000;let st=-1;
+function lightsBoard(){try{window.AE&&setTimeout(()=>AE.sfx('enjin',.7),3000)}catch(e){}const o=document.createElement('div');o.className='lightsov';o.innerHTML='<div class="lights"><i></i><i></i><i></i></div><div class="lt">Bersedia…</div>';document.body.appendChild(o);const L=[...o.querySelectorAll('i')],t0=performance.now()+3000;let st=-1;
  (function tk(){const e=performance.now()-t0,s=e<0?-1:Math.min(3,Math.floor(e/1000));if(s!==st){st=s;const say=t=>{try{const v=speechSynthesis.getVoices().find(x=>/^ar/i.test(x.lang)),u=new SpeechSynthesisUtterance(t);u.lang='ar-SA';if(v)u.voice=v;u.rate=1.1;speechSynthesis.speak(u)}catch(e){}};if(s>=0&&s<3){L[s].className='r';beep(false);o.querySelector('.lt').textContent='٣٢١'[s];say(['ثلاثة','اثنان','واحد'][s])}if(s===3){L.forEach(x=>x.className='g');beep(true);vroom();horn();o.querySelector('.lt').innerHTML='<span style="font-family:Noto Naskh Arabic,serif">اِنْطَلِقْ!</span> GO!';say('انطلق')}}if(e<3800)requestAnimationFrame(tk);else o.remove()})()}
 function fxRace(g){let moved=false;g.forEach(x=>{if(prevSk[x.id]!=null&&x.skor>prevSk[x.id])moved=true;if(x.selesai&&!prevDone[x.id]&&prevSk[x.id]!=null){cheer();banner('🏁 '+x.nm+' sampai penamat!')}prevSk[x.id]=x.skor;prevDone[x.id]=x.selesai});if(moved)vroom()}
 function banner(t){const b=document.createElement('div');b.className='bann';b.textContent=t;document.body.appendChild(b);setTimeout(()=>b.remove(),2600)}
@@ -382,17 +387,24 @@ function rows(g,n){
 /* ===== TREK LURUS GRAND PRIX ===== */
 let built=false,last={};
 function sideCar(col,num){return `<svg viewBox="0 0 140 60"><ellipse cx="70" cy="55" rx="62" ry="4" fill="#0004"/><path d="M6 40 Q4 30 14 28 L34 26 L52 12 Q58 8 68 8 L92 8 Q100 8 104 14 L114 26 Q130 28 134 36 L134 42 Q134 46 128 46 L12 46 Q6 46 6 40 Z" fill="${col}" stroke="#0006" stroke-width="2"/><path d="M54 14 L66 12 L66 26 L42 26 Z M70 12 L90 12 Q96 12 98 16 L104 26 L70 26 Z" fill="#d6f3ff"/><rect x="118" y="30" width="12" height="6" rx="2" fill="#ffe066"/><rect x="2" y="32" width="8" height="6" rx="2" fill="#ff6b6b"/><circle cx="72" cy="36" r="9" fill="#fff"/><text x="72" y="40" font-size="11" font-weight="800" text-anchor="middle" fill="#0b2427" font-family="Plus Jakarta Sans">${num}</text><circle cx="34" cy="46" r="11" fill="#222"/><circle cx="34" cy="46" r="5" fill="#bbb"/><circle cx="108" cy="46" r="11" fill="#222"/><circle cx="108" cy="46" r="5" fill="#bbb"/></svg>`}
+let use3d=false;
+addEventListener('r3d-ready',()=>{if(built&&!use3d&&$('#sLive').classList.contains('on')){built=false}});
 function buildStrip(){
+  try{if(window.R3D)R3D.destroy()}catch(e){}
+  use3d=!!(window.R3D&&R3D.ok());
   $('#lb').innerHTML=`<div class="circ"><div class="gp">
-    <div class="stand"><div class="crowd"></div><div class="crowd c2"></div></div>
     <div class="banner"><span>🏁 SK BUKIT MUTIARA GRAND PRIX</span><span class="arL">سِبَاقُ الْمَلَابِسِ</span><span>ARABIC e-CAMP 2026 🏁</span></div>
-    <div class="trackS" id="trackS"><div class="startl"></div><div class="finl"><b>FINISH</b></div><div id="lanes"></div></div>
+    ${use3d?'<div class="r3d" id="r3d"></div>':'<div class="stand"><div class="crowd"></div><div class="crowd c2"></div></div><div class="trackS" id="trackS"><div class="startl"></div><div class="finl"><b>FINISH</b></div><div id="lanes"></div></div>'}
   </div><div class="tower"><div class="th"><span class="arL">التَّرْتِيبُ</span><small>Kedudukan langsung</small></div><div id="tw"></div></div></div>`;
+  if(use3d){try{R3D.mount($('#r3d'))}catch(e){use3d=false}}
   built=true;last={};
 }
 function circuit(g,n){
-  if(!built||!document.getElementById('lanes'))buildStrip();
+  if(!built||!document.getElementById(use3d?'r3d':'lanes'))buildStrip();
   const r=ranked(g),order=g.slice().sort((a,b)=>String(a.id).localeCompare(String(b.id))),L=$('#lanes');
+  if(use3d){try{R3D.update(order.map((x,k)=>({id:x.id,name:x.nm,color:cOf(x.id),pc:Math.min(1,x.skor/n),rank:r.find(y=>y.id===x.id).rk,done:!!x.selesai,lane:k+1})))}catch(e){}
+    order.forEach(x=>{if(last[x.id]!=null&&x.skor>last[x.id]){}last[x.id]=x.skor})}
+  else{
   const h=Math.max(58,Math.min(86,Math.floor(500/Math.max(1,order.length))));
   L.style.setProperty('--lh',h+'px');
   order.forEach((x,k)=>{
@@ -405,12 +417,13 @@ function circuit(g,n){
     if(last[x.id]!=null&&x.skor>last[x.id]){car.classList.remove('boost');void car.offsetWidth;car.classList.add('boost')}
     last[x.id]=x.skor;ln.classList.toggle('done',x.selesai);
   });
+  }
   const lead=r[0]?r[0].skor:0;RM.setSpeed(1+.3*Math.min(1,lead/n));
   $('#tw').innerHTML=r.map(x=>{const acc=x.dijawab?Math.round(x.betul/x.dijawab*100):0,gap=lead-x.skor;return `<div class="tr ${x.rk<=3?'p'+x.rk:''}"><div class="tp">P${x.rk}</div><i class="tc" style="background:${cOf(x.id)}"></i><div class="tn"><b>${esc(x.nm)}${x.selesai?' 🏁':''}</b><div class="tb"><i style="width:${Math.min(100,x.skor/n*100)}%;background:${cOf(x.id)}"></i></div><div class="td">${(x.rekod||'').slice(-10).split('').map(c=>`<em class="${c==='1'?'y':'n'}"></em>`).join('')}<span>${x.betul}✓ ${x.dijawab-x.betul}✗ · ${acc}%</span></div></div><div class="tg">${x.skor}/${n}<small>${x.selesai?'Penamat':x.rk===1?'Pendahulu':'-'+gap}</small></div></div>`}).join('');
 }
 function topCar(col,num){return `<g class="cbody"><rect x="-17" y="-9" width="34" height="18" rx="6" fill="${col}" stroke="#0006" stroke-width="1.5"/><rect x="-15" y="-12" width="7" height="4" rx="1.5" fill="#222"/><rect x="8" y="-12" width="7" height="4" rx="1.5" fill="#222"/><rect x="-15" y="8" width="7" height="4" rx="1.5" fill="#222"/><rect x="8" y="8" width="7" height="4" rx="1.5" fill="#222"/><rect x="2" y="-6" width="7" height="12" rx="2" fill="#cfefff"/><rect x="18" y="-4" width="3" height="8" fill="#ffd43b"/><text x="-7" y="4" font-size="10" font-weight="800" fill="#fff" text-anchor="middle" font-family="Plus Jakarta Sans">${num}</text></g>`}
 function winner(b){
-  if(announced||!b)return;announced=true;clearInterval(pollT);
+  if(announced||!b)return;announced=true;try{if(window.AE){AE.sfx('tahniah',.9);setTimeout(()=>AE.sfx('tepuk',.8),900);setTimeout(()=>AE.sfx('sorak',.6),1500)}}catch(e){}clearInterval(pollT);
   const s=ranked(b.groups),w=s.filter(x=>x.rk===1);
   show('sWin');music(false);
   if(!s.length){$('#wWho').textContent='Tiada kumpulan';return}
@@ -420,7 +433,7 @@ function winner(b){
   $('#pod').innerHTML=s.filter(x=>x.rk<=3).slice(0,6).map(x=>`<div style="--c:${cOf(x.id)};height:${h[x.rk-1]+40}px"><span>#${x.rk}</span><b>${x.skor}</b><span>${esc(x.nm)}</span></div>`).join('');
   $('#lbEnd').innerHTML=rows(b.groups,b.soalan);
   fanfare();cheer();burst(260);setTimeout(()=>burst(200),1500);
-  setTimeout(()=>{try{speechSynthesis.cancel()}catch(e){}announceAr('مبروك! الفائز هو '+w.map(x=>x.nm).join(' و '),()=>announce(w.length>1?'Keputusan seri! Tahniah '+w.map(x=>x.nm).join(' dan ')+'!':'Tahniah! Johan perlumbaan ialah '+w[0].nm+'!'))},1300);
+  setTimeout(()=>{try{speechSynthesis.cancel()}catch(e){}announceAr((w.length>1?'مبروك! الفائزون هم ':'مبروك! الفائز هو فريق ')+w.map(x=>String(x.nm).split(' · ')[0]).join(' و ')+'. ألف مبروك!',()=>{})},1300);
 }
 }
 </script>
@@ -434,5 +447,6 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-back]');if
   if(b.dataset.ask&&!confirm(b.dataset.ask))return;
   document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id===t));scrollTo({top:0})});
 </script>
+<script>(function(){const h=document.querySelector('.hdr');if(!h)return;const f=()=>document.documentElement.style.setProperty('--hh',h.offsetHeight+'px');f();addEventListener('resize',f)})();</script>
 </body>
 </html>

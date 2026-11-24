@@ -190,8 +190,10 @@ footer{font-weight:600}
 .flow b{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--ink)}
 @media(max-width:900px){.hero2,.steps2{grid-template-columns:1fr}}
 </style>
+<script src="ae-media.js"></script>
+<link rel="stylesheet" href="ae-theme.css">
 </head>
-<body>
+<body data-mus="home:tunggu" data-musvol=".45">
 <canvas id="fx"></canvas>
 <header class="hdr"><div class="hdr-in">
   <div class="school"><img src="lencana.png" alt="Lencana SK Bukit Mutiara" onerror="this.style.display='none'"><div><b>SK BUKIT MUTIARA</b><span>Arabic e-Camp 2026</span></div></div>
@@ -297,11 +299,11 @@ $('#bShow').onclick=async()=>{
   $('#show').classList.add('on');$('#wName').textContent='';$('#wPts').textContent='';
   const top=result.filter(o=>o.rk<=3).slice(0,3);
   $('#pod2').innerHTML=top.map((o,i)=>`<div class="p${i+1}"><span>#${o.rk}</span><b>${o.tot}</b><span>${esc(o.nm)}</span></div>`).join('');
-  drum(12,.16);
+  drum(12,.16);try{if(window.AE){AE.play(null);AE.sfx('gendang',.9)}}catch(e){}
   const els=[...$('#pod2').children].reverse();els.forEach((e,i)=>setTimeout(()=>{e.classList.add('in');tone(392+i*130,.3,'square',.08)},600+i*700));
-  setTimeout(()=>{$('#wName').textContent=w.map(o=>o.nm).join(' & ');$('#wPts').textContent=`${w[0].tot} mata · ${w[0].betul} jawapan betul${w.length>1?' · Seri!':''}`;fanfare();burst(320);setTimeout(()=>burst(260),1600);setTimeout(()=>burst(220),3200);
+  setTimeout(()=>{$('#wName').textContent=w.map(o=>o.nm).join(' & ');$('#wPts').textContent=`${w[0].tot} mata · ${w[0].betul} jawapan betul${w.length>1?' · Seri!':''}`;fanfare();try{if(window.AE){AE.sfx('tahniah',1);setTimeout(()=>AE.sfx('tepuk',.85),800);setTimeout(()=>AE.sfx('sorak',.7),1400);setTimeout(()=>AE.play('menang',.7),3500)}}catch(e){}burst(320);setTimeout(()=>burst(260),1600);setTimeout(()=>burst(220),3200);
     try{speechSynthesis.cancel()}catch(e){}
-    say('مبروك! بطل المخيم هو '+w.map(o=>o.nm.split(' · ')[0]).join(' و '),'ar',()=>say('Tahniah! Johan keseluruhan Arabic e-Camp ialah '+w.map(o=>o.nm).join(' dan ')+'!','ms'))},2600);
+    say('مبروك! بطل المخيم هو '+w.map(o=>o.nm.split(' · ')[0]).join(' و '),'ar',()=>say('ألف مبروك! أحسنتم جميعا','ar'))},2600);
 };
 
 /* ===== LAPORAN LENGKAP (PDF / WORD) ===== */
@@ -438,5 +440,7 @@ document.addEventListener('click',e=>{const a=e.target.closest('[data-nav]');if(
   const live=document.querySelector('#sLive.on,#sLobby.on');
   if(live&&!confirm('Permainan/bilik sedang dibuka. Keluar ke halaman lain? (Markah yang sudah masuk tetap disimpan)'))e.preventDefault()});
 </script>
+<script>try{AE.play('tunggu',.4)}catch(e){}</script>
+<script>(function(){const h=document.querySelector('.hdr');if(!h)return;const f=()=>document.documentElement.style.setProperty('--hh',h.offsetHeight+'px');f();addEventListener('resize',f)})();</script>
 </body>
 </html>

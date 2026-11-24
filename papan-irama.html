@@ -141,15 +141,17 @@ footer{font-weight:600}
 .backb{font:inherit;font-weight:700;font-size:15px;background:#fff;border:1px solid #d6e2e0;border-radius:12px;padding:9px 16px;cursor:pointer;color:#0b2427;box-shadow:0 4px 12px #0b24270d;margin-bottom:12px;display:inline-flex;align-items:center;gap:6px}
 .backb:hover{border-color:#0b6e6d;color:#0b6e6d}
 </style>
+<script src="ae-media.js"></script>
+<link rel="stylesheet" href="ae-theme.css">
 </head>
-<body>
+<body data-mus="sSet:tunggu,sLobby:tunggu,sLive:live,sWin:menang" data-musvol=".75">
 <canvas id="fx"></canvas>
 <header class="hdr"><div class="hdr-in">
   <div class="school"><img src="lencana.png" alt="Lencana SK Bukit Mutiara" onerror="this.style.display='none'"><div><b>SK BUKIT MUTIARA</b><span>Arabic e-Camp 2026</span></div></div>
   <div class="ttl"><span class="arL">لَحْنُ الْأَلْوَانِ</span><small>IRAMA WARNA · UNIT 3 AL-ALWAN HAULANA</small></div>
   <div class="byline"><div><span class="arL">إِعْدَادُ: الْأُسْتَاذ مُحَمَّد شَزْوَان عَبْدُ الرَّحْمٰن</span><small>Oleh Ustaz Mohd Syazwan Ab Rahman</small></div><img src="ustaz.jpg" alt="Ustaz Mohd Syazwan Ab Rahman" onerror="this.style.display='none'"><button class="mbtn" id="bMus">🎵</button></div>
 </div></header>
-<nav class="navbar" aria-label="Navigasi permainan"><a class="home" href="guru.html" data-nav>🏠 <span class="arL" style="font-size:16px">الرَّئِيسِيَّةُ</span> Utama</a><a href="papan.html" class="" data-nav>← Sebelum</a><div class="steps"><a href="papan-lumba.html" class="" data-nav>Stesen 1 · Lumba</a><a href="papan.html" class="" data-nav>Stesen 2 · Isyarat Tangan</a><a href="papan-irama.html" class="cur" data-nav>Stesen 3 · Irama Warna</a><a href="guru.html#rumusan" class="" data-nav>Rumusan Johan</a></div><a class="next" href="guru.html#rumusan" data-nav>Seterusnya: Rumusan Johan →</a></nav>
+<nav class="navbar" aria-label="Navigasi permainan"><a class="back2" href="guru.html" onclick="event.preventDefault();if(document.querySelector('#sLive.on,#sLobby.on')&&!confirm('Permainan sedang berjalan. Keluar dari skrin ini? (Markah yang sudah masuk tetap disimpan)'))return;if(history.length>1&&document.referrer.indexOf(location.host)>-1)history.back();else location.href='guru.html'">← <span class="arL" style="font-size:16px">رُجُوعٌ</span> Kembali</a><a class="home" href="guru.html" data-nav>🏠 <span class="arL" style="font-size:16px">الرَّئِيسِيَّةُ</span> Utama</a><a href="papan.html" class="" data-nav>← Sebelum</a><div class="steps"><a href="papan-lumba.html" class="" data-nav>Stesen 1 · Lumba</a><a href="papan.html" class="" data-nav>Stesen 2 · Isyarat Tangan</a><a href="papan-irama.html" class="cur" data-nav>Stesen 3 · Irama Warna</a><a href="guru.html#rumusan" class="" data-nav>Rumusan Johan</a></div><a class="next" href="guru.html#rumusan" data-nav>Seterusnya: Rumusan Johan →</a></nav>
 <main>
   <section class="scr on" id="sSet"><div class="setwrap">
     <div><span class="bi"><span class="arL">أَنْشِئْ غُرْفَةً جَدِيْدَةً</span><span class="ms">Cipta pentas baharu · semua kumpulan bermain irama serentak di iPad</span></span><div class="feat"><div><i>🎵</i><div><span class="arL">اِسْتَمِعْ وَاضْغَطْ</span><small>Dengar warna, ketuk ikut rentak lagu</small></div></div><div><i>🔥</i><div><span class="arL">سِلْسِلَةٌ</span><small>Combo &amp; gred Perfect · Great · Good</small></div></div><div><i>🍎</i><div><span class="arL">مَا لَوْنُهُ؟</span><small>Pola ayat لَوْنُهُ / لَوْنُهَا</small></div></div></div></div>
@@ -228,8 +230,8 @@ function audio(){if(!ac){try{ac=new (window.AudioContext||window.webkitAudioCont
 function tone(f,d,type,v,at,dest){if(!audio())return;const t=ac.currentTime+(at||0),o=ac.createOscillator(),g=ac.createGain();o.type=type||'sine';o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v||.2,t+.01);g.gain.exponentialRampToValueAtTime(.0008,t+d);o.connect(g);g.connect(dest||ac.destination);o.start(t);o.stop(t+d+.05)}
 const MEL=[62,63,66,67,69,0,67,66,63,62,0,0,69,70,69,67,66,67,63,62,62,63,66,67,69,72,70,69,67,66,63,62],midi=m=>440*Math.pow(2,(m-69)/12);
 function tick(){while(nextT<ac.currentTime+.3){const t=nextT-ac.currentTime,m=MEL[Math.floor(step/2)%MEL.length];if(step%2===0&&m)tone(midi(m),.3,'triangle',.06,t,musG);if(step%8===0)tone(midi(38),.35,'sine',.14,t,musG);if(step%4===0)tone(110,.18,'sine',.18,t,musG);nextT+=.135;step++}}
-function music(on){clearInterval(musT);if(on&&musOn&&audio()){nextT=ac.currentTime+.05;musT=setInterval(tick,80)}}
-const ding=()=>{tone(784,.2,'triangle',.2);tone(1175,.3,'triangle',.2,.1)};
+function music(on){if(window.AE&&!AE.failed){if(typeof RM!=="undefined"&&RM.stop)RM.stop();return}clearInterval(musT);if(on&&musOn&&audio()){nextT=ac.currentTime+.05;musT=setInterval(tick,80)}}
+const ding=()=>{try{window.AE&&AE.sfx('betul',0.5)}catch(e){};tone(784,.2,'triangle',.2);tone(1175,.3,'triangle',.2,.1)};
 const fanfare=()=>[[523,0],[659,.15],[784,.3],[1047,.45],[784,.62],[1047,.75],[1319,.9]].forEach(([f,t])=>{tone(f,.45,'triangle',.25,t);tone(f/2,.45,'sine',.12,t)});
 function announceAr(t,then){try{const v=speechSynthesis.getVoices().find(x=>/^ar/i.test(x.lang)),u=new SpeechSynthesisUtterance(t);u.lang='ar-SA';if(v)u.voice=v;u.rate=.9;u.onend=u.onerror=then;speechSynthesis.speak(u)}catch(e){then&&then()}}
 function announce(t){try{speechSynthesis.cancel();const v=speechSynthesis.getVoices().find(x=>/^(ms|id)/i.test(x.lang)),u=new SpeechSynthesisUtterance(t);u.lang=v?v.lang:'ms-MY';if(v)u.voice=v;u.rate=.95;speechSynthesis.speak(u)}catch(e){}}
@@ -300,7 +302,7 @@ function ranked(g){const s=g.slice().sort((a,b)=>b.skor-a.skor||b.betul-a.betul)
 function dots(r,n){let h='';for(let k=0;k<n;k++){const c=r[k];h+=`<i class="d ${c==='1'?'y':c==='0'?'n':''}">${c==='1'?'✓':c==='0'?'✗':k+1}</i>`}return `<div class="dots">${h}</div>`}
 function rows(g,n){return ranked(g).map(x=>{const acc=x.dijawab?Math.round(x.betul/x.dijawab*100):0;return `<div class="row r${x.rk} ${x.rk===1&&x.skor>0?'first':''}" style="--c:${cOf(x.id)}"><div class="rk">${x.rk===1&&x.skor>0?'👑':'#'+x.rk}</div><div><div class="nm">${esc(x.nm)} <span class="st ${x.selesai?'ok':''}">${x.selesai?'✅ Selesai':'🎮 Soalan '+Math.min(x.dijawab+1,n)+'/'+n}</span></div>${dots(x.rekod||'',n)}<div class="pr">${x.betul} Betul · ${x.dijawab-x.betul} Salah · Ketepatan ${acc}%</div></div><div class="pt">${x.skor}<small>Mata</small></div></div>`}).join('')}
 function winner(b){
-  if(announced||!b)return;announced=true;clearInterval(pollT);
+  if(announced||!b)return;announced=true;try{if(window.AE){AE.sfx('tahniah',.9);setTimeout(()=>AE.sfx('tepuk',.8),900);setTimeout(()=>AE.sfx('sorak',.6),1500)}}catch(e){}clearInterval(pollT);
   const s=ranked(b.groups),w=s.filter(x=>x.rk===1);
   show('sWin');music(false);
   if(!s.length){$('#wWho').textContent='Tiada kumpulan';return}
@@ -310,7 +312,7 @@ function winner(b){
   $('#pod').innerHTML=s.filter(x=>x.rk<=3).slice(0,6).map(x=>`<div style="--c:${cOf(x.id)};height:${h[x.rk-1]+40}px"><span>#${x.rk}</span><b>${x.skor}</b><span>${esc(x.nm)}</span></div>`).join('');
   $('#lbEnd').innerHTML=rows(b.groups,b.soalan);
   fanfare();burst(260);setTimeout(()=>burst(200),1500);
-  setTimeout(()=>{try{speechSynthesis.cancel()}catch(e){}announceAr('مبروك! الفائز هو '+w.map(x=>x.nm).join(' و '),()=>announce(w.length>1?'Keputusan seri! Tahniah '+w.map(x=>x.nm).join(' dan ')+'!':'Tahniah! Pemenangnya ialah '+w[0].nm+', dengan '+w[0].skor+' mata!'))},1300);
+  setTimeout(()=>{try{speechSynthesis.cancel()}catch(e){}announceAr((w.length>1?'مبروك! الفائزون هم ':'مبروك! الفائز هو فريق ')+w.map(x=>String(x.nm).split(' · ')[0]).join(' و ')+'. ألف مبروك!',()=>{})},1300);
 }
 }
 </script>
@@ -324,5 +326,6 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-back]');if
   if(b.dataset.ask&&!confirm(b.dataset.ask))return;
   document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id===t));scrollTo({top:0})});
 </script>
+<script>(function(){const h=document.querySelector('.hdr');if(!h)return;const f=()=>document.documentElement.style.setProperty('--hh',h.offsetHeight+'px');f();addEventListener('resize',f)})();</script>
 </body>
 </html>

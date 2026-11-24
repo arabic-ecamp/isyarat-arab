@@ -126,8 +126,10 @@ input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
 @media(max-width:700px){.howto{grid-template-columns:minmax(0,1fr)}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
+<script src="ae-media.js"></script>
+<link rel="stylesheet" href="ae-theme.css">
 </head>
-<body>
+<body data-mus="sJoin:tunggu,sWait:tunggu,sPlay:live,sEnd:menang" data-musvol=".35">
 <div class="blob" style="width:340px;height:340px;background:#9ee8dc;left:-80px;top:-60px"></div>
 <div class="blob" style="width:300px;height:300px;background:#ffd98a;right:-60px;bottom:-40px;animation-delay:-5s"></div>
 <canvas id="fx"></canvas>
@@ -236,6 +238,10 @@ const SFX={
  streak(){[523,659,784,1047,1319].forEach((f,i)=>tone(f,.18,'square',.07,i*.05))},
  win(){[[523,0],[659,.15],[784,.3],[1047,.45],[784,.62],[1047,.75]].forEach(([f,t])=>{tone(f,.35,'triangle',.22,t);tone(f/2,.35,'sine',.1,t)});tone(1319,.9,'triangle',.2,.9)}
 };
+/* bunyi sebenar (Pixabay) di atas bunyi sintesis */
+(function(){const M={ok:['betul',.8],no:['salah',.55],win:['tahniah',.8],cheer:['sorak',.7],vroom:['lumba',.55],nitro:['whoosh',.8],streak:['bintang',.6],pop:['whoosh',.4],screech:['whoosh',.5],horn:['enjin',.0]};
+ for(const k in M){if(typeof SFX[k]!=='function')continue;const f=SFX[k];SFX[k]=function(){try{if(window.AE&&M[k][1]>0)AE.sfx(M[k][0],M[k][1])}catch(e){}return f.apply(this,arguments)}}})();
+
 /* muzik latar gaya Arab (maqam Hijaz) + darbuka */
 const MEL=[62,63,66,67,69,0,67,66,63,62,0,0,69,70,69,67,66,67,63,62,62,63,66,67,69,72,70,69,67,66,63,62];
 const DRUM='D..tD.t.D..tD.tt';
@@ -245,7 +251,7 @@ function musicTick(){if(!ac)return;while(nextT<ac.currentTime+.3){const t=nextT-
   if(step%8===0)tone(midi(38),.35,'sine',.14,t,musG,midi(36));
   if(dr==='D')tone(110,.2,'sine',.22,t,musG,55);if(dr==='t')noise(.06,.18,3200,t,musG);
   nextT+=.135;step++}}
-function music(on){clearInterval(musT);musT=null;if(on&&musOn&&audio()){nextT=ac.currentTime+.05;musT=setInterval(musicTick,80)}}
+function music(on){if(window.AE&&!AE.failed){if(typeof RM!=="undefined"&&RM.stop)RM.stop();return}clearInterval(musT);musT=null;if(on&&musOn&&audio()){nextT=ac.currentTime+.05;musT=setInterval(musicTick,80)}}
 let arVoice=null;function lv(){try{arVoice=speechSynthesis.getVoices().find(v=>/^ar/i.test(v.lang))||null}catch(e){}}
 try{speechSynthesis.onvoiceschanged=lv;lv()}catch(e){}
 const PRAISE=['أحسنت','ممتاز','صحيح','جيد جدا'];
@@ -345,10 +351,26 @@ async function pushScore(){
 
 /* ================= SERTAI & TUNGGU ================= */
 $('#inBilik').value=(qs.get('bilik')||'').toUpperCase();
-/* ingat nama kumpulan & kelas (dikongsi antara kedua-dua permainan) */
-try{const m=JSON.parse(localStorage.getItem('ae-kumpulan')||'null');if(m){if(!$('#inNama').value)$('#inNama').value=m.nama||'';if(m.kelas&&!$('#inKelas').value)$('#inKelas').value=m.kelas;if(m.nama){const n=document.createElement('div');n.className='err';n.style.color='#0e7c7b';n.textContent='✓ Nama kumpulan diisi automatik. Semak, kemudian tekan Masuk.';$('#joinErr').before(n)}}}catch(e){}
+/* ingat nama kumpulan & kelas pada iPad ini (sekali isi sahaja; dikongsi semua stesen) */
+const AEK={get(){try{const m=JSON.parse(localStorage.getItem('ae-kumpulan')||'null');if(m&&m.nama)return m}catch(e){}try{const c=document.cookie.match(/(?:^|; )aek=([^;]*)/);if(c){const m=JSON.parse(decodeURIComponent(c[1]));if(m&&m.nama)return m}}catch(e){}return null},
+ set(m){if(!m||!m.nama)return;try{localStorage.setItem('ae-kumpulan',JSON.stringify(m))}catch(e){}try{document.cookie='aek='+encodeURIComponent(JSON.stringify(m))+';max-age=31536000;path=/;SameSite=Lax'}catch(e){}}};
+(function(){const saved=AEK.get();
+ const keep=()=>{const n=$('#inNama').value.trim();if(n)AEK.set({nama:n,kelas:$('#inKelas').value})};
+ $('#inNama').addEventListener('input',keep);$('#inKelas').addEventListener('change',keep);
+ if(!saved)return;
+ $('#inNama').value=saved.nama;if(saved.kelas)$('#inKelas').value=saved.kelas;
+ const lN=$('#inNama').closest('label'),lK=$('#inKelas').closest('label');lN.style.display='none';lK.style.display='none';
+ const card=document.createElement('div');card.className='aewb';
+ card.innerHTML=`<div class="ar" style="font-size:26px;color:#0e7c7b">مَرْحَبًا بِعَوْدَتِكُمْ!</div><small>Selamat kembali! iPad ini sudah ingat kumpulan anda:</small><b>${esc(saved.nama)}</b><span>${esc(saved.kelas||'')}</span><button type="button" class="btn link">✏️ Bukan kumpulan ini? Tukar nama</button>`;
+ card.style.cssText='display:grid;gap:4px;justify-items:center;text-align:center;background:linear-gradient(135deg,#fffaf0,#f2fbf8);border:2px solid #e7d6a0;border-radius:22px;padding:14px';
+ card.querySelector('b').style.cssText='font-size:28px;color:#0d2b2e;line-height:1.2';
+ card.querySelector('span').style.cssText='font-weight:700;color:#5a4300;background:#fbf1d3;border-radius:999px;padding:2px 14px';
+ lN.before(card);
+ const bj=$('#btnJoin'),orig=bj.innerHTML;bj.innerHTML='اُدْخُلْ · Masuk sebagai '+esc(saved.nama);
+ card.querySelector('button').onclick=()=>{lN.style.display='';lK.style.display='';card.remove();bj.innerHTML=orig;$('#inNama').select();$('#inNama').focus()};
+})();
 
-if($('#inBilik').value)setTimeout(()=>$('#inNama').focus(),300);
+if($('#inBilik').value&&!AEK.get())setTimeout(()=>$('#inNama').focus(),300);
 (function resume(){try{const o=JSON.parse(localStorage.getItem('ita-sesi')||'null');if(o&&o.bilik&&(!qs.get('bilik')||qs.get('bilik').toUpperCase()===o.bilik)&&o.i<o.n){S=o;$('#inBilik').value=o.bilik;{const p=String(o.nama).split(' · ');$('#inNama').value=p[0];if(p[1])$('#inKelas').value=p[1]}$('#btnJoin').textContent='Sambung semula sebagai '+o.nama}}catch(e){}})();
 $('#fJoin').onsubmit=async e=>{
   e.preventDefault();audio();SFX.tap();initCam();
@@ -363,7 +385,7 @@ $('#fJoin').onsubmit=async e=>{
       if(!r.ok)throw new Error(r.err||'Gagal sertai');
       S={bilik,id:r.id,nama:r.nama||nama,n:0,i:0,skor:0,betul:0,streak:0};
     }
-    try{localStorage.setItem('ae-kumpulan',JSON.stringify({nama:$('#inNama').value.trim(),kelas:$('#inKelas').value}))}catch(e){}
+    AEK.set({nama:$('#inNama').value.trim(),kelas:$('#inKelas').value});
     $('#joinErr').textContent='';save();goWait();
   }catch(err){$('#joinErr').textContent=err.name==='AbortError'?'Sambungan lambat. Cuba lagi.':err.message}
   $('#btnJoin').disabled=false;

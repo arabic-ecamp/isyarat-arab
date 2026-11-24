@@ -171,6 +171,7 @@ footer{font-weight:600}
 .closeS{position:absolute;top:16px;right:16px;z-index:2}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<link rel="stylesheet" href="ae-theme.css">
 </head>
 <body>
 <canvas id="fx"></canvas>
@@ -179,7 +180,7 @@ footer{font-weight:600}
   <div class="ttl"><span class="arL">النَّتِيجَةُ النِّهَائِيَّةُ</span><small>RUMUSAN JOHAN KESELURUHAN · 3 PERMAINAN</small></div>
   <div class="byline"><div><span class="arL">إِعْدَادُ: الْأُسْتَاذ مُحَمَّد شَزْوَان عَبْدُ الرَّحْمٰن</span><small>Oleh Ustaz Mohd Syazwan Ab Rahman</small></div><img src="ustaz.jpg" alt="Ustaz Mohd Syazwan Ab Rahman" onerror="this.style.display='none'"></div>
 </div></header>
-<nav class="navbar" aria-label="Navigasi permainan"><a class="home" href="guru.html" data-nav>🏠 <span class="arL" style="font-size:16px">الرَّئِيسِيَّةُ</span> Utama</a><a href="papan-irama.html" class="" data-nav>← Sebelum</a><div class="steps"><a href="papan-lumba.html" class="" data-nav>Stesen 1 · Lumba</a><a href="papan.html" class="" data-nav>Stesen 2 · Isyarat Tangan</a><a href="papan-irama.html" class="" data-nav>Stesen 3 · Irama Warna</a><a href="rumusan.html" class="cur" data-nav>Rumusan Johan</a></div><a class="next" href="guru.html" data-nav>Selesai · Kembali ke Utama →</a></nav>
+<nav class="navbar" aria-label="Navigasi permainan"><a class="back2" href="guru.html" onclick="event.preventDefault();if(document.querySelector('#sLive.on,#sLobby.on')&&!confirm('Permainan sedang berjalan. Keluar dari skrin ini? (Markah yang sudah masuk tetap disimpan)'))return;if(history.length>1&&document.referrer.indexOf(location.host)>-1)history.back();else location.href='guru.html'">← <span class="arL" style="font-size:16px">رُجُوعٌ</span> Kembali</a><a class="home" href="guru.html" data-nav>🏠 <span class="arL" style="font-size:16px">الرَّئِيسِيَّةُ</span> Utama</a><a href="papan-irama.html" class="" data-nav>← Sebelum</a><div class="steps"><a href="papan-lumba.html" class="" data-nav>Stesen 1 · Lumba</a><a href="papan.html" class="" data-nav>Stesen 2 · Isyarat Tangan</a><a href="papan-irama.html" class="" data-nav>Stesen 3 · Irama Warna</a><a href="rumusan.html" class="cur" data-nav>Rumusan Johan</a></div><a class="next" href="guru.html" data-nav>Selesai · Kembali ke Utama →</a></nav>
 <main>
   <div class="bar">
     <h1 class="bi" style="margin:0"><span class="arL">تَرْتِيبُ الْفِرَقِ الْعَامُّ</span><span class="ms">Kedudukan keseluruhan kumpulan · dikira automatik</span></h1>
@@ -396,5 +397,6 @@ document.addEventListener('click',e=>{const a=e.target.closest('[data-nav]');if(
   const live=document.querySelector('#sLive.on,#sLobby.on');
   if(live&&!confirm('Permainan/bilik sedang dibuka. Keluar ke halaman lain? (Markah yang sudah masuk tetap disimpan)'))e.preventDefault()});
 </script>
+<script>(function(){const h=document.querySelector('.hdr');if(!h)return;const f=()=>document.documentElement.style.setProperty('--hh',h.offsetHeight+'px');f();addEventListener('resize',f)})();</script>
 </body>
 </html>
