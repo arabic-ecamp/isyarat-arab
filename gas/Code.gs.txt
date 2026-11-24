@@ -38,7 +38,7 @@ function findRoom_(code) {
 function groups_(code) {
   return sh_('Skor', SKOR_H).getDataRange().getValues().slice(1)
     .filter(x => String(x[0]) === code)
-    .map(x => ({ id: String(x[1]), nm: String(x[2]), skor: Number(x[3]) || 0, betul: Number(x[4]) || 0, dijawab: Number(x[5]) || 0, selesai: x[6] === true || x[6] === 'TRUE' }));
+    .map(x => ({ id: String(x[1]), nm: String(x[2]), skor: Number(x[3]) || 0, betul: Number(x[4]) || 0, dijawab: Number(x[5]) || 0, selesai: x[6] === true || x[6] === 'TRUE', masa: x[7] ? new Date(x[7]).getTime() : 0 }));
 }
 
 /* ---------- API untuk iPad murid ---------- */
@@ -85,6 +85,7 @@ function api_(p) {
           if (String(v[i][0]) === code && String(v[i][1]) === String(p.id)) {
             const dij = Number(p.dijawab) || 0;
             if (dij < (Number(v[i][5]) || 0)) return json_({ ok: true, lama: true }); // abaikan kemaskini lama
+            if (v[i][6] === true) return json_({ ok: true, siap: true }); // sudah tamat: kekalkan masa penamat
             s.getRange(i + 1, 4, 1, 5).setValues([[Number(p.skor) || 0, Number(p.betul) || 0, dij, String(p.selesai) === '1', new Date()]]);
             return json_({ ok: true });
           }

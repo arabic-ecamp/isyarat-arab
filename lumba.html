@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Lumba Pakaian Arab</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Naskh+Arabic:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0d2b2e;--teal:#0e7c7b;--sun:#ffc531;--coral:#ff5d5d;--ok:#1fb86a;--line:#d6ece8;--mut:#5a7477;--road:#3b4550}
+*{box-sizing:border-box;min-width:0;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden}
+body{background:linear-gradient(180deg,#bfe9ff 0%,#e9fbf7 45%,#fff7df 100%);color:var(--ink);font:17px/1.45 Fredoka,system-ui,sans-serif;user-select:none;-webkit-user-select:none}
+button{font:inherit;cursor:pointer;border:0;color:inherit}
+.ar{font-family:"Noto Naskh Arabic","Geeza Pro",serif;direction:rtl;font-weight:700}
+.scr{position:fixed;inset:0;display:none;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+.scr.on{display:flex;flex-direction:column;animation:fade .4s ease}
+@keyframes fade{from{opacity:0;transform:scale(.98)}}
+.center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;gap:14px;overflow:auto}
+.logo{font-size:clamp(36px,6vw,62px);font-weight:700;line-height:1.05;margin:0}
+.logo span{color:var(--coral)}
+.sub{color:var(--mut);margin:0;max-width:520px}
+.card{background:#ffffffeb;border:1px solid var(--line);border-radius:28px;padding:22px;box-shadow:0 18px 50px #0e7c7b22;width:min(460px,100%);display:grid;gap:12px}
+label{font-weight:600;text-align:left;display:grid;gap:6px}
+input{font:inherit;font-size:20px;padding:14px 16px;border-radius:16px;border:2px solid var(--line);background:#fff;width:100%}
+input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
+#inBilik{text-transform:uppercase;letter-spacing:6px;text-align:center;font-weight:700;font-size:28px}
+.btn{background:var(--coral);color:#fff;border-radius:18px;padding:14px 26px;min-height:56px;font-weight:700;font-size:20px;box-shadow:0 6px 0 #c63c3c}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #c63c3c}
+.btn.link{background:none;box-shadow:none;color:var(--teal);font-size:16px;min-height:44px;padding:6px}
+.err{color:var(--coral);font-weight:600;min-height:24px}
+.chip{display:inline-flex;gap:8px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:600}
+.pulse{width:14px;height:14px;border-radius:50%;background:var(--ok);animation:pl 1.2s infinite}
+@keyframes pl{50%{transform:scale(1.6);opacity:.4}}
+.carbig{width:min(320px,70vw);animation:idle .35s ease-in-out infinite alternate}
+@keyframes idle{to{transform:translateY(-3px)}}
+/* jalan raya mini */
+.track{position:relative;height:84px;margin:10px 12px 0;border-radius:20px;background:var(--road);overflow:hidden;box-shadow:inset 0 -6px 0 #2b333b}
+.track::before{content:"";position:absolute;left:0;right:0;top:50%;height:6px;margin-top:-3px;background:repeating-linear-gradient(90deg,#ffffffcc 0 40px,transparent 40px 80px);animation:road 1s linear infinite;animation-play-state:var(--run,paused)}
+@keyframes road{to{background-position:-80px 0}}
+.track .fin{position:absolute;right:0;top:0;bottom:0;width:22px;background:repeating-conic-gradient(#fff 0 25%,#111 0 50%) 0 0/11px 11px}
+.track .me{position:absolute;top:50%;left:0;width:90px;transform:translate(0,-50%);transition:left .6s cubic-bezier(.3,1.2,.6,1)}
+.track .smoke{position:absolute;font-size:30px;top:4px;opacity:0}
+.track .smoke.on{animation:smoke .9s ease-out infinite}
+@keyframes smoke{0%{opacity:.9;transform:translate(0,10px) scale(.6)}100%{opacity:0;transform:translate(-30px,-20px) scale(1.4)}}
+.hud{display:flex;gap:8px;align-items:center;padding:10px 12px 0;flex-wrap:wrap}
+.hud .chip b{color:var(--coral)}
+.iconbtn{background:#fff;border:1px solid var(--line);border-radius:14px;min-width:46px;min-height:44px;font-size:20px;margin-left:auto}
+.qwrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;gap:12px;min-height:0;position:relative}
+.qcard{background:#fff;border-radius:28px;padding:14px 22px;box-shadow:0 14px 40px #0002;text-align:center;width:min(760px,100%);animation:drop .4s cubic-bezier(.3,1.5,.6,1)}
+@keyframes drop{from{transform:translateY(-24px);opacity:0}}
+.qcard .lbl{font-size:15px;font-weight:600;color:var(--mut)}
+.qcard .ar{font-size:clamp(34px,5.5vw,58px);line-height:1.4}
+.qcard .pic{width:clamp(110px,18vh,170px);height:clamp(110px,18vh,170px);margin:4px auto}
+.say{background:#e6f6f3;color:var(--teal);border-radius:999px;padding:4px 14px;min-height:38px;font-weight:600;font-size:15px}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:min(760px,100%)}
+.op{background:#fff;border:4px solid #fff;border-radius:22px;min-height:clamp(80px,14vh,130px);box-shadow:0 8px 22px #0002;display:flex;align-items:center;justify-content:center;gap:10px;padding:8px;transition:transform .12s}
+.op:active{transform:scale(.97)}
+.op .ar{font-size:clamp(26px,3.6vw,40px)}
+.op svg{width:clamp(70px,11vh,104px);height:clamp(70px,11vh,104px)}
+.op.good{border-color:var(--ok);background:#e8faf0;animation:pop .35s}
+.op.bad{border-color:var(--coral);background:#fff0f0;animation:shake .35s}
+.op.dim{opacity:.35}
+@keyframes pop{50%{transform:scale(1.06)}}
+@keyframes shake{25%,75%{transform:translateX(-8px)}50%{transform:translateX(8px)}}
+.hot{position:absolute;inset:0;display:grid;place-items:center;background:#ff5d5d22;z-index:5;pointer-events:none}
+.hot div{background:#fff;border-radius:26px;padding:16px 28px;text-align:center;box-shadow:0 16px 40px #0003;font-weight:700;font-size:24px;color:var(--coral)}
+.hot b{display:block;font-size:56px}
+.boost{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(90deg,transparent 0 60px,#ffffff66 60px 64px);animation:zoomz .5s linear forwards;z-index:4}
+@keyframes zoomz{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(-200px)}}
+.count{position:fixed;inset:0;display:grid;place-items:center;z-index:9;background:#0d2b2ecc}
+.lights{display:flex;gap:18px;background:#111;padding:20px 26px;border-radius:30px}
+.lights i{width:clamp(60px,12vw,110px);height:clamp(60px,12vw,110px);border-radius:50%;background:#333;display:block}
+.lights i.r{background:#ff3b3b;box-shadow:0 0 40px #ff3b3b}.lights i.g{background:#2dff7a;box-shadow:0 0 40px #2dff7a}
+.big{font-size:clamp(44px,8vw,80px);font-weight:700;color:var(--coral);line-height:1}
+.rank{width:min(460px,100%);display:grid;gap:6px}
+.rank div{display:flex;justify-content:space-between;background:#fff;border-radius:14px;padding:8px 14px;border:2px solid var(--line);font-weight:600}
+.rank div.me{border-color:var(--sun);background:#fff8e1}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:20;width:100%;height:100%}
+.brandz{position:fixed;right:12px;bottom:calc(6px + env(safe-area-inset-bottom));font-size:12px;color:var(--mut);z-index:1}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<canvas id="fx"></canvas>
+
+<section class="scr on" id="sJoin"><div class="center">
+  <div id="heroCar" class="carbig"></div>
+  <p class="logo">Lumba <span>Pakaian</span> Arab</p>
+  <p class="sub">Arabic e-Camp · Unit 2: Malabisi al-Jamilah. Jawab betul, kereta laju!</p>
+  <form class="card" id="fJoin">
+    <label>Kod bilik<input id="inBilik" maxlength="4" autocomplete="off" required></label>
+    <label>Nama kumpulan<input id="inNama" maxlength="20" autocomplete="off" placeholder="cth: Kumpulan Kilat" required></label>
+    <div class="err" id="joinErr"></div>
+    <button class="btn" id="btnJoin" type="submit">Masuk trek lumba</button>
+    <button class="btn link" type="button" id="btnDemo">Cuba latihan dahulu (tanpa markah)</button>
+  </form>
+</div></section>
+
+<section class="scr" id="sWait"><div class="center">
+  <span class="chip"><span class="pulse"></span> <span id="wName"></span> di garisan mula · bilik <b id="wBilik"></b></span>
+  <div id="waitCar" class="carbig"></div>
+  <h2 style="margin:0;font-size:clamp(26px,4vw,40px)">Tunggu cikgu tekan MULA…</h2>
+  <p class="sub">Tekan jawapan yang betul secepat mungkin. Salah jawab = enjin panas 2 saat!</p>
+</div></section>
+
+<section class="scr" id="sPlay">
+  <div class="hud">
+    <span class="chip">Kedudukan <b id="hRank">–</b></span>
+    <span class="chip">Betul <b id="hS">0</b>/<span id="hN">15</span></span>
+    <span class="chip" id="hStreak" hidden>🔥 <b id="hSt">0</b></span>
+    <button class="iconbtn" id="bMus" aria-label="Muzik">🎵</button>
+  </div>
+  <div class="track" id="track"><div class="fin"></div><span class="smoke" id="smoke">💨</span><div class="me" id="meCar"></div></div>
+  <div class="qwrap" id="qwrap"></div>
+</section>
+
+<section class="scr" id="sEnd"><div class="center">
+  <div style="font-size:100px" id="eIcon">🏁</div>
+  <h2 style="margin:0;font-size:clamp(28px,5vw,44px)" id="eTitle">Penamat!</h2>
+  <div class="big" id="eScore"></div>
+  <p class="sub" id="eSub"></p>
+  <div class="rank" id="eRank"></div>
+  <p class="sub" id="eNote">Lihat trek lumba di skrin hadapan!</p>
+</div></section>
+<div class="brandz">Arabic e-Camp · Ustaz Syazwan</div>
+
+<script>
+{
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const show=id=>document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id===id));
+
+/* ===== KATA KUNCI (Unit 2: Malabisi al-Jamilah) ===== */
+const W=[
+ {id:'qamis',ar:'قَمِيْصٌ',rm:'qamis',ms:'baju kemeja',f:0},
+ {id:'fustan',ar:'فُسْتَانٌ',rm:'fustan',ms:'gaun',f:0},
+ {id:'bantalun',ar:'بَنْطَلُوْنٌ',rm:'bantalun',ms:'seluar',f:0},
+ {id:'hizam',ar:'حِزَامٌ',rm:'hizam',ms:'tali pinggang',f:0},
+ {id:'hiza',ar:'حِذَاءٌ',rm:"hiza'",ms:'kasut',f:0},
+ {id:'jaurab',ar:'جَوْرَبٌ',rm:'jaurab',ms:'stoking',f:0},
+ {id:'mindil',ar:'مِنْدِيْلٌ',rm:'mindil',ms:'sapu tangan',f:0},
+ {id:'khimar',ar:'خِمَارٌ',rm:'khimar',ms:'tudung',f:0},
+ {id:'mihfazah',ar:'مِحْفَظَةٌ',rm:'mihfazah',ms:'beg',f:1},
+ {id:'nazzarah',ar:'نَظَّارَةٌ',rm:'nazzarah',ms:'cermin mata',f:1},
+ {id:'rabtah',ar:'رَبْطَةُ الْعُنُقِ',rm:"rabtatul 'unuq",ms:'tali leher',f:1}
+];
+const HADHA='هٰذَا',HADHIHI='هٰذِهِ';
+const S=(w)=>`<svg viewBox="0 0 100 100" aria-label="${w}">${ICON[w]}</svg>`;
+const ICON={
+ qamis:'<path d="M30 14 L44 10 Q50 18 56 10 L70 14 L92 30 L82 46 L72 40 L72 90 L28 90 L28 40 L18 46 L8 30 Z" fill="#4dabf7" stroke="#1864ab" stroke-width="3" stroke-linejoin="round"/><path d="M44 10 L50 24 L56 10" fill="#fff" stroke="#1864ab" stroke-width="3"/><circle cx="50" cy="40" r="3" fill="#1864ab"/><circle cx="50" cy="55" r="3" fill="#1864ab"/><circle cx="50" cy="70" r="3" fill="#1864ab"/>',
+ fustan:'<path d="M38 8 L62 8 L60 30 L66 34 L88 92 L12 92 L34 34 L40 30 Z" fill="#f783ac" stroke="#c2255c" stroke-width="3" stroke-linejoin="round"/><path d="M34 34 Q50 42 66 34" fill="none" stroke="#c2255c" stroke-width="3"/><circle cx="40" cy="60" r="3" fill="#fff"/><circle cx="58" cy="70" r="3" fill="#fff"/><circle cx="46" cy="80" r="3" fill="#fff"/><circle cx="66" cy="84" r="3" fill="#fff"/>',
+ bantalun:'<path d="M26 8 L74 8 L82 94 L58 94 L50 34 L42 94 L18 94 Z" fill="#495057" stroke="#212529" stroke-width="3" stroke-linejoin="round"/><rect x="26" y="8" width="48" height="10" fill="#343a40"/><path d="M50 18 L50 34" stroke="#212529" stroke-width="3"/>',
+ hizam:'<rect x="4" y="40" width="92" height="20" rx="5" fill="#a0522d" stroke="#5c2e0e" stroke-width="3"/><rect x="36" y="34" width="28" height="32" rx="4" fill="none" stroke="#fcc419" stroke-width="6"/><line x1="50" y1="40" x2="50" y2="60" stroke="#fcc419" stroke-width="4"/><circle cx="76" cy="50" r="3" fill="#5c2e0e"/><circle cx="86" cy="50" r="3" fill="#5c2e0e"/>',
+ hiza:'<path d="M10 70 L14 40 Q30 36 40 46 Q56 56 80 58 Q94 60 94 72 L94 80 L10 80 Z" fill="#e8590c" stroke="#862e05" stroke-width="3" stroke-linejoin="round"/><rect x="10" y="78" width="84" height="8" rx="3" fill="#343a40"/><path d="M34 46 L44 40 M40 50 L50 44 M46 54 L56 48" stroke="#fff" stroke-width="3" stroke-linecap="round"/>',
+ jaurab:'<path d="M36 6 L64 6 L64 58 Q64 64 70 68 L84 76 Q94 84 86 92 Q80 98 70 94 L40 80 Q32 76 34 66 L36 58 Z" fill="#fff" stroke="#495057" stroke-width="3" stroke-linejoin="round"/><rect x="36" y="6" width="28" height="12" fill="#ff6b6b"/><rect x="36" y="26" width="28" height="6" fill="#ff6b6b"/><rect x="36" y="38" width="28" height="6" fill="#ff6b6b"/>',
+ mindil:'<rect x="14" y="14" width="72" height="72" rx="4" fill="#fff3bf" stroke="#e67700" stroke-width="3"/><rect x="22" y="22" width="56" height="56" fill="none" stroke="#e67700" stroke-width="2" stroke-dasharray="5 4"/><path d="M14 14 L46 46" stroke="#e67700" stroke-width="2"/><circle cx="62" cy="62" r="8" fill="#ff8787"/>',
+ khimar:'<path d="M50 6 Q16 8 16 48 Q14 76 6 94 L94 94 Q86 76 84 48 Q84 8 50 6 Z" fill="#9775fa" stroke="#5f3dc4" stroke-width="3"/><ellipse cx="50" cy="46" rx="20" ry="25" fill="#ffd8a8" stroke="#5f3dc4" stroke-width="2"/><circle cx="43" cy="44" r="2.5" fill="#333"/><circle cx="57" cy="44" r="2.5" fill="#333"/><path d="M44 56 Q50 61 56 56" stroke="#333" stroke-width="2" fill="none"/>',
+ mihfazah:'<path d="M34 34 Q34 12 50 12 Q66 12 66 34" fill="none" stroke="#5c2e0e" stroke-width="6"/><rect x="12" y="32" width="76" height="58" rx="10" fill="#c0703a" stroke="#5c2e0e" stroke-width="3"/><rect x="12" y="32" width="76" height="22" rx="10" fill="#a0522d"/><rect x="44" y="48" width="12" height="12" rx="2" fill="#fcc419" stroke="#5c2e0e" stroke-width="2"/>',
+ nazzarah:'<circle cx="28" cy="54" r="18" fill="#d0ebff" stroke="#212529" stroke-width="5"/><circle cx="72" cy="54" r="18" fill="#d0ebff" stroke="#212529" stroke-width="5"/><path d="M46 52 Q50 46 54 52" fill="none" stroke="#212529" stroke-width="5"/><path d="M10 50 L4 40 M90 50 L96 40" stroke="#212529" stroke-width="5" stroke-linecap="round"/><path d="M20 46 L26 42" stroke="#fff" stroke-width="3" stroke-linecap="round"/>',
+ rabtah:'<path d="M38 6 L62 6 L56 20 L44 20 Z" fill="#c92a2a" stroke="#7d1515" stroke-width="3" stroke-linejoin="round"/><path d="M44 20 L56 20 L66 76 L50 94 L34 76 Z" fill="#fa5252" stroke="#7d1515" stroke-width="3" stroke-linejoin="round"/><path d="M42 36 L60 30 M40 50 L62 44 M38 64 L64 58" stroke="#ffc9c9" stroke-width="4"/>'
+};
+function rng(seed){let a=seed>>>0||1;return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+/* soalan tanpa had; diulang ikut benih yang sama untuk semua kumpulan */
+function makeGen(seed){
+  const R=rng(seed),sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(R()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+  let bag=[],last=null,n=0;
+  return ()=>{
+    if(!bag.length){bag=sh(W);if(bag[0]===last)bag.push(bag.shift())}
+    const a=bag.shift();last=a;const k=n++%3;
+    const others=sh(W.filter(w=>w!==a)).slice(0,3);
+    if(k===2)return {type:'pola',ans:a,opts:sh([HADHA,HADHIHI])};
+    return {type:k===0?'gambar':'dengar',ans:a,opts:sh([a,...others])};
+  };
+}
+window.__makeGen=makeGen;
+
+/* ===== BUNYI ===== */
+let ac=null,master,musG,musOn=true,musT=null,step=0,nextT=0,noiseBuf=null,eng=null;
+function audio(){if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)();master=ac.createGain();master.connect(ac.destination);musG=ac.createGain();musG.gain.value=.45;musG.connect(master);noiseBuf=ac.createBuffer(1,ac.sampleRate*.5,ac.sampleRate);const d=noiseBuf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}catch(e){ac=null}}if(ac&&ac.state==='suspended')ac.resume().catch(()=>{});return ac}
+function tone(f,d,type='sine',v=.2,at=0,dest,slide){if(!audio())return;const t=ac.currentTime+Math.max(0,at),o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(slide,t+d);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.01);g.gain.exponentialRampToValueAtTime(.0008,t+d);o.connect(g);g.connect(dest||master);o.start(t);o.stop(t+d+.05)}
+function noise(d,v,freq,at=0,dest,type='bandpass'){if(!audio())return;const t=ac.currentTime+Math.max(0,at),s=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();s.buffer=noiseBuf;f.type=type;f.frequency.value=freq;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0008,t+d);s.connect(f);f.connect(g);g.connect(dest||master);s.start(t);s.stop(t+d+.02)}
+const SFX={
+ tap(){tone(660,.07,'triangle',.12)},
+ vroom(){tone(90,.6,'sawtooth',.18,0,null,420);tone(180,.5,'square',.06,.05,null,700);noise(.4,.25,900,0,null,'lowpass')},
+ screech(){tone(1800,.5,'sawtooth',.06,0,null,900);noise(.6,.35,3000);tone(120,.6,'square',.1,0,null,60)},
+ light(hi){tone(hi?880:440,hi?.6:.25,'square',.15)},
+ win(){[[523,0],[659,.15],[784,.3],[1047,.45],[784,.62],[1047,.75]].forEach(([f,t])=>{tone(f,.35,'triangle',.22,t);tone(f/2,.35,'sine',.1,t)});tone(1319,.9,'triangle',.2,.9)},
+ horn(){tone(392,.25,'square',.12);tone(494,.25,'square',.1);tone(392,.35,'square',.12,.3);tone(494,.35,'square',.1,.3)}
+};
+/* muzik lumba: rentak laju */
+const BASS=[40,40,52,40,43,43,55,43,45,45,57,45,43,43,55,47],MEL=[64,0,67,0,69,67,64,0,62,64,0,67,69,0,71,69];
+const midi=m=>440*Math.pow(2,(m-69)/12);
+function musicTick(){if(!ac)return;while(nextT<ac.currentTime+.3){const t=nextT-ac.currentTime,s=step%16;
+  tone(midi(BASS[s]),.12,'sawtooth',.06,t,musG);if(MEL[s]&&step%32>=16)tone(midi(MEL[s]),.12,'square',.035,t,musG);
+  if(s%4===0)tone(120,.15,'sine',.22,t,musG,45);if(s%4===2)noise(.08,.16,2500,t,musG);noise(.03,.06,7000,t,musG);
+  nextT+=.115;step++}}
+function music(on){clearInterval(musT);musT=null;if(on&&musOn&&audio()){nextT=ac.currentTime+.05;musT=setInterval(musicTick,80)}}
+let arVoice=null;function lv(){try{arVoice=speechSynthesis.getVoices().find(v=>/^ar/i.test(v.lang))||null}catch(e){}}
+try{speechSynthesis.onvoiceschanged=lv;lv()}catch(e){}
+function speak(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/[ً-ْٰ]/g,''));u.lang='ar-SA';if(arVoice)u.voice=arVoice;u.rate=.8;speechSynthesis.speak(u)}catch(e){}}
+
+/* ===== KONFETI ===== */
+const fx=$('#fx'),fc=fx.getContext('2d');let parts=[],raf=0;
+function burst(n=70){fx.width=innerWidth;fx.height=innerHeight;const c=['#ff5d5d','#ffc531','#0e7c7b','#3d7bfd','#9b51e0'];for(let i=0;i<n;i++)parts.push({x:innerWidth/2,y:innerHeight*.5,vx:(Math.random()-.5)*15,vy:-Math.random()*13-3,s:Math.random()*8+5,c:c[i%5],r:Math.random()*6,l:80+Math.random()*40});if(!raf)raf=requestAnimationFrame(dfx)}
+function dfx(){fc.clearRect(0,0,fx.width,fx.height);parts=parts.filter(p=>p.l-->0);parts.forEach(p=>{p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.r+=.12;fc.save();fc.translate(p.x,p.y);fc.rotate(p.r);fc.fillStyle=p.c;fc.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);fc.restore()});raf=parts.length?requestAnimationFrame(dfx):0}
+
+/* ===== KERETA ===== */
+function carSVG(col){return `<svg viewBox="0 0 120 56"><ellipse cx="60" cy="52" rx="54" ry="4" fill="#0003"/><path d="M8 38 Q6 26 18 24 L36 22 L50 10 Q56 6 66 6 L82 6 Q90 6 94 12 L102 22 Q114 24 114 34 L114 40 Q114 44 108 44 L12 44 Q8 44 8 38 Z" fill="${col}" stroke="#0005" stroke-width="2"/><path d="M52 12 L64 10 L64 22 L42 22 Z M68 10 L82 10 Q88 10 90 14 L94 22 L68 22 Z" fill="#cfefff"/><rect x="2" y="30" width="10" height="6" rx="2" fill="#ffd43b"/><circle cx="32" cy="44" r="10" fill="#222"/><circle cx="32" cy="44" r="4" fill="#ccc"/><circle cx="92" cy="44" r="10" fill="#222"/><circle cx="92" cy="44" r="4" fill="#ccc"/><text x="74" y="36" font-size="11" font-weight="700" fill="#fff" font-family="Fredoka,sans-serif">GO</text></svg>`}
+$('#heroCar').innerHTML=carSVG('#ff5d5d');$('#waitCar').innerHTML=carSVG('#ff5d5d');$('#meCar').innerHTML=carSVG('#ff5d5d');
+
+/* ===== PELAYAN ===== */
+const qs=new URLSearchParams(location.search);
+let API=qs.get('api')||'';try{if(API)localStorage.setItem('lpa-api',API);else API=localStorage.getItem('lpa-api')||''}catch(e){}
+async function api(params){
+  if(!API)throw new Error('Imbas QR di skrin cikgu untuk masuk.');
+  const c=new AbortController(),t=setTimeout(()=>c.abort(),12000);
+  try{const r=await fetch(API+(API.includes('?')?'&':'?')+new URLSearchParams(params),{signal:c.signal});return await r.json()}finally{clearTimeout(t)}
+}
+let G=null; // {bilik,id,nama,seed,n,betul,dijawab,demo,streak}
+const save=()=>{try{if(G&&!G.demo)localStorage.setItem('lpa-sesi',JSON.stringify(G))}catch(e){}};
+let sending=false,pending=false;
+async function push(){if(!G||G.demo)return;if(sending){pending=true;return}sending=true;pending=false;
+  try{await api({action:'score',bilik:G.bilik,id:G.id,skor:G.betul,betul:G.betul,dijawab:G.dijawab,selesai:G.betul>=G.n?1:0})}catch(e){pending=true}
+  sending=false;if(pending)setTimeout(push,1500)}
+
+/* ===== SERTAI ===== */
+$('#inBilik').value=(qs.get('bilik')||'').toUpperCase();
+if($('#inBilik').value)setTimeout(()=>$('#inNama').focus(),300);
+(function(){try{const o=JSON.parse(localStorage.getItem('lpa-sesi')||'null');if(o&&o.bilik&&(!qs.get('bilik')||qs.get('bilik').toUpperCase()===o.bilik)&&o.betul<o.n){G=o;$('#inBilik').value=o.bilik;$('#inNama').value=o.nama;$('#btnJoin').textContent='Sambung semula sebagai '+o.nama}}catch(e){}})();
+$('#fJoin').onsubmit=async e=>{
+  e.preventDefault();audio();SFX.horn();
+  const bilik=$('#inBilik').value.trim().toUpperCase(),nama=$('#inNama').value.trim();
+  if(bilik.length!==4)return $('#joinErr').textContent='Kod bilik mesti 4 huruf.';
+  if(!nama)return $('#joinErr').textContent='Tulis nama kumpulan.';
+  $('#btnJoin').disabled=true;$('#joinErr').textContent='Menyambung…';
+  try{
+    if(!(G&&G.bilik===bilik&&G.nama===nama)){
+      const r=await api({action:'join',bilik,kumpulan:nama});if(!r.ok)throw new Error(r.err||'Gagal masuk');
+      G={bilik,id:r.id,nama:r.nama||nama,n:15,betul:0,dijawab:0,streak:0};
+    }
+    $('#joinErr').textContent='';save();goWait();
+  }catch(err){$('#joinErr').textContent=err.name==='AbortError'?'Sambungan lambat. Cuba lagi.':err.message}
+  $('#btnJoin').disabled=false;
+};
+$('#btnDemo').onclick=()=>{audio();SFX.horn();G={demo:true,nama:'Latihan',n:10,betul:0,dijawab:0,streak:0,seed:Math.floor(Math.random()*1e9)};goWait(true)};
+let pollT=null;
+function goWait(demo){show('sWait');$('#wName').textContent=G.nama;$('#wBilik').textContent=G.demo?'LATIHAN':G.bilik;
+  if(demo){setTimeout(()=>lights(1500),1200);return}
+  clearInterval(pollT);pollT=setInterval(poll,1500);poll()}
+async function poll(){try{const r=await api({action:'state',bilik:G.bilik});if(!r.ok)return;
+  if(r.status==='main'){clearInterval(pollT);G.seed=r.seed;G.n=r.soalan;save();if(G.dijawab>0)return startRace();lights(r.wait||0)}
+  else if(r.status==='tamat'){clearInterval(pollT);finish(true)}}catch(e){}}
+
+/* ===== LAMPU ISYARAT 3-2-1 ===== */
+function lights(waitMs){
+  show('sPlay');music(true);
+  const o=document.createElement('div');o.className='count';o.innerHTML='<div class="lights"><i></i><i></i><i></i></div>';document.body.appendChild(o);
+  const L=[...o.querySelectorAll('i')],t0=performance.now()+Math.max(0,waitMs-3000);let st=-1;
+  (function tick(){const e=performance.now()-t0,s=e<0?-1:Math.min(3,Math.floor(e/1000));
+    if(s!==st){st=s;if(s>=0&&s<3){L[s].className='r';SFX.light(false)}if(s===3){L.forEach(x=>x.className='g');SFX.light(true);SFX.vroom()}}
+    if(e<3500)requestAnimationFrame(tick);else{o.remove();startRace()}})();
+}
+
+/* ===== LUMBA ===== */
+let gen=null,cur=null,locked=false,ended=false,rankT=null;
+function startRace(){
+  show('sPlay');music(true);gen=makeGen(G.seed);for(let i=0;i<G.dijawab;i++)gen();
+  $('#hN').textContent=G.n;moveCar();
+  if(!G.demo){clearInterval(rankT);rankT=setInterval(updRank,4000);updRank()}
+  next();
+}
+function moveCar(){const w=$('#track').clientWidth-112;$('#meCar').style.left=Math.min(1,G.betul/G.n)*w+'px';$('#hS').textContent=G.betul;$('#hStreak').hidden=G.streak<2;$('#hSt').textContent=G.streak}
+async function updRank(){try{const r=await api({action:'board',bilik:G.bilik});if(!r.ok)return;
+  const g=sortRace(r.groups);const i=g.findIndex(x=>x.id===G.id);$('#hRank').textContent=i>=0?'#'+(i+1)+'/'+g.length:'–';
+  if(r.status==='tamat')finish(true)}catch(e){}}
+function sortRace(g){return g.slice().sort((a,b)=>(b.selesai-a.selesai)||(a.selesai&&b.selesai?(a.masa||0)-(b.masa||0):0)||(b.skor-a.skor))}
+function next(){
+  if(ended)return;if(G.betul>=G.n)return finish(false);
+  locked=false;cur=gen();const q=cur,a=q.ans,qw=$('#qwrap');
+  let top='',opts='';
+  if(q.type==='gambar'){top=`<div class="lbl">Apakah ini dalam Bahasa Arab?</div><div class="pic">${S(a.id)}</div>`;opts=q.opts.map(o=>`<button class="op" data-k="${o.id}"><span class="ar" lang="ar">${esc(o.ar)}</span></button>`).join('')}
+  else if(q.type==='dengar'){top=`<div class="lbl">Tekan gambar yang betul</div><div class="ar" lang="ar">${esc(a.ar)}</div><button class="say" id="say">🔊 Dengar</button>`;opts=q.opts.map(o=>`<button class="op" data-k="${o.id}">${S(o.id)}</button>`).join('')}
+  else{top=`<div class="lbl">مَا هٰذَا؟ · Lengkapkan ayat</div><div class="pic">${S(a.id)}</div><div class="ar" lang="ar">______ ${esc(a.ar)}</div>`;opts=q.opts.map(o=>`<button class="op" data-k="${o}"><span class="ar" lang="ar">${o} ${esc(a.ar)}</span></button>`).join('')}
+  qw.innerHTML=`<div class="qcard">${top}</div><div class="opts">${opts}</div>`;
+  if($('#say')){$('#say').onclick=()=>speak(a.ar);setTimeout(()=>speak(a.ar),200)}
+  qw.querySelectorAll('.op').forEach(b=>b.addEventListener('click',()=>answer(b)));
+}
+function answer(b){
+  if(locked||ended)return;locked=true;
+  const q=cur,k=b.dataset.k,right=q.type==='pola'?k===(q.ans.f?HADHIHI:HADHA):k===q.ans.id;
+  const correctKey=q.type==='pola'?(q.ans.f?HADHIHI:HADHA):q.ans.id;
+  $('#qwrap').querySelectorAll('.op').forEach(o=>o.classList.add(o.dataset.k===correctKey?'good':o===b?'bad':'dim'));
+  G.dijawab++;
+  if(right){
+    G.betul++;G.streak++;SFX.vroom();const bz=document.createElement('div');bz.className='boost';$('#qwrap').appendChild(bz);
+    $('#track').style.setProperty('--run','running');setTimeout(()=>$('#track').style.setProperty('--run','paused'),800);
+    moveCar();save();push();
+    if(G.streak%3===0)burst(50);
+    setTimeout(next,650);
+  }else{
+    G.streak=0;SFX.screech();moveCar();save();push();
+    $('#smoke').style.left=Math.max(0,parseFloat($('#meCar').style.left)||0)+'px';$('#smoke').classList.add('on');
+    const h=document.createElement('div');h.className='hot';h.innerHTML=`<div><b>🔥</b>Enjin panas!<br><span style="font-size:18px;color:#5a7477">Jawapan: ${q.type==='pola'?correctKey+' ':''}${esc(q.ans.ar)} (${esc(q.ans.ms)})</span></div>`;$('#qwrap').appendChild(h);
+    setTimeout(()=>speak((q.type==='pola'?correctKey+' ':'')+q.ans.ar),300);
+    setTimeout(()=>{$('#smoke').classList.remove('on');next()},2200);
+  }
+}
+async function finish(byTeacher){
+  if(ended)return;ended=true;clearInterval(rankT);clearInterval(pollT);music(false);
+  show('sEnd');SFX.win();burst(160);
+  const done=G.betul>=G.n;
+  $('#eIcon').textContent=done?'🏁':'⏱️';
+  $('#eTitle').textContent=done?'Penamat! Tahniah '+G.nama+'!':'Lumba tamat!';
+  $('#eScore').textContent=G.betul+' / '+G.n;
+  $('#eSub').textContent=`Betul ${G.betul} daripada ${G.dijawab} jawapan.`;
+  if(G.demo){$('#eNote').innerHTML='Itu latihan sahaja. <button class="btn" onclick="location.reload()">Kembali</button>';return}
+  try{localStorage.removeItem('lpa-sesi')}catch(e){}
+  push();
+  const rk=async()=>{try{const r=await api({action:'board',bilik:G.bilik});if(!r.ok)return;const g=sortRace(r.groups);
+    $('#eRank').innerHTML=g.map((x,i)=>`<div class="${x.id===G.id?'me':''}"><span>#${i+1} ${x.selesai?'🏁 ':''}${esc(x.nm)}</span><span>${x.skor}/${r.soalan||G.n}</span></div>`).join('');
+    if(r.status==='tamat'){clearInterval(t);$('#eNote').textContent=g[0]&&g[0].id===G.id?'🏆 Kumpulan anda JOHAN! 🏆':'Johan: '+(g[0]?g[0].nm:'-');if(g[0]&&g[0].id===G.id){burst(200);SFX.win()}}}catch(e){}};
+  const t=setInterval(rk,3000);rk();
+}
+$('#bMus').onclick=()=>{musOn=!musOn;$('#bMus').style.opacity=musOn?1:.4;music(musOn&&!ended)};
+addEventListener('resize',()=>G&&moveCar());
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&ac)ac.resume().catch(()=>{})});
+}
+</script>
+</body>
+</html>
