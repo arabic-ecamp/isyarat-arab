@@ -73,7 +73,7 @@ function label(text, color, rank) {
   g.fillStyle = '#0b2427'; g.textAlign = 'left'; g.font = '800 40px Arial'; g.fillText(t, x0 + 76, 41);
   const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
   const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, depthTest: false, transparent: true, sizeAttenuation: false }));
-  sp.scale.set(.075, .019, 1); sp.center.set(.5, 0); sp.renderOrder = 10; return sp;
+  sp.scale.set(.052, .013, 1); sp.center.set(.5, 0); sp.renderOrder = 10; return sp;
 }
 
 function palm(x, z, s) {
@@ -201,10 +201,10 @@ function popup(c, ok) {
   const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace;
   const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: t, depthTest: false, transparent: true, sizeAttenuation: false })); sp.renderOrder = 12;
   sp.scale.set(.026, .026, 1); sp.center.set(.5, .5); sp.position.set(3.3, 1.0, 0); c.obj.add(sp);
-  R.pops.push({ sp, c, life: 1 });
+  sp.visible = false; c.obj.remove(sp); /* ikon tidak dipaparkan */
   if (!ok) {
     c.wob = 1;
-    for (let i = 0; i < 10; i++) { const m = new THREE.Mesh(new THREE.SphereGeometry(.35 + Math.random() * .3, 8, 6), new THREE.MeshBasicMaterial({ color: '#9aa0a6', transparent: true, opacity: .7 })); m.position.set(-2.2 + Math.random() * .6, .6, (Math.random() - .5) * 1.6); c.obj.add(m); R.fire.push({ m, c, v: -(.6 + Math.random()), life: 1.4, up: 1 }); }
+    for (let i = 0; i < 0; i++) { const m = new THREE.Mesh(new THREE.SphereGeometry(.35 + Math.random() * .3, 8, 6), new THREE.MeshBasicMaterial({ color: '#9aa0a6', transparent: true, opacity: .7 })); m.position.set(-2.2 + Math.random() * .6, .6, (Math.random() - .5) * 1.6); c.obj.add(m); R.fire.push({ m, c, v: -(.6 + Math.random()), life: 1.4, up: 1 }); }
   }
   try { const now = performance.now(); if (window.AE && now - (R.lastSnd || 0) > 220) { R.lastSnd = now; AE.sfx(ok ? 'betul' : 'salah', ok ? .45 : .4); } } catch (e) { }
 }
