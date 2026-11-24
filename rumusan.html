@@ -118,7 +118,7 @@ footer{font-weight:600}
 @media(max-width:900px){.hdr-in{grid-template-columns:auto minmax(0,1fr)}.byline{grid-column:1/-1;justify-content:center}.setwrap{grid-template-columns:1fr}}
 </style>
 <style>
-.sum{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:16px}
+.sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:16px}
 .gcard{background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:0 14px 40px #0b24270f}
 .gcard h3{margin:0 0 4px;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:18px}
 .gcard h3 .arL{font-size:22px;color:var(--teal)}
@@ -168,7 +168,7 @@ footer{font-weight:600}
 <canvas id="fx"></canvas>
 <header class="hdr"><div class="hdr-in">
   <div class="school"><img src="lencana.png" alt="Lencana SK Bukit Mutiara" onerror="this.style.display='none'"><div><b>SK BUKIT MUTIARA</b><span>Arabic e-Camp 2026</span></div></div>
-  <div class="ttl"><span class="arL">النَّتِيجَةُ النِّهَائِيَّةُ</span><small>RUMUSAN JOHAN KESELURUHAN · 2 PERMAINAN</small></div>
+  <div class="ttl"><span class="arL">النَّتِيجَةُ النِّهَائِيَّةُ</span><small>RUMUSAN JOHAN KESELURUHAN · 3 PERMAINAN</small></div>
   <div class="byline"><div><span class="arL">إِعْدَادُ: الْأُسْتَاذ مُحَمَّد شَزْوَان عَبْدُ الرَّحْمٰن</span><small>Oleh Ustaz Mohd Syazwan Ab Rahman</small></div><img src="ustaz.jpg" alt="Ustaz Mohd Syazwan Ab Rahman" onerror="this.style.display='none'"></div>
 </div></header>
 <main>
@@ -179,11 +179,12 @@ footer{font-weight:600}
   <div class="sum">
     <div class="gcard"><h3><span><span class="arL">لُعْبَةُ الْإِشَارَةِ</span><br><small style="color:var(--mut)">Permainan 1 · Isyarat Tangan</small></span><select id="selT"></select></h3><div class="mini" id="miniT"></div></div>
     <div class="gcard"><h3><span><span class="arL">سِبَاقُ الْمَلَابِسِ</span><br><small style="color:var(--mut)">Permainan 2 · Lumba Kereta</small></span><select id="selL"></select></h3><div class="mini" id="miniL"></div></div>
+    <div class="gcard"><h3><span><span class="arL">لَحْنُ الْأَلْوَانِ</span><br><small style="color:var(--mut)">Permainan 3 · Irama Warna</small></span><select id="selI"></select></h3><div class="mini" id="miniI"></div></div>
   </div>
   <div class="overall">
-    <div class="lbl2"><span class="arL">الْمَجْمُوعُ</span><div class="ms">Jumlah mata keseluruhan (mata kedudukan Permainan 1 + Permainan 2)</div></div>
-    <table class="otable"><thead><tr><th></th><th>Kumpulan · Kelas</th><th class="n">Isyarat Tangan</th><th class="n">Lumba Kereta</th><th class="n">Jumlah betul</th><th class="n">Jumlah mata</th></tr></thead><tbody id="tb"><tr><td colspan="6" class="note">Memuatkan…</td></tr></tbody></table>
-    <p class="note">Mata kedudukan setiap permainan: Johan 10 · Naib Johan 8 · Ketiga 6 · Keempat 5 · Kelima 4 · lain-lain 3 · tidak bermain 0. Jika mata sama, kumpulan dengan lebih banyak jawapan betul di hadapan. Kumpulan dipadankan melalui nama kumpulan dan kelas yang sama.</p>
+    <div class="lbl2"><span class="arL">الْمَجْمُوعُ</span><div class="ms">Jumlah mata keseluruhan (mata kedudukan Permainan 1 + 2 + 3)</div></div>
+    <table class="otable"><thead><tr><th></th><th>Kumpulan · Kelas</th><th class="n">Isyarat Tangan</th><th class="n">Lumba Kereta</th><th class="n">Irama Warna</th><th class="n">Jumlah betul</th><th class="n">Jumlah mata</th></tr></thead><tbody id="tb"><tr><td colspan="7" class="note">Memuatkan…</td></tr></tbody></table>
+    <p class="note">Mata kedudukan setiap permainan: Johan 10 · Naib Johan 8 · Ketiga 6 · Keempat 5 · Kelima 4 · lain-lain 3 · tidak bermain 0. Jika mata sama, kumpulan dengan lebih banyak jawapan betul di hadapan. Kumpulan dipadankan melalui nama kumpulan dan kelas yang sama. Johan keseluruhan dikira daripada ketiga-tiga permainan.</p>
   </div>
 </main>
 <footer>© 2026 SK Bukit Mutiara · Arabic e-Camp · Ustaz Mohd Syazwan Ab Rahman</footer>
@@ -200,30 +201,32 @@ async function api(p){const c=new AbortController(),t=setTimeout(()=>c.abort(),1
 const PTS=[10,8,6,5,4];const ptsOf=rk=>rk<=5?PTS[rk-1]:3;
 const key=s=>String(s).toLowerCase().replace(/\s+/g,' ').trim();
 const fmt=ms=>new Date(ms).toLocaleString('ms-MY',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
-let rooms=[],selT='',selL='',data={tangan:null,lumba:null},manual={T:false,L:false};
+let rooms=[],selT='',selL='',selI='',data={tangan:null,lumba:null,irama:null},manual={T:false,L:false,I:false};
 function rankT(g){const s=g.slice().sort((a,b)=>b.skor-a.skor||b.betul-a.betul);let rk=0;s.forEach((x,i)=>{if(i>0&&!(x.skor===s[i-1].skor&&x.betul===s[i-1].betul))rk=i;x.rk=rk+1});return s}
 function rankL(g){const s=g.slice().sort((a,b)=>(b.selesai-a.selesai)||(a.selesai&&b.selesai?(a.masa||0)-(b.masa||0):0)||(b.skor-a.skor)||(b.betul-a.betul));let rk=0;s.forEach((x,i)=>{const p=s[i-1];if(i>0&&!(x.selesai===p.selesai&&x.skor===p.skor&&(!x.selesai||x.masa===p.masa)))rk=i;x.rk=rk+1});return s}
 function fillSel(el,jenis,cur){const list=rooms.filter(r=>r.jenis===jenis||!r.jenis);el.innerHTML=list.length?list.map(r=>`<option value="${esc(r.bilik)}" ${r.bilik===cur?'selected':''}>${esc(r.bilik)} · ${r.kumpulan} kumpulan · ${fmt(r.dicipta)}${r.jenis?'':' (?)'}</option>`).join(''):'<option value="">Belum ada sesi</option>'}
 async function loadRooms(){try{const r=await api({action:'rooms'});if(!r.ok)return;rooms=r.rooms;
   if(!manual.T){const t=rooms.find(x=>x.jenis==='tangan');selT=t?t.bilik:''}
   if(!manual.L){const l=rooms.find(x=>x.jenis==='lumba');selL=l?l.bilik:''}
-  fillSel($('#selT'),'tangan',selT);fillSel($('#selL'),'lumba',selL)}catch(e){}}
+  if(!manual.I){const m=rooms.find(x=>x.jenis==='irama');selI=m?m.bilik:''}
+  fillSel($('#selT'),'tangan',selT);fillSel($('#selL'),'lumba',selL);fillSel($('#selI'),'irama',selI)}catch(e){}}
 $('#selT').onchange=e=>{manual.T=true;selT=e.target.value;refresh()};
 $('#selL').onchange=e=>{manual.L=true;selL=e.target.value;refresh()};
+$('#selI').onchange=e=>{manual.I=true;selI=e.target.value;refresh()};
 async function board(b){if(!b)return null;try{const r=await api({action:'board',bilik:b});return r.ok?r:null}catch(e){return null}}
 let result=[];
 async function refresh(){
-  const [T,L]=await Promise.all([board(selT),board(selL)]);data.tangan=T;data.lumba=L;
-  const rt=T?rankT(T.groups):[],rl=L?rankL(L.groups):[];
+  const [T,L,I]=await Promise.all([board(selT),board(selL),board(selI)]);data.tangan=T;data.lumba=L;data.irama=I;
+  const rt=T?rankT(T.groups):[],rl=L?rankL(L.groups):[],ri=I?rankT(I.groups):[];
   const mini=(arr,lumba,n)=>arr.length?arr.map(x=>`<div class="r${x.rk}"><b class="rk">${x.rk}</b><span class="nm">${esc(x.nm)}</span><span class="raw">${lumba?(x.selesai?'🏁 ':'')+x.skor+'/'+n:x.skor+' mata'}</span><span class="pt">+${ptsOf(x.rk)}</span></div>`).join(''):'<p class="note">Belum ada kumpulan.</p>';
-  $('#miniT').innerHTML=mini(rt,false,T&&T.soalan);$('#miniL').innerHTML=mini(rl,true,L&&L.soalan);
+  $('#miniT').innerHTML=mini(rt,false,T&&T.soalan);$('#miniL').innerHTML=mini(rl,true,L&&L.soalan);$('#miniI').innerHTML=mini(ri,false,I&&I.soalan);
   const all={};
-  const add=(x,g)=>{const k=key(x.nm);all[k]=all[k]||{nm:x.nm,t:null,l:null,betul:0};all[k][g]={rk:x.rk,pt:ptsOf(x.rk),raw:x};all[k].betul+=x.betul};
-  rt.forEach(x=>add(x,'t'));rl.forEach(x=>add(x,'l'));
-  result=Object.values(all).map(o=>({...o,tot:(o.t?o.t.pt:0)+(o.l?o.l.pt:0)})).sort((a,b)=>b.tot-a.tot||b.betul-a.betul);
+  const add=(x,g)=>{const k=key(x.nm);all[k]=all[k]||{nm:x.nm,t:null,l:null,i:null,betul:0};all[k][g]={rk:x.rk,pt:ptsOf(x.rk),raw:x};all[k].betul+=x.betul};
+  rt.forEach(x=>add(x,'t'));rl.forEach(x=>add(x,'l'));ri.forEach(x=>add(x,'i'));
+  result=Object.values(all).map(o=>({...o,tot:(o.t?o.t.pt:0)+(o.l?o.l.pt:0)+(o.i?o.i.pt:0)})).sort((a,b)=>b.tot-a.tot||b.betul-a.betul);
   let rk=0;result.forEach((o,i)=>{if(i>0&&!(o.tot===result[i-1].tot&&o.betul===result[i-1].betul))rk=i;o.rk=rk+1});
   const cell=g=>g?`<b>${g.pt}</b> <span class="note">(#${g.rk})</span>`:'<span class="note">Tidak main · 0</span>';
-  $('#tb').innerHTML=result.length?result.map(o=>`<tr class="t${o.rk}"><td><span class="medal">${o.rk}</span></td><td>${esc(o.nm)}</td><td class="n">${cell(o.t)}</td><td class="n">${cell(o.l)}</td><td class="n">${o.betul}</td><td class="n tot">${o.tot}</td></tr>`).join(''):'<tr><td colspan="6" class="note">Belum ada markah. Mainkan permainan dahulu.</td></tr>';
+  $('#tb').innerHTML=result.length?result.map(o=>`<tr class="t${o.rk}"><td><span class="medal">${o.rk}</span></td><td>${esc(o.nm)}</td><td class="n">${cell(o.t)}</td><td class="n">${cell(o.l)}</td><td class="n">${cell(o.i)}</td><td class="n">${o.betul}</td><td class="n tot">${o.tot}</td></tr>`).join(''):'<tr><td colspan="7" class="note">Belum ada markah. Mainkan permainan dahulu.</td></tr>';
 }
 async function cycle(){await loadRooms();await refresh()}
 cycle();setInterval(cycle,6000);
@@ -298,6 +301,33 @@ function makeGen(seed){
 
 return {makeGen,W,HADHA,HADHIHI};})();
 
+const IL=(()=>{
+const COLS=[
+ {id:'ahmar',ar:'أَحْمَرُ',rm:'ahmar',ms:'merah',hex:'#e63946',dk:'#9d1c27',f:261.6},
+ {id:'azraq',ar:'أَزْرَقُ',rm:'azraq',ms:'biru',hex:'#1d6fe0',dk:'#0f4596',f:293.7},
+ {id:'akhdhar',ar:'أَخْضَرُ',rm:'akhdhar',ms:'hijau',hex:'#2fb344',dk:'#1b7a2a',f:329.6},
+ {id:'asfar',ar:'أَصْفَرُ',rm:'asfar',ms:'kuning',hex:'#ffc531',dk:'#c08d00',f:392.0},
+ {id:'abyadh',ar:'أَبْيَضُ',rm:'abyadh',ms:'putih',hex:'#ffffff',dk:'#b9c6cf',f:440.0},
+ {id:'aswad',ar:'أَسْوَدُ',rm:'aswad',ms:'hitam',hex:'#1b1b1b',dk:'#000000',f:523.3}
+];
+const OBJ=[
+ {e:'🍎',ar:'تُفَّاحَةٌ',ms:'epal',f:1,c:'ahmar'},{e:'🍌',ar:'مَوْزَةٌ',ms:'pisang',f:1,c:'asfar'},{e:'🌳',ar:'شَجَرَةٌ',ms:'pokok',f:1,c:'akhdhar'},
+ {e:'🌊',ar:'بَحْرٌ',ms:'laut',f:0,c:'azraq'},{e:'☁️',ar:'سَحَابٌ',ms:'awan',f:0,c:'abyadh'},{e:'🐈‍⬛',ar:'قِطٌّ',ms:'kucing',f:0,c:'aswad'}
+];
+const colOf=id=>COLS.find(c=>c.id===id);
+function rng(seed){let a=seed>>>0||1;return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function makeChart(seed,n){
+  const R=rng(seed),sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(R()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+  let bag=[],out=[],last=null;
+  for(let i=0;i<n;i++){
+    if(i%4===3){const o=OBJ[Math.floor(R()*OBJ.length)];out.push({kind:'pola',c:o.c,o});last=o.c;continue}
+    if(!bag.length){bag=sh(COLS.map(c=>c.id));if(bag[0]===last)bag.push(bag.shift())}
+    const c=bag.shift();last=c;out.push({kind:'kata',c});
+  }
+  return out;
+}
+return {makeChart,colOf};})();
+window.IL=IL;
 const TYPE_T={abcd:'ABCD (jari)',seret:'Seret ke kotak',belon:'Pecah belon'},TYPE_L={gambar:'Gambar → perkataan',dengar:'Dengar → gambar',pola:'Pola ayat هٰذَا/هٰذِهِ'};
 const wMs=id=>{const w=LL.W.find(x=>x.id===id);return w?`${w.ar} (${w.rm}, ${w.ms})`:id};
 function qRowsT(b,g){if(!b||!b.seed)return [];const qs=QL.buildQs(b.seed,b.soalan),rk=g.rekod||'',jw=(g.jaw||'').split(',');
@@ -307,9 +337,12 @@ function qRowsL(b,g){if(!b||!b.seed)return [];const gen=LL.makeGen(b.seed),rk=g.
     m=m===undefined||m===''?'—':m==='HADHA'?LL.HADHA+' '+q.ans.ar:m==='HADHIHI'?LL.HADHIHI+' '+q.ans.ar:wMs(m);
     out.push({no:i+1,jenis:TYPE_L[q.type],soalan:q.type==='pola'?`مَا هٰذَا؟ (${q.ans.ms})`:q.type==='gambar'?`Gambar: ${q.ans.ms}`:`${q.ans.ar} (${q.ans.rm})`,betul:q.type==='pola'?`${corr} ${q.ans.ar}`:wMs(corr),murid:m,ok:rk[i]==='1'})}
   return out}
+function qRowsI(b,g){if(!b||!b.seed)return [];const ch=IL.makeChart(b.seed,b.soalan),rk=g.rekod||'',jw=(g.jaw||'').split(','),n=Math.max(rk.length,g.dijawab);
+  return ch.slice(0,n).map((q,i)=>{const c=IL.colOf(q.c),m=jw[i];const mc=m&&m!=='-'?IL.colOf(m):null;
+    return {no:i+1,jenis:q.kind==='kata'?'Dengar warna':'Pola ayat مَا لَوْنُهُ؟',soalan:q.kind==='kata'?`${c.ar} (${c.rm})`:`${q.o.ar} (${q.o.ms}) · ${q.o.f?'مَا لَوْنُهَا؟':'مَا لَوْنُهُ؟'}`,betul:`${c.ar} (${c.ms})`,murid:m===undefined||m===''?'—':m==='-'?'Terlepas':mc?`${mc.ar} (${mc.ms})`:m,ok:rk[i]==='1'}})}
 async function toData(u){try{const b=await (await fetch(u)).blob();return await new Promise(r=>{const f=new FileReader();f.onload=()=>r(f.result);f.readAsDataURL(b)})}catch(e){return u}}
 async function reportHTML(){
-  await refresh();const T=data.tangan,L=data.lumba,[lenc,ust]=await Promise.all([toData('lencana.png'),toData('ustaz.jpg')]);
+  await refresh();const T=data.tangan,L=data.lumba,I=data.irama,[lenc,ust]=await Promise.all([toData('lencana.png'),toData('ustaz.jpg')]);
   const today=new Date().toLocaleDateString('ms-MY',{day:'numeric',month:'long',year:'numeric'});
   const champ=result.filter(o=>o.rk===1);
   const css=`body{font-family:'Plus Jakarta Sans',Arial,sans-serif;color:#0b2427;font-size:11pt}
@@ -327,14 +360,14 @@ async function reportHTML(){
   .champ b{font-size:18pt;color:#0b6e6d}.grp{page-break-before:always}.stat{font-size:10pt;color:#334}
   .ft{margin-top:20px;font-size:9pt;color:#5d7376;text-align:center;border-top:1px solid #e3ebe9;padding-top:8px}`;
   const head=`<div class="hd"><img class="l" src="${lenc}"><div class="t"><div class="ar">التَّقْرِيرُ الشَّامِلُ</div><h1>Laporan Keseluruhan Arabic e-Camp</h1><div style="font-weight:700">SK Bukit Mutiara · Tahun 3</div></div><img class="u" src="${ust}"></div>
-  <div class="meta">Disediakan oleh Ustaz Mohd Syazwan Ab Rahman · <span class="ar">إِعْدَادُ: الْأُسْتَاذ مُحَمَّد شَزْوَان عَبْدُ الرَّحْمٰن</span><br>Tarikh: ${today} · Sesi Isyarat Tangan: ${esc(selT||'-')} · Sesi Lumba Kereta: ${esc(selL||'-')}</div>`;
+  <div class="meta">Disediakan oleh Ustaz Mohd Syazwan Ab Rahman · <span class="ar">إِعْدَادُ: الْأُسْتَاذ مُحَمَّد شَزْوَان عَبْدُ الرَّحْمٰن</span><br>Tarikh: ${today} · Sesi Isyarat Tangan: ${esc(selT||'-')} · Sesi Lumba Kereta: ${esc(selL||'-')} · Sesi Irama Warna: ${esc(selI||'-')}</div>`;
   const sum=`<h2>1. Johan dan Kedudukan Keseluruhan</h2>${champ.length?`<div class="champ"><div class="ar" style="font-size:16pt">بَطَلُ الْمُخَيَّمِ</div><b>🏆 ${champ.map(o=>esc(o.nm)).join(' & ')}</b><div>${champ[0].tot} mata · ${champ[0].betul} jawapan betul</div></div>`:''}
-  <table><tr><th>Kedudukan</th><th>Kumpulan · Kelas</th><th>Isyarat Tangan</th><th>Lumba Kereta</th><th>Jumlah Betul</th><th>Jumlah Mata</th></tr>${result.map(o=>`<tr><td>${o.rk}</td><td><b>${esc(o.nm)}</b></td><td>${o.t?`${o.t.pt} mata (#${o.t.rk})`:'Tidak main'}</td><td>${o.l?`${o.l.pt} mata (#${o.l.rk})`:'Tidak main'}</td><td>${o.betul}</td><td><b>${o.tot}</b></td></tr>`).join('')}</table>
+  <table><tr><th>Kedudukan</th><th>Kumpulan · Kelas</th><th>Isyarat Tangan</th><th>Lumba Kereta</th><th>Irama Warna</th><th>Jumlah Betul</th><th>Jumlah Mata</th></tr>${result.map(o=>`<tr><td>${o.rk}</td><td><b>${esc(o.nm)}</b></td><td>${o.t?`${o.t.pt} mata (#${o.t.rk})`:'Tidak main'}</td><td>${o.l?`${o.l.pt} mata (#${o.l.rk})`:'Tidak main'}</td><td>${o.i?`${o.i.pt} mata (#${o.i.rk})`:'Tidak main'}</td><td>${o.betul}</td><td><b>${o.tot}</b></td></tr>`).join('')}</table>
   <p class="stat">Mata kedudukan: Johan 10 · Naib Johan 8 · Ketiga 6 · Keempat 5 · Kelima 4 · lain-lain 3 · tidak bermain 0.</p>`;
   const gsec=(title,o,b,rows,lumba)=>{if(!o)return `<h3>${title}</h3><p class="stat">Kumpulan ini tidak bermain permainan ini.</p>`;const g=o.raw,acc=g.dijawab?Math.round(g.betul/g.dijawab*100):0;
     return `<h3>${title} · Kedudukan #${o.rk} (${o.pt} mata kedudukan)</h3><p class="stat">${lumba?`Kemajuan: ${g.skor}/${b.soalan}${g.selesai?' · Sampai penamat 🏁':''}`:`Markah: ${g.skor}`} · Betul: ${g.betul} · Salah: ${g.dijawab-g.betul} · Ketepatan: ${acc}%</p>
     ${rows.length?`<table><tr><th>No</th><th>Jenis</th><th>Soalan</th><th>Jawapan Betul</th><th>Jawapan Murid</th><th>Status</th></tr>${rows.map(r=>`<tr><td>${r.no}</td><td>${r.jenis}</td><td>${esc(r.soalan)}</td><td>${esc(r.betul)}</td><td>${esc(r.murid)}</td><td class="${r.ok?'ok':'no'}">${r.ok?'✓ Betul':'✗ Salah'}</td></tr>`).join('')}</table>`:'<p class="stat">Tiada butiran soalan.</p>'}`};
-  const groups=result.map((o,i)=>`<div class="grp"><h2>${i+2}. ${esc(o.nm)} · Kedudukan Keseluruhan #${o.rk} · ${o.tot} mata</h2>${gsec('Permainan 1: Isyarat Tangan (Nombor 21–30)',o.t,T,o.t?qRowsT(T,o.t.raw):[],false)}${gsec('Permainan 2: Lumba Pakaian (Unit 2)',o.l,L,o.l?qRowsL(L,o.l.raw):[],true)}</div>`).join('');
+  const groups=result.map((o,i)=>`<div class="grp"><h2>${i+2}. ${esc(o.nm)} · Kedudukan Keseluruhan #${o.rk} · ${o.tot} mata</h2>${gsec('Permainan 1: Isyarat Tangan (Nombor 21–30)',o.t,T,o.t?qRowsT(T,o.t.raw):[],false)}${gsec('Permainan 2: Lumba Pakaian (Unit 2)',o.l,L,o.l?qRowsL(L,o.l.raw):[],true)}${gsec('Permainan 3: Irama Warna (Unit 3)',o.i,I,o.i?qRowsI(I,o.i.raw):[],false)}</div>`).join('');
   const body=head+sum+groups+`<div class="ft">Laporan dijana secara automatik · Arabic e-Camp 2026 · SK Bukit Mutiara</div>`;
   return {css,body};
 }

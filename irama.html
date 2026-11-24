@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Irama Warna Arab</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Naskh+Arabic:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0d2b2e;--teal:#0e7c7b;--sun:#ffc531;--coral:#ff5d5d;--ok:#1fb86a;--line:#d6ece8;--mut:#5a7477;--road:#3b4550}
+*{box-sizing:border-box;min-width:0;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden}
+body{background:linear-gradient(180deg,#bfe9ff 0%,#e9fbf7 45%,#fff7df 100%);color:var(--ink);font:17px/1.45 Fredoka,system-ui,sans-serif;user-select:none;-webkit-user-select:none}
+button{font:inherit;cursor:pointer;border:0;color:inherit}
+.ar{font-family:"Noto Naskh Arabic","Geeza Pro",serif;direction:rtl;font-weight:700}
+.scr{position:fixed;inset:0;display:none;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+.scr.on{display:flex;flex-direction:column;animation:fade .4s ease}
+@keyframes fade{from{opacity:0;transform:scale(.98)}}
+.center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;gap:14px;overflow:auto}
+.logo{font-size:clamp(36px,6vw,62px);font-weight:700;line-height:1.05;margin:0}
+.logo span{color:var(--coral)}
+.sub{color:var(--mut);margin:0;max-width:520px}
+.card{background:#ffffffeb;border:1px solid var(--line);border-radius:28px;padding:22px;box-shadow:0 18px 50px #0e7c7b22;width:min(460px,100%);display:grid;gap:12px}
+label{font-weight:600;text-align:left;display:grid;gap:6px}
+select{font:inherit;font-size:20px;padding:14px 16px;border-radius:16px;border:2px solid #d6ece8;background:#fff;width:100%;color:#0d2b2e}
+input{font:inherit;font-size:20px;padding:14px 16px;border-radius:16px;border:2px solid var(--line);background:#fff;width:100%}
+input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
+#inBilik{text-transform:uppercase;letter-spacing:3px;text-align:center;font-weight:700;font-size:28px}
+.btn{background:var(--coral);color:#fff;border-radius:18px;padding:14px 26px;min-height:56px;font-weight:700;font-size:20px;box-shadow:0 6px 0 #c63c3c}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #c63c3c}
+.btn.link{background:none;box-shadow:none;color:var(--teal);font-size:16px;min-height:44px;padding:6px}
+.err{color:var(--coral);font-weight:600;min-height:24px}
+.chip{display:inline-flex;gap:8px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:600}
+.pulse{width:14px;height:14px;border-radius:50%;background:var(--ok);animation:pl 1.2s infinite}
+@keyframes pl{50%{transform:scale(1.6);opacity:.4}}
+.carbig{width:min(320px,70vw);animation:idle .35s ease-in-out infinite alternate}
+@keyframes idle{to{transform:translateY(-3px)}}
+/* jalan raya mini */
+.track{position:relative;height:84px;margin:10px 12px 0;border-radius:20px;background:var(--road);overflow:hidden;box-shadow:inset 0 -6px 0 #2b333b}
+.track::before{content:"";position:absolute;left:0;right:0;top:50%;height:6px;margin-top:-3px;background:repeating-linear-gradient(90deg,#ffffffcc 0 40px,transparent 40px 80px);animation:road 1s linear infinite;animation-play-state:var(--run,paused)}
+@keyframes road{to{background-position:-80px 0}}
+.track .fin{position:absolute;right:0;top:0;bottom:0;width:22px;background:repeating-conic-gradient(#fff 0 25%,#111 0 50%) 0 0/11px 11px}
+.track .me{position:absolute;top:50%;left:0;width:90px;transform:translate(0,-50%);transition:left .6s cubic-bezier(.3,1.2,.6,1)}
+.track .smoke{position:absolute;font-size:30px;top:4px;opacity:0}
+.track .smoke.on{animation:smoke .9s ease-out infinite}
+@keyframes smoke{0%{opacity:.9;transform:translate(0,10px) scale(.6)}100%{opacity:0;transform:translate(-30px,-20px) scale(1.4)}}
+.hud{display:flex;gap:8px;align-items:center;padding:10px 12px 0;flex-wrap:wrap}
+.hud .chip b{color:var(--coral)}
+.iconbtn{background:#fff;border:1px solid var(--line);border-radius:14px;min-width:46px;min-height:44px;font-size:20px;margin-left:auto}
+.qwrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;gap:12px;min-height:0;position:relative}
+.qcard{background:#fff;border-radius:28px;padding:14px 22px;box-shadow:0 14px 40px #0002;text-align:center;width:min(760px,100%);animation:drop .4s cubic-bezier(.3,1.5,.6,1)}
+@keyframes drop{from{transform:translateY(-24px);opacity:0}}
+.qcard .lbl{font-size:15px;font-weight:600;color:var(--mut)}
+.qcard .ar{font-size:clamp(34px,5.5vw,58px);line-height:1.4}
+.qcard .pic{width:clamp(110px,18vh,170px);height:clamp(110px,18vh,170px);margin:4px auto}
+.say{background:#e6f6f3;color:var(--teal);border-radius:999px;padding:4px 14px;min-height:38px;font-weight:600;font-size:15px}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:min(760px,100%)}
+.op{background:#fff;border:4px solid #fff;border-radius:22px;min-height:clamp(80px,14vh,130px);box-shadow:0 8px 22px #0002;display:flex;align-items:center;justify-content:center;gap:10px;padding:8px;transition:transform .12s}
+.op:active{transform:scale(.97)}
+.op .ar{font-size:clamp(26px,3.6vw,40px)}
+.op svg{width:clamp(70px,11vh,104px);height:clamp(70px,11vh,104px)}
+.op.good{border-color:var(--ok);background:#e8faf0;animation:pop .35s}
+.op.bad{border-color:var(--coral);background:#fff0f0;animation:shake .35s}
+.op.dim{opacity:.35}
+@keyframes pop{50%{transform:scale(1.06)}}
+@keyframes shake{25%,75%{transform:translateX(-8px)}50%{transform:translateX(8px)}}
+.hot{position:absolute;inset:0;display:grid;place-items:center;background:#ff5d5d22;z-index:5;pointer-events:none}
+.hot div{background:#fff;border-radius:26px;padding:16px 28px;text-align:center;box-shadow:0 16px 40px #0003;font-weight:700;font-size:24px;color:var(--coral)}
+.hot b{display:block;font-size:56px}
+.boost{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(90deg,transparent 0 60px,#ffffff66 60px 64px);animation:zoomz .5s linear forwards;z-index:4}
+@keyframes zoomz{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(-200px)}}
+.qa{font-size:24px;color:#0d2b2e}
+.okpop{position:absolute;left:50%;top:30%;transform:translate(-50%,-50%);background:#fff;border-radius:24px;padding:8px 26px;text-align:center;box-shadow:0 12px 30px #0003;z-index:6;color:#1fb86a;animation:nit .65s ease-out forwards;pointer-events:none}
+.okpop .ar{display:block;font-size:44px;line-height:1.3}.okpop small{color:#5a7477;font-weight:600}
+.nitro{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);font-size:clamp(44px,9vw,90px);font-weight:700;color:#ff5d5d;text-shadow:0 4px 0 #ffc531,0 10px 30px #0005;z-index:6;animation:nit .9s ease-out forwards;pointer-events:none;white-space:nowrap}
+@keyframes nit{0%{transform:translate(-50%,-50%) scale(.3) rotate(-8deg);opacity:0}30%{transform:translate(-50%,-50%) scale(1.15) rotate(-4deg);opacity:1}100%{transform:translate(-50%,-90%) scale(1);opacity:0}}
+.count{position:fixed;inset:0;display:grid;place-items:center;z-index:9;background:#0d2b2ecc}
+.lights{display:flex;gap:18px;background:#111;padding:20px 26px;border-radius:30px}
+.lights i{width:clamp(60px,12vw,110px);height:clamp(60px,12vw,110px);border-radius:50%;background:#333;display:block}
+.lights i.r{background:#ff3b3b;box-shadow:0 0 40px #ff3b3b}.lights i.g{background:#2dff7a;box-shadow:0 0 40px #2dff7a}
+.big{font-size:clamp(44px,8vw,80px);font-weight:700;color:var(--coral);line-height:1}
+.rank{width:min(460px,100%);display:grid;gap:6px}
+.rank div{display:flex;justify-content:space-between;background:#fff;border-radius:14px;padding:8px 14px;border:2px solid var(--line);font-weight:600}
+.rank div.me{border-color:var(--sun);background:#fff8e1}
+.cred{display:flex;align-items:center;gap:10px;text-align:left}.cred img{width:46px;height:46px;object-fit:contain;background:#fff;border-radius:12px;padding:3px}.cred b{display:block;font-size:15px;line-height:1.2}.cred span{font-size:13px;opacity:.85}
+.credj{background:#ffffffe6;border:1px solid #d6ece8;border-radius:18px;padding:8px 14px;color:#0d2b2e;box-shadow:0 8px 20px #0001}
+.cred .uimg{width:52px;height:52px;border-radius:50%;object-fit:cover;border:3px solid #c9a227;padding:0;background:none}
+.qcard .say .ar{font-size:16px;line-height:1}.qcard .lbl .qa{font-size:clamp(20px,2.6vw,26px);line-height:1.4}
+.heroN{display:flex;gap:10px;font-size:64px;font-weight:700}.heroN span{color:var(--c);animation:hop .6s ease-in-out infinite alternate}.heroN span:nth-child(2){animation-delay:.15s}.heroN span:nth-child(3){animation-delay:.3s}.heroN span:nth-child(4){animation-delay:.45s}
+@keyframes hop{to{transform:translateY(-12px) rotate(-6deg)}}
+.combo{background:#fff1d6;border-color:#ffc531}
+.stageR{flex:1;display:flex;flex-direction:column;gap:10px;padding:10px 12px 12px;min-height:0;position:relative}
+.lights2{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 15% 0,#ff6b6b33 0,transparent 35%),radial-gradient(circle at 85% 0,#4dabf733 0,transparent 35%),radial-gradient(circle at 50% 0,#ffd43b40 0,transparent 40%);animation:spot 3s ease-in-out infinite alternate}
+@keyframes spot{to{opacity:.5}}
+.track2{position:relative;flex:1;min-height:0;border-radius:26px;background:linear-gradient(180deg,#ffffff 0%,#f1f7ff 100%);border:1px solid #d6e4f5;box-shadow:0 14px 40px #1d3b6e22;overflow:hidden}
+.beatlines{position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0 58px,#1d6fe014 58px 60px);animation:bl calc(var(--beat,.6s)*1) linear infinite}
+@keyframes bl{to{background-position:0 60px}}
+.hitline{position:absolute;left:4%;right:4%;bottom:16%;height:10px;border-radius:999px;background:linear-gradient(90deg,#e63946,#ffc531,#2fb344,#1d6fe0);box-shadow:0 0 22px #ffc53199}
+.hitline.pulse{animation:hp .25s}
+@keyframes hp{50%{transform:scaleY(2.2);box-shadow:0 0 40px #ffc531}}
+.note{position:absolute;left:50%;transform:translate(-50%,-50%);min-width:min(64%,460px);padding:10px 22px;border-radius:22px;background:#fff;border:4px solid #0d2b2e;box-shadow:0 10px 24px #0002;text-align:center;will-change:top}
+.note .ar{font-size:clamp(30px,5vw,48px);line-height:1.3;display:block}
+.note small{font-size:15px;color:var(--mut);font-weight:600}
+.note .emo{font-size:clamp(40px,6vw,60px);line-height:1}
+.note.hit{animation:nhit .35s forwards}.note.miss{animation:nmiss .5s forwards}
+@keyframes nhit{to{transform:translate(-50%,-50%) scale(1.5);opacity:0}}
+@keyframes nmiss{to{transform:translate(-50%,-30%) rotate(8deg);opacity:0}}
+.judge{position:absolute;left:50%;bottom:24%;transform:translateX(-50%);font-weight:800;font-size:clamp(30px,5vw,52px);pointer-events:none;text-shadow:0 3px 0 #fff,0 8px 20px #0003;white-space:nowrap;text-align:center}
+.judge.show{animation:jd .7s ease-out}
+.judge small{display:block;font-size:18px}
+@keyframes jd{0%{transform:translateX(-50%) scale(.5);opacity:0}30%{transform:translateX(-50%) scale(1.15);opacity:1}100%{transform:translateX(-50%) translateY(-30px);opacity:0}}
+.pads{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.pad{height:clamp(80px,14vh,120px);border-radius:22px;background:var(--c);border:4px solid #ffffff;box-shadow:0 8px 0 var(--d),0 12px 24px #0003;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;transition:transform .06s}
+.pad span{background:#ffffffe6;color:#0d2b2e;border-radius:999px;padding:2px 10px;font-weight:700;font-size:13px}
+.pad:active,.pad.press{transform:translateY(6px);box-shadow:0 2px 0 var(--d),0 6px 12px #0003}
+.pad.ok{outline:6px solid #1fb86a}.pad.bad{outline:6px solid #ff5d5d}
+.pad.light{border-color:#d6e4f5}
+@media(max-width:700px){.pads{grid-template-columns:repeat(3,minmax(0,1fr))}}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:20;width:100%;height:100%}
+.brandz{position:fixed;right:12px;bottom:calc(6px + env(safe-area-inset-bottom));font-size:12px;color:var(--mut);z-index:1}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<canvas id="fx"></canvas>
+
+<section class="scr on" id="sJoin"><div class="center">
+  <div class="cred credj"><img src="lencana.png" alt="Lencana SK Bukit Mutiara" onerror="this.style.display='none'"><div><b class="ar" style="font-size:16px">إِعْدَادُ: الْأُسْتَاذ مُحَمَّد شَزْوَان عَبْدُ الرَّحْمٰن</b><span>Oleh Ustaz Mohd Syazwan Ab Rahman · SK Bukit Mutiara</span></div><img src="ustaz.jpg" alt="Ustaz Mohd Syazwan Ab Rahman" class="uimg" onerror="this.style.display='none'"></div>
+  <div class="heroN"><span style="--c:#e63946">♪</span><span style="--c:#1d6fe0">♫</span><span style="--c:#2fb344">♪</span><span style="--c:#ffc531">♬</span></div>
+  <p class="logo">Irama <span>Warna</span> Arab</p>
+  <p class="ar" style="font-size:30px;margin:0">أَهْلًا وَسَهْلًا!</p>
+  <p class="sub">Arabic e-Camp · Unit 3: al-Alwan Haulana. Ketuk warna ikut rentak lagu!</p>
+  <form class="card" id="fJoin">
+    <label><span><span class="ar" style="font-size:20px">اِسْمُ الْغُرْفَةِ</span> <small>Nama bilik</small></span><input id="inBilik" maxlength="12" autocomplete="off" required></label>
+    <label><span><span class="ar" style="font-size:20px">اِسْمُ الْفَرِيْقِ</span> <small>Nama kumpulan</small></span><input id="inNama" maxlength="20" autocomplete="off" placeholder="cth: Kumpulan Najm" required></label>
+    <label><span><span class="ar" style="font-size:20px">اِسْمُ الْفَصْلِ</span> <small>Nama kelas</small></span><select id="inKelas" required><option value="">— Pilih kelas —</option><optgroup label="Tahun 3"><option>3 Cambridge</option><option>3 Harvard</option><option>3 Oxford</option><option>3 Malaya</option><option>3 Stanford</option></optgroup><optgroup label="Tahun 1"><option>1 Cambridge</option><option>1 Harvard</option><option>1 Oxford</option><option>1 Malaya</option><option>1 Stanford</option></optgroup><optgroup label="Tahun 2"><option>2 Cambridge</option><option>2 Harvard</option><option>2 Oxford</option><option>2 Malaya</option><option>2 Stanford</option></optgroup><optgroup label="Tahun 4"><option>4 Cambridge</option><option>4 Harvard</option><option>4 Oxford</option><option>4 Malaya</option><option>4 Stanford</option></optgroup><optgroup label="Tahun 5"><option>5 Cambridge</option><option>5 Harvard</option><option>5 Oxford</option><option>5 Malaya</option><option>5 Stanford</option></optgroup><optgroup label="Tahun 6"><option>6 Cambridge</option><option>6 Harvard</option><option>6 Oxford</option><option>6 Malaya</option><option>6 Stanford</option></optgroup></select></label>
+    <div class="err" id="joinErr"></div>
+    <button class="btn" id="btnJoin" type="submit">اُدْخُلْ · Masuk pentas</button>
+    <button class="btn link" type="button" id="btnDemo"><span class="ar">تَدْرِيْبٌ</span> · Cuba latihan dahulu (tanpa markah)</button>
+  </form>
+</div></section>
+
+<section class="scr" id="sWait"><div class="center">
+  <span class="chip"><span class="pulse"></span> <span id="wName"></span> di pentas · bilik <b id="wBilik"></b></span>
+  <div class="heroN"><span style="--c:#e63946">♪</span><span style="--c:#1d6fe0">♫</span><span style="--c:#2fb344">♪</span><span style="--c:#ffc531">♬</span></div>
+  <h2 class="ar" style="margin:0;font-size:clamp(30px,4.5vw,44px)">اِنْتَظِرْ مِنْ فَضْلِكَ…</h2><p class="sub" style="margin-top:-8px">Tunggu cikgu tekan MULA</p>
+  <p class="sub">Dengar warna, kemudian ketuk butang warna yang betul tepat bila nota sampai di garisan!</p>
+</div></section>
+
+<section class="scr" id="sPlay">
+  <div class="hud">
+    <span class="chip"><span class="ar">الْمَرْتَبَةُ</span> <small>Kedudukan</small> <b id="hRank">–</b></span>
+    <span class="chip"><span class="ar">النِّقَاطُ</span> <small>Mata</small> <b id="hS">0</b></span>
+    <span class="chip"><small>Nota</small> <b id="hI">0</b>/<span id="hN">20</span></span>
+    <span class="chip combo" id="hCombo" hidden>🔥 <b id="hC">0</b> combo</span>
+    <button class="iconbtn" id="bMus" aria-label="Muzik">🎵</button>
+  </div>
+  <div class="stageR" id="stageR">
+    <div class="lights2"></div>
+    <div class="track2" id="track2"><div class="beatlines"></div><div class="hitline"></div><div id="notes"></div><div class="judge" id="judge"></div></div>
+    <div class="pads" id="pads"></div>
+  </div>
+</section>
+
+<section class="scr" id="sEnd"><div class="center">
+  <div style="font-size:100px" id="eIcon">🎵</div>
+  <h2 style="margin:0;font-size:clamp(28px,5vw,44px)" id="eTitle">Penamat!</h2>
+  <div class="big" id="eScore"></div>
+  <p class="sub" id="eSub"></p>
+  <div class="rank" id="eRank"></div>
+  <p class="sub" id="eNote">Lihat pentas di skrin hadapan!</p>
+</div></section>
+<div class="brandz">Ustaz Mohd Syazwan Ab Rahman · SK Bukit Mutiara</div>
+
+<script>
+{
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const show=id=>document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id===id));
+
+/* ===== WARNA (Unit 3: al-Alwan Haulana) ===== */
+const COLS=[
+ {id:'ahmar',ar:'أَحْمَرُ',rm:'ahmar',ms:'merah',hex:'#e63946',dk:'#9d1c27',f:261.6},
+ {id:'azraq',ar:'أَزْرَقُ',rm:'azraq',ms:'biru',hex:'#1d6fe0',dk:'#0f4596',f:293.7},
+ {id:'akhdhar',ar:'أَخْضَرُ',rm:'akhdhar',ms:'hijau',hex:'#2fb344',dk:'#1b7a2a',f:329.6},
+ {id:'asfar',ar:'أَصْفَرُ',rm:'asfar',ms:'kuning',hex:'#ffc531',dk:'#c08d00',f:392.0},
+ {id:'abyadh',ar:'أَبْيَضُ',rm:'abyadh',ms:'putih',hex:'#ffffff',dk:'#b9c6cf',f:440.0},
+ {id:'aswad',ar:'أَسْوَدُ',rm:'aswad',ms:'hitam',hex:'#1b1b1b',dk:'#000000',f:523.3}
+];
+const OBJ=[
+ {e:'🍎',ar:'تُفَّاحَةٌ',ms:'epal',f:1,c:'ahmar'},{e:'🍌',ar:'مَوْزَةٌ',ms:'pisang',f:1,c:'asfar'},{e:'🌳',ar:'شَجَرَةٌ',ms:'pokok',f:1,c:'akhdhar'},
+ {e:'🌊',ar:'بَحْرٌ',ms:'laut',f:0,c:'azraq'},{e:'☁️',ar:'سَحَابٌ',ms:'awan',f:0,c:'abyadh'},{e:'🐈‍⬛',ar:'قِطٌّ',ms:'kucing',f:0,c:'aswad'}
+];
+const colOf=id=>COLS.find(c=>c.id===id);
+function rng(seed){let a=seed>>>0||1;return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+/* lagu (carta nota) yang sama untuk semua kumpulan */
+function makeChart(seed,n){
+  const R=rng(seed),sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(R()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+  let bag=[],out=[],last=null;
+  for(let i=0;i<n;i++){
+    if(i%4===3){const o=OBJ[Math.floor(R()*OBJ.length)];out.push({kind:'pola',c:o.c,o});last=o.c;continue}
+    if(!bag.length){bag=sh(COLS.map(c=>c.id));if(bag[0]===last)bag.push(bag.shift())}
+    const c=bag.shift();last=c;out.push({kind:'kata',c});
+  }
+  return out;
+}
+window.__makeChart=makeChart;
+/* ===== BUNYI ===== */
+let ac=null,master,musG,musOn=true,musT=null,step=0,nextT=0,noiseBuf=null,eng=null;
+function audio(){if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)();master=ac.createGain();master.connect(ac.destination);musG=ac.createGain();musG.gain.value=.45;musG.connect(master);noiseBuf=ac.createBuffer(1,ac.sampleRate*.5,ac.sampleRate);const d=noiseBuf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}catch(e){ac=null}}if(ac&&ac.state==='suspended')ac.resume().catch(()=>{});return ac}
+function tone(f,d,type='sine',v=.2,at=0,dest,slide){if(!audio())return;const t=ac.currentTime+Math.max(0,at),o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(slide,t+d);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.01);g.gain.exponentialRampToValueAtTime(.0008,t+d);o.connect(g);g.connect(dest||master);o.start(t);o.stop(t+d+.05)}
+function noise(d,v,freq,at=0,dest,type='bandpass'){if(!audio())return;const t=ac.currentTime+Math.max(0,at),s=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();s.buffer=noiseBuf;f.type=type;f.frequency.value=freq;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0008,t+d);s.connect(f);f.connect(g);g.connect(dest||master);s.start(t);s.stop(t+d+.02)}
+const SFX={
+ tap(){tone(660,.07,'triangle',.12)},
+ vroom(){tone(90,.6,'sawtooth',.18,0,null,420);tone(180,.5,'square',.06,.05,null,700);noise(.4,.25,900,0,null,'lowpass')},
+ screech(){tone(1800,.5,'sawtooth',.06,0,null,900);noise(.6,.35,3000);tone(120,.6,'square',.1,0,null,60)},
+ light(hi){tone(hi?880:440,hi?.6:.25,'square',.15)},
+ win(){[[523,0],[659,.15],[784,.3],[1047,.45],[784,.62],[1047,.75]].forEach(([f,t])=>{tone(f,.35,'triangle',.22,t);tone(f/2,.35,'sine',.1,t)});tone(1319,.9,'triangle',.2,.9)},
+ nitro(){tone(200,.5,'sawtooth',.12,0,null,1600);noise(.5,.3,2500,0,null,'highpass');tone(1200,.3,'triangle',.1,.25,null,2400)},
+ cheer(){noise(2.2,.3,1400);noise(2.2,.18,3200,.1);[0,.25,.5].forEach(t=>tone(1046,.15,'triangle',.1,t+.2))},
+ horn(){tone(392,.25,'square',.12);tone(494,.25,'square',.1);tone(392,.35,'square',.12,.3);tone(494,.35,'square',.1,.3)}
+};
+/* muzik lumba: rentak laju */
+const HIJ=[62,63,66,67,69,70,72,74];
+const MEL=[0,1,2,3,4,3,2,1,4,5,4,3,2,3,1,0, 4,4,5,6,7,6,5,4,3,4,2,3,1,2,0,0];
+const DRUM='D.tkD.t.D.tkDttk';
+const midi=m=>440*Math.pow(2,(m-69)/12);
+function musicTick(){if(!ac)return;while(nextT<ac.currentTime+.3){const t=nextT-ac.currentTime,s=step%16,dr=DRUM[s],m=MEL[step%32];
+  tone(midi(HIJ[m]+12),.13,'triangle',.05,t,musG);if(step%2===0)tone(midi(HIJ[m]),.2,'sawtooth',.02,t,musG);
+  if(s%8===0)tone(midi(38),.3,'sine',.15,t,musG);
+  if(dr==='D')tone(110,.2,'sine',.24,t,musG,50);if(dr==='t')noise(.06,.2,3200,t,musG);if(dr==='k')noise(.04,.1,5000,t,musG);
+  nextT+=.12;step++}}
+/* ===== MUZIK IRAMA (maqam Ajam ceria + darbuka, 100 BPM) ===== */
+const BPM=100,BEAT=60/BPM;
+const BM=(()=>{let bus=null,t=null,on=false,t0=0,step=0,nb=null;
+ const m2f=m=>440*Math.pow(2,(m-69)/12);
+ function init(){const a=audio();if(!a)return null;if(!bus){const c=a.createDynamicsCompressor();c.threshold.value=-16;bus=a.createGain();bus.gain.value=.5;bus.connect(c);c.connect(a.destination);nb=a.createBuffer(1,a.sampleRate*.6,a.sampleRate);const d=nb.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}return a}
+ function o(a,f,d,ty,v,at,cut){const s0=Math.max(a.currentTime,at),os=a.createOscillator(),g=a.createGain();os.type=ty;os.frequency.setValueAtTime(f,s0);g.gain.setValueAtTime(0,s0);g.gain.linearRampToValueAtTime(v,s0+.006);g.gain.exponentialRampToValueAtTime(.0008,s0+d);if(cut){const fl=a.createBiquadFilter();fl.type='lowpass';fl.frequency.value=cut;os.connect(fl);fl.connect(g)}else os.connect(g);g.connect(bus);os.start(s0);os.stop(s0+d+.03)}
+ function nz(a,d,v,f,ty,at){const s0=Math.max(a.currentTime,at),s=a.createBufferSource(),fl=a.createBiquadFilter(),g=a.createGain();s.buffer=nb;fl.type=ty;fl.frequency.value=f;g.gain.setValueAtTime(v,s0);g.gain.exponentialRampToValueAtTime(.0008,s0+d);s.connect(fl);fl.connect(g);g.connect(bus);s.start(s0);s.stop(s0+d+.03)}
+ const CH=[[48,52,55],[53,57,60],[55,59,62],[48,52,55]];
+ const MEL=[72,0,74,76,79,0,76,74,72,74,76,0,74,72,69,0,77,0,76,74,72,0,74,76,79,81,79,76,74,0,72,0];
+ const DR='D.t.D.ttD.t.Dtkt';
+ function tick(){const a=ac;if(!a||!on)return;const st=BEAT/4;
+  while(t0+step*st<a.currentTime+.25){const at=t0+step*st,s=step%16,bar=Math.floor(step/16),ch=CH[bar%4];
+   if(s%4===0)o(a,m2f(ch[0]-12),st*3.5,'sawtooth',.13,at,700);
+   if(s===0||s===8){ch.forEach(n=>o(a,m2f(n+12),st*5,'triangle',.035,at))}
+   if(s%2===0&&bar%8>=2){const m=MEL[(step/2|0)%32];if(m){o(a,m2f(m),st*1.8,'square',.03,at,2600);o(a,m2f(m),st*1.8,'triangle',.05,at)}}
+   const d=DR[s];if(d==='D'){o(a,100,.25,'sine',.45,at);nz(a,.06,.1,250,'lowpass',at)}else if(d==='t')nz(a,.06,.24,3400,'bandpass',at);else if(d==='k')nz(a,.04,.16,5500,'highpass',at);
+   if(s%2===1)nz(a,.025,.05,9000,'highpass',at);
+   step++}}
+ return{start(at){const a=init();if(!a)return;on=true;t0=at;step=Math.max(0,Math.ceil((a.currentTime-at)/(BEAT/4)));clearInterval(t);t=setInterval(tick,50);tick()},stop(){on=false;clearInterval(t)},
+  ding(c){const a=init();if(!a)return;const f=colOf(c).f*2;o(a,f,.35,'triangle',.22,a.currentTime);o(a,f*1.5,.3,'sine',.08,a.currentTime+.04)},
+  boo(){const a=init();if(!a)return;o(a,180,.3,'sawtooth',.12,a.currentTime,900);o(a,140,.35,'sawtooth',.1,a.currentTime+.08,700)},get on(){return on}};})();
+function music(on){if(!on)BM.stop()}
+let arVoice=null;function lv(){try{arVoice=speechSynthesis.getVoices().find(v=>/^ar/i.test(v.lang))||null}catch(e){}}
+try{speechSynthesis.onvoiceschanged=lv;lv()}catch(e){}
+const PRAISE=['أحسنت','ممتاز','صحيح','جيد جدا'];
+function speakQ(t,rate){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='ar-SA';if(arVoice)u.voice=arVoice;u.rate=rate||1;speechSynthesis.speak(u)}catch(e){}}
+function speak(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/[ً-ْٰ]/g,''));u.lang='ar-SA';if(arVoice)u.voice=arVoice;u.rate=.8;speechSynthesis.speak(u)}catch(e){}}
+
+/* ===== KONFETI ===== */
+const fx=$('#fx'),fc=fx.getContext('2d');let parts=[],raf=0;
+function burst(n=70){fx.width=innerWidth;fx.height=innerHeight;const c=['#ff5d5d','#ffc531','#0e7c7b','#3d7bfd','#9b51e0'];for(let i=0;i<n;i++)parts.push({x:innerWidth/2,y:innerHeight*.5,vx:(Math.random()-.5)*15,vy:-Math.random()*13-3,s:Math.random()*8+5,c:c[i%5],r:Math.random()*6,l:80+Math.random()*40});if(!raf)raf=requestAnimationFrame(dfx)}
+function dfx(){fc.clearRect(0,0,fx.width,fx.height);parts=parts.filter(p=>p.l-->0);parts.forEach(p=>{p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.r+=.12;fc.save();fc.translate(p.x,p.y);fc.rotate(p.r);fc.fillStyle=p.c;fc.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);fc.restore()});raf=parts.length?requestAnimationFrame(dfx):0}
+
+/* ===== PELAYAN ===== */
+const qs=new URLSearchParams(location.search);
+let API=qs.get('api')||'';try{if(API)localStorage.setItem('irm-api',API);else API=localStorage.getItem('irm-api')||''}catch(e){}
+async function api(params){
+  if(!API)throw new Error('Imbas QR di skrin cikgu untuk masuk.');
+  const c=new AbortController(),t=setTimeout(()=>c.abort(),12000);
+  try{const r=await fetch(API+(API.includes('?')?'&':'?')+new URLSearchParams(params),{signal:c.signal});return await r.json()}finally{clearTimeout(t)}
+}
+let G=null; // {bilik,id,nama,seed,n,betul,dijawab,demo,streak}
+const save=()=>{try{if(G&&!G.demo)localStorage.setItem('irm-sesi',JSON.stringify(G))}catch(e){}};
+let sending=false,pending=false;
+async function push(){if(!G||G.demo)return;if(sending){pending=true;return}sending=true;pending=false;
+  try{await api({action:'score',bilik:G.bilik,id:G.id,skor:G.skor||0,betul:G.betul,dijawab:G.dijawab,selesai:G.dijawab>=G.n?1:0,rekod:G.rekod||'',jaw:G.jaw||''})}catch(e){pending=true}
+  sending=false;if(pending)setTimeout(push,1500)}
+
+/* ===== SERTAI ===== */
+$('#inBilik').value=(qs.get('bilik')||'').toUpperCase();
+/* ingat nama kumpulan & kelas (dikongsi antara kedua-dua permainan) */
+try{const m=JSON.parse(localStorage.getItem('ae-kumpulan')||'null');if(m){if(!$('#inNama').value)$('#inNama').value=m.nama||'';if(m.kelas&&!$('#inKelas').value)$('#inKelas').value=m.kelas;if(m.nama){const n=document.createElement('div');n.className='err';n.style.color='#0e7c7b';n.textContent='✓ Nama kumpulan diisi automatik. Semak, kemudian tekan Masuk.';$('#joinErr').before(n)}}}catch(e){}
+
+if($('#inBilik').value)setTimeout(()=>$('#inNama').focus(),300);
+(function(){try{const o=JSON.parse(localStorage.getItem('irm-sesi')||'null');if(o&&o.bilik&&(!qs.get('bilik')||qs.get('bilik').toUpperCase()===o.bilik)&&o.dijawab<o.n){G=o;$('#inBilik').value=o.bilik;{const p=String(o.nama).split(' · ');$('#inNama').value=p[0];if(p[1])$('#inKelas').value=p[1]}$('#btnJoin').textContent='Sambung semula sebagai '+o.nama}}catch(e){}})();
+$('#fJoin').onsubmit=async e=>{
+  e.preventDefault();audio();SFX.horn();
+  const bilik=$('#inBilik').value.trim().toUpperCase(),kelas=$('#inKelas').value,nama=$('#inNama').value.trim()+(kelas?' · '+kelas:'');
+  if(!/^[A-Z0-9]{3,12}$/.test(bilik))return $('#joinErr').textContent='Semak nama bilik (cth: QAMAR27).';
+  if(!$('#inNama').value.trim())return $('#joinErr').textContent='Tulis nama kumpulan.';
+  if(!kelas)return $('#joinErr').textContent='Pilih nama kelas.';
+  $('#btnJoin').disabled=true;$('#joinErr').textContent='Menyambung…';
+  try{
+    if(!(G&&G.bilik===bilik&&G.nama===nama)){
+      const r=await api({action:'join',bilik,kumpulan:nama});if(!r.ok)throw new Error(r.err||'Gagal masuk');
+      G={bilik,id:r.id,nama:r.nama||nama,n:20,betul:0,dijawab:0,streak:0,skor:0,maxc:0};
+    }
+    try{localStorage.setItem('ae-kumpulan',JSON.stringify({nama:$('#inNama').value.trim(),kelas:$('#inKelas').value}))}catch(e){}
+    $('#joinErr').textContent='';save();goWait();
+  }catch(err){$('#joinErr').textContent=err.name==='AbortError'?'Sambungan lambat. Cuba lagi.':err.message}
+  $('#btnJoin').disabled=false;
+};
+$('#btnDemo').onclick=()=>{audio();SFX.horn();G={demo:true,nama:'Latihan',n:12,betul:0,dijawab:0,streak:0,skor:0,maxc:0,seed:Math.floor(Math.random()*1e9)};goWait(true)};
+let pollT=null;
+function goWait(demo){show('sWait');$('#wName').textContent=G.nama;$('#wBilik').textContent=G.demo?'LATIHAN':G.bilik;
+  if(demo){setTimeout(()=>lights(1500),1200);return}
+  clearInterval(pollT);pollT=setInterval(poll,1500);poll()}
+async function poll(){try{const r=await api({action:'state',bilik:G.bilik});if(!r.ok)return;
+  if(r.status==='main'){clearInterval(pollT);G.seed=r.seed;G.n=r.soalan;save();if(G.dijawab>0)return startSong();lights(r.wait||0)}
+  else if(r.status==='tamat'){clearInterval(pollT);finish(true)}}catch(e){}}
+
+/* ===== LAMPU ISYARAT 3-2-1 ===== */
+function lights(waitMs){
+  show('sPlay');music(true);
+  const o=document.createElement('div');o.className='count';o.innerHTML='<div class="lights"><i></i><i></i><i></i></div>';document.body.appendChild(o);
+  const L=[...o.querySelectorAll('i')],t0=performance.now()+Math.max(0,waitMs-3000);let st=-1;
+  (function tick(){const e=performance.now()-t0,s=e<0?-1:Math.min(3,Math.floor(e/1000));
+    if(s!==st){st=s;if(s>=0&&s<3){L[s].className='r';SFX.light(false);speakQ(['ثلاثة','اثنان','واحد'][s],1.1)}if(s===3){L.forEach(x=>x.className='g');SFX.light(true);speakQ('ابدأ',1.1)}}
+    if(e<3500)requestAnimationFrame(tick);else{o.remove();startSong()}})();
+}
+
+/* ===== IRAMA ===== */
+let chart=[],ended=false,rankT=null,T0=0,live=[],sp=0,judged=0,combo=0;
+const INTV=BEAT*2,FALL=BEAT*4,WIN=.5;
+let perf0=0,ac0=0;
+const clk=()=>performance.now()/1000-perf0; /* jam permainan stabil walaupun audio digantung */
+const hitAt=i=>T0+FALL+i*INTV;
+const plain=t=>t.replace(/[ً-ْٰ]/g,'');
+function buildPads(){
+  $('#pads').innerHTML=COLS.map(c=>`<button class="pad ${c.id==='abyadh'?'light':''}" data-c="${c.id}" style="--c:${c.hex};--d:${c.dk}" aria-label="${c.ms}"><span>${c.ms}</span></button>`).join('');
+  $('#pads').querySelectorAll('.pad').forEach(b=>b.addEventListener('pointerdown',e=>{e.preventDefault();b.classList.add('press');setTimeout(()=>b.classList.remove('press'),120);tap(b.dataset.c,b)}));
+}
+function startSong(){
+  show('sPlay');audio();chart=makeChart(G.seed,G.n);buildPads();$('#hN').textContent=G.n;
+  document.documentElement.style.setProperty('--beat',BEAT+'s');
+  sp=judged=G.dijawab||0;combo=G.streak||0;live=[];$('#notes').innerHTML='';
+  perf0=performance.now()/1000;ac0=ac?ac.currentTime:0;
+  T0=clk()+.6-sp*INTV;
+  if(musOn&&ac)BM.start(ac0+T0);
+  hud();
+  if(!G.demo){clearInterval(rankT);rankT=setInterval(updRank,4000);updRank()}
+  requestAnimationFrame(loop);
+}
+function hud(){$('#hS').textContent=G.skor||0;$('#hI').textContent=judged;$('#hCombo').hidden=combo<3;$('#hC').textContent=combo}
+async function updRank(){try{const r=await api({action:'board',bilik:G.bilik});if(!r.ok)return;
+  const g=sortSong(r.groups);const i=g.findIndex(x=>x.id===G.id);$('#hRank').textContent=i>=0?'#'+(i+1)+'/'+g.length:'–';
+  if(r.status==='tamat')finish(true)}catch(e){}}
+function sortSong(g){return g.slice().sort((a,b)=>(b.skor-a.skor)||(b.betul-a.betul))}
+function noteHTML(n){
+  if(n.kind==='kata'){const c=colOf(n.c);return `<span class="ar" lang="ar">${c.ar}</span><small>${c.rm}</small>`}
+  const o=n.o;return `<span class="emo">${o.e}</span><span class="ar" lang="ar" style="font-size:clamp(22px,3.4vw,32px)">${o.ar} · ${o.f?'مَا لَوْنُهَا؟':'مَا لَوْنُهُ؟'}</span><small>Apakah warna ${o.ms}?</small>`;
+}
+function loop(){
+  if(ended)return;
+  const now=clk(),tr=$('#track2'),H=tr.clientHeight,hitY=H*.84;
+  while(sp<G.n&&now>=hitAt(sp)-FALL-.02){
+    const n=chart[sp],el=document.createElement('div');el.className='note';el.innerHTML=noteHTML(n);el.style.borderColor=n.kind==='kata'?'#0d2b2e':'#c9a227';
+    $('#notes').appendChild(el);live.push({i:sp,el,n,done:false});
+    speakQ(n.kind==='kata'?plain(colOf(n.c).ar):plain(n.o.ar)+(n.o.f?' ما لونها':' ما لونه'),1.05);
+    sp++;
+  }
+  for(const L of live){
+    if(L.done)continue;
+    const p=1-(hitAt(L.i)-now)/FALL;L.el.style.top=Math.max(-60,p*hitY)+'px';
+    if(now>hitAt(L.i)+WIN)judge(L,null,null);
+  }
+  live=live.filter(L=>!L.gone);
+  requestAnimationFrame(loop);
+}
+function tap(c,btn){
+  if(ended)return;const now=clk();
+  let best=null;for(const L of live){if(L.done)continue;const dt=now-hitAt(L.i);if(Math.abs(dt)<=WIN&&(!best||Math.abs(dt)<Math.abs(now-hitAt(best.i))))best=L}
+  if(!best){BM.ding(c);return}
+  judge(best,c,now-hitAt(best.i),btn);
+}
+const GR=[[.12,100,'مُمْتَازٌ!','PERFECT','#1fb86a'],[.25,70,'أَحْسَنْتَ!','GREAT','#1d6fe0'],[.5,40,'جَيِّدٌ','GOOD','#c08d00']];
+function judge(L,c,dt,btn){
+  L.done=true;judged++;const n=L.n,ok=c!=null&&c===n.c;let pts=0,g=null;
+  if(ok){g=GR.find(x=>Math.abs(dt)<=x[0])||GR[2];combo++;pts=g[1]+Math.min(combo,10)*5;G.betul++;BM.ding(c);$('.hitline').classList.remove('pulse');void $('.hitline').offsetWidth;$('.hitline').classList.add('pulse')}
+  else{combo=0;BM.boo()}
+  G.skor=(G.skor||0)+pts;G.streak=combo;G.maxc=Math.max(G.maxc||0,combo);
+  G.dijawab=judged;G.rekod=(G.rekod||'')+(ok?'1':'0');G.jaw=(G.jaw?G.jaw+',':'')+(c||'-');
+  L.el.classList.add(ok?'hit':'miss');setTimeout(()=>{L.el.remove();L.gone=true},520);
+  if(btn){btn.classList.add(ok?'ok':'bad');setTimeout(()=>btn.classList.remove('ok','bad'),300)}
+  const cc=colOf(n.c),j=$('#judge');
+  j.innerHTML=ok?`<span class="ar" style="color:${g[4]}">${g[2]}</span><small style="color:${g[4]}">${g[3]} +${pts}${combo>=3?' · 🔥'+combo:''}</small>${n.kind==='pola'?`<small class="ar" style="color:#0d2b2e">${n.o.f?'لَوْنُهَا':'لَوْنُهُ'} ${cc.ar}</small>`:''}`
+    :`<span class="ar" style="color:#ff5d5d">${c?'خَطَأٌ!':'فَاتَ!'}</span><small style="color:#5a7477">${c?'Salah':'Terlepas'} · Jawapan: ${cc.ar} (${cc.ms})</small>`;
+  j.classList.remove('show');void j.offsetWidth;j.classList.add('show');
+  if(ok&&combo>0&&combo%5===0){burst(70);SFX.nitro();speakQ(PRAISE[Math.floor(Math.random()*PRAISE.length)],1.1)}
+  hud();save();push();
+  if(judged>=G.n)setTimeout(()=>finish(false),1400);
+}
+async function finish(byTeacher){
+  if(ended)return;ended=true;clearInterval(rankT);clearInterval(pollT);BM.stop();
+  show('sEnd');SFX.win();setTimeout(()=>speakQ('مبروك',.9),900);SFX.cheer();burst(160);
+  const done=G.dijawab>=G.n,acc=G.dijawab?Math.round(G.betul/G.dijawab*100):0;
+  $('#eIcon').textContent=done?'🎵':'⏱️';
+  $('#eTitle').innerHTML=done?'<span class="ar">مَبْرُوْكٌ!</span><br><small style="font-size:18px">Lagu tamat! Tahniah '+esc(G.nama)+'!</small>':'<span class="ar">اِنْتَهَى الْوَقْتُ</span><br><small style="font-size:18px">Cikgu sudah tamatkan permainan</small>';
+  $('#eScore').textContent=(G.skor||0)+' mata';
+  $('#eSub').textContent=`Betul ${G.betul} daripada ${G.n} nota · Ketepatan ${acc}% · Combo terbaik ${G.maxc||0}`;
+  if(G.demo){$('#eNote').innerHTML='Itu latihan sahaja. <button class="btn" onclick="location.reload()">Kembali</button>';return}
+  try{localStorage.removeItem('irm-sesi')}catch(e){}
+  push();
+  const rk=async()=>{try{const r=await api({action:'board',bilik:G.bilik});if(!r.ok)return;const g=sortSong(r.groups);
+    $('#eRank').innerHTML=g.map((x,i)=>`<div class="${x.id===G.id?'me':''}"><span>#${i+1} ${x.selesai?'🎵 ':''}${esc(x.nm)}</span><span>${x.skor} mata</span></div>`).join('');
+    if(r.status==='tamat'){clearInterval(t);$('#eNote').textContent=g[0]&&g[0].id===G.id?'🏆 Kumpulan anda JOHAN! 🏆':'Johan: '+(g[0]?g[0].nm:'-');if(g[0]&&g[0].id===G.id){burst(200);SFX.win()}}}catch(e){}};
+  const t=setInterval(rk,3000);rk();
+}
+$('#bMus').onclick=()=>{musOn=!musOn;$('#bMus').style.opacity=musOn?1:.4;if(!musOn)BM.stop();else if(!ended&&$('#sPlay').classList.contains('on')&&ac)BM.start(ac0+T0)};
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&ac)ac.resume().catch(()=>{})});
+}
+</script>
+</body>
+</html>
