@@ -338,6 +338,7 @@ async function reportHTML(){
   const body=head+sum+groups+`<div class="ft">Laporan dijana secara automatik · Arabic e-Camp 2026 · SK Bukit Mutiara</div>`;
   return {css,body};
 }
+window.QL=QL;window.LL=LL;window.reportHTML=reportHTML;
 $('#bPdf').onclick=async()=>{const b=$('#bPdf');b.disabled=true;const o=b.innerHTML;b.textContent='Menjana PDF…';
   try{const {css,body}=await reportHTML();const el=document.createElement('div');el.innerHTML=`<style>${css}</style>${body}`;el.style.cssText='width:190mm;padding:0 4mm;background:#fff';
     await html2pdf().set({margin:[10,8,12,8],filename:'Laporan-Arabic-e-Camp-SKBM.pdf',image:{type:'jpeg',quality:.96},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy'],avoid:'tr'}}).from(el).save()}
