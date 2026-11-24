@@ -230,7 +230,7 @@ function musicTick(){if(!ac)return;while(nextT<ac.currentTime+.3){const t=nextT-
   if(dr==='D')tone(110,.2,'sine',.24,t,musG,50);if(dr==='t')noise(.06,.2,3200,t,musG);if(dr==='k')noise(.04,.1,5000,t,musG);
   nextT+=.12;step++}}
 /* ===== MUZIK IRAMA (maqam Ajam ceria + darbuka, 100 BPM) ===== */
-const BPM=100,BEAT=60/BPM;
+const BPM=90,BEAT=60/BPM;
 const BM=(()=>{let bus=null,t=null,on=false,t0=0,step=0,nb=null;
  const m2f=m=>440*Math.pow(2,(m-69)/12);
  function init(){const a=audio();if(!a)return null;if(!bus){const c=a.createDynamicsCompressor();c.threshold.value=-16;bus=a.createGain();bus.gain.value=.5;bus.connect(c);c.connect(a.destination);nb=a.createBuffer(1,a.sampleRate*.6,a.sampleRate);const d=nb.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}return a}
@@ -322,7 +322,7 @@ function lights(waitMs){
 
 /* ===== IRAMA ===== */
 let chart=[],ended=false,rankT=null,T0=0,live=[],sp=0,judged=0,combo=0;
-const INTV=BEAT*2,FALL=BEAT*4,WIN=.5;
+const INTV=BEAT*4,FALL=BEAT*8,WIN=.95; /* perlahan: nota ~5.3 s di skrin, setiap ~2.7 s */
 let perf0=0,ac0=0;
 const clk=()=>performance.now()/1000-perf0; /* jam permainan stabil walaupun audio digantung */
 const hitAt=i=>T0+FALL+i*INTV;
@@ -374,7 +374,7 @@ function tap(c,btn){
   if(!best){BM.ding(c);return}
   judge(best,c,now-hitAt(best.i),btn);
 }
-const GR=[[.12,100,'مُمْتَازٌ!','PERFECT','#1fb86a'],[.25,70,'أَحْسَنْتَ!','GREAT','#1d6fe0'],[.5,40,'جَيِّدٌ','GOOD','#c08d00']];
+const GR=[[.3,100,'مُمْتَازٌ!','PERFECT','#1fb86a'],[.6,70,'أَحْسَنْتَ!','GREAT','#1d6fe0'],[.95,40,'جَيِّدٌ','GOOD','#c08d00']];
 function judge(L,c,dt,btn){
   L.done=true;judged++;const n=L.n,ok=c!=null&&c===n.c;let pts=0,g=null;
   if(ok){g=GR.find(x=>Math.abs(dt)<=x[0])||GR[2];combo++;pts=g[1]+Math.min(combo,10)*5;G.betul++;BM.ding(c);$('.hitline').classList.remove('pulse');void $('.hitline').offsetWidth;$('.hitline').classList.add('pulse')}
