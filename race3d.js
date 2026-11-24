@@ -73,8 +73,8 @@ function label(text, color, rank) {
   let t = text; while (g.measureText(t).width > 370 && t.length > 3) t = t.slice(0, -2);
   if (t !== text) t += '…'; g.fillText(t, 126, 66);
   const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
-  const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, depthTest: false, transparent: true }));
-  sp.scale.set(7.6, 1.9, 1); sp.renderOrder = 10; return sp;
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, depthTest: false, transparent: true, sizeAttenuation: false }));
+  sp.scale.set(.12, .03, 1); sp.renderOrder = 10; return sp;
 }
 
 function palm(x, z, s) {
@@ -202,8 +202,8 @@ function popup(c, ok) {
   g.fillStyle = '#fff'; g.strokeStyle = col; g.lineWidth = 8; const rx = 196, rw = 300; g.beginPath(); g.roundRect ? g.roundRect(rx, 40, rw, 112, 40) : g.rect(rx, 40, rw, 112); g.fill(); g.stroke();
   g.fillStyle = col; g.font = '900 70px Arial'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.direction = 'rtl'; g.fillText(ok ? 'صَحِيحٌ!' : 'خَطَأٌ!', rx + rw / 2, 100);
   const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace;
-  const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: t, depthTest: false, transparent: true })); sp.renderOrder = 12;
-  sp.scale.set(6.4, 2.4, 1); sp.position.set(0, 4.6, 0); c.obj.add(sp);
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: t, depthTest: false, transparent: true, sizeAttenuation: false })); sp.renderOrder = 12;
+  sp.scale.set(.075, .028, 1); sp.position.set(0, 4.6, 0); c.obj.add(sp);
   R.pops.push({ sp, c, life: 1 });
   if (!ok) {
     c.wob = 1;
@@ -232,20 +232,22 @@ function loop() {
     c.obj.position.y = Math.abs(moved) > .005 ? Math.sin(now / 45) * .03 : 0;
     lead = Math.max(lead, c.x);
   }
-  R.pops = R.pops.filter(p => { p.life -= dt * .75; p.sp.position.y = 4.6 + (1 - p.life) * 2.2; p.sp.material.opacity = Math.min(1, p.life * 2.2); const s = p.life > .85 ? 1 + (p.life - .85) * 3 : 1; p.sp.scale.set(6.4 * s, 2.4 * s, 1); if (p.life <= 0) { p.c.obj.remove(p.sp); p.sp.material.map.dispose(); return false; } return true; });
+  R.pops = R.pops.filter(p => { p.life -= dt * .75; p.sp.position.y = 4.6 + (1 - p.life) * 2.2; p.sp.material.opacity = Math.min(1, p.life * 2.2); const s = p.life > .85 ? 1 + (p.life - .85) * 3 : 1; p.sp.scale.set(.075 * s, .028 * s, 1); if (p.life <= 0) { p.c.obj.remove(p.sp); p.sp.material.map.dispose(); return false; } return true; });
   for (const id in R.cars) { const c = R.cars[id]; if (c.wob > 0) { c.wob = Math.max(0, c.wob - dt * .9); c.obj.rotation.y = Math.sin(now / 60) * .35 * c.wob; } else c.obj.rotation.y = 0; }
   R.fire = R.fire.filter(f => { f.life -= dt * 1.6; f.m.position.x += f.v * dt; if (f.up) f.m.position.y += dt * 1.2; f.m.material.opacity = Math.max(0, f.life); f.m.scale.setScalar(1 + (1 - f.life) * 1.5); if (f.life <= 0) { f.c.obj.remove(f.m); f.m.geometry.dispose(); return false; } return true; });
   if (R.crowd) { const { mesh, base } = R.crowd, m4 = new THREE.Matrix4(), t = now / 1000; base.forEach((b, i) => { m4.setPosition(b[0], b[1] + Math.max(0, Math.sin(t * 5 + b[3])) * .22, b[2]); mesh.setMatrixAt(i, m4); }); mesh.instanceMatrix.needsUpdate = true; }
   const n = Math.max(2, R.built || 2);
   let mn = 1e9, mx = -1e9; for (const id in R.cars) { mn = Math.min(mn, R.cars[id].x); mx = Math.max(mx, R.cars[id].x); }
   if (mn > mx) { mn = 0; mx = 10; }
-  const half = R.half || 6, spread = mx - mn;
-  const tx = (mn + mx) / 2, dist = 1 + Math.max(0, spread - 8) / 26; /* jauhkan kamera bila kereta berselerak supaya SEMUA nampak */
-  R.camX += (tx - R.camX) * Math.min(1, dt * 1.2);
-  R.camD = (R.camD || dist) + (dist - (R.camD || dist)) * Math.min(1, dt * 1.2);
-  const k = R.camD;
-  R.cam.position.set(R.camX - 12 * k, (10 + n * .9) * k, (half + 15 + n * 1.2) * k);
-  R.cam.lookAt(R.camX + 2, 0, -half * .3);
+  const half = R.half || 6, spread = Math.max(24, mx - mn + 14);
+  const tx = (mn + mx) / 2 + 2, D = spread / 2 * 1.45 + half * .6 + 6; /* bingkai SEMUA kereta (sisi, seperti siaran TV) */
+  R.camX += (tx - R.camX) * Math.min(1, dt * 1.5);
+  R.camD = (R.camD || D) + (D - (R.camD || D)) * Math.min(1, dt * 1.5);
+  const d = R.camD;
+  R.cam.position.set(R.camX - d * .1, d * .95, half + d * .62);
+  R.cam.lookAt(R.camX, 0, -half * .2);
+  R.scene.fog.near = d * 1.6; R.scene.fog.far = d * 4 + 60;
+  const cs = Math.max(1, Math.min(2.2, d / 32)); for (const id in R.cars) R.cars[id].obj.scale.setScalar(cs);
   R.sun.position.set(R.camX + 30, 60, 40); R.sun.target.position.set(R.camX, 0, 0);
   R.renderer.render(R.scene, R.cam);
 }
