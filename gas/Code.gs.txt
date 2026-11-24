@@ -7,7 +7,7 @@
 const GAME_URL = 'https://arabic-ecamp.github.io/isyarat-arab/';
 const SHEET_ID = '1HilszcEAyL-bpDXfjJ5n41CwzqvDJbQPGNiKuo-tuE4'; // Google Sheet markah
 
-const BILIK_H = ['bilik', 'status', 'soalan', 'seed', 'mulaMs', 'dicipta', 'kunci'];
+const BILIK_H = ['bilik', 'status', 'soalan', 'seed', 'mulaMs', 'dicipta', 'kunci', 'jenis'];
 const SKOR_H  = ['bilik', 'id', 'kumpulan', 'skor', 'betul', 'dijawab', 'selesai', 'dikemaskini', 'rekod'];
 
 function doGet(e) {
@@ -31,7 +31,7 @@ function sh_(name, head) {
 function findRoom_(code) {
   const v = sh_('Bilik', BILIK_H).getDataRange().getValues();
   for (let i = v.length - 1; i >= 1; i--) {
-    if (String(v[i][0]) === code) return { row: i + 1, status: v[i][1], soalan: Number(v[i][2]), seed: Number(v[i][3]), mulaMs: Number(v[i][4]) || 0, kunci: String(v[i][6] || '') };
+    if (String(v[i][0]) === code) return { row: i + 1, status: v[i][1], soalan: Number(v[i][2]), seed: Number(v[i][3]), mulaMs: Number(v[i][4]) || 0, kunci: String(v[i][6] || ''), jenis: String(v[i][7] || ''), dicipta: v[i][5] ? new Date(v[i][5]).getTime() : 0 };
   }
   return null;
 }
@@ -44,8 +44,16 @@ function groups_(code) {
 /* ---------- API untuk iPad murid ---------- */
 function api_(p) {
   try {
+    if (p.action === 'rooms') {
+      const rv = sh_('Bilik', BILIK_H).getDataRange().getValues().slice(1);
+      const gv = sh_('Skor', SKOR_H).getDataRange().getValues().slice(1);
+      const cnt = {}; gv.forEach(x => { const c = String(x[0]); cnt[c] = (cnt[c] || 0) + 1; });
+      const list = rv.map(x => ({ bilik: String(x[0]), status: x[1], soalan: Number(x[2]), dicipta: x[5] ? new Date(x[5]).getTime() : 0, jenis: String(x[7] || ''), kumpulan: cnt[String(x[0])] || 0 }))
+        .filter(x => x.kumpulan > 0).sort((a, b) => b.dicipta - a.dicipta).slice(0, 60);
+      return json_({ ok: true, rooms: list });
+    }
     if (p.action === 'create') {
-      const o = createRoom(p.soalan);
+      const o = createRoom(p.soalan, p.jenis);
       return json_({ ok: true, bilik: o.bilik, kunci: o.kunci, api: o.api, game: o.game });
     }
     const code = String(p.bilik || '').toUpperCase().trim();
@@ -100,13 +108,13 @@ function api_(p) {
 }
 
 /* ---------- Fungsi guru (dipanggil dari Papan.html) ---------- */
-function createRoom(soalan) {
+function createRoom(soalan, jenis) {
   const s = sh_('Bilik', BILIK_H);
   const NAMA = ['QAMAR', 'SHAMS', 'NAJM', 'NUR', 'FAJR', 'BADR', 'ZAHRAH', 'WARDAH', 'LULU', 'ASAD', 'SAQR', 'JAMAL', 'TAMR', 'ZAITUN', 'QALAM', 'KITAB', 'SALAM', 'HILAL', 'BARQ', 'NAHR'];
   let code, cuba = 0;
   do { code = NAMA[Math.floor(Math.random() * NAMA.length)] + (10 + Math.floor(Math.random() * 90)); cuba++; } while (findRoom_(code) && cuba < 60);
   const kunci = Utilities.getUuid().replace(/-/g, '').slice(0, 12);
-  s.appendRow([code, 'menunggu', Number(soalan) || 12, Math.floor(Math.random() * 1e9), 0, new Date(), kunci]);
+  s.appendRow([code, 'menunggu', Number(soalan) || 12, Math.floor(Math.random() * 1e9), 0, new Date(), kunci, String(jenis || '')]);
   return { bilik: code, kunci: kunci, api: ScriptApp.getService().getUrl(), game: GAME_URL };
 }
 function startRoom(code) {
