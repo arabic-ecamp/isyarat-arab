@@ -116,6 +116,14 @@ main{max-width:1280px}
 .pod div{border-radius:18px 18px 8px 8px}
 footer{font-weight:600}
 @media(max-width:900px){.hdr-in{grid-template-columns:auto minmax(0,1fr)}.byline{grid-column:1/-1;justify-content:center}.setwrap{grid-template-columns:1fr}}
+.navbar{max-width:1280px;margin:12px auto 0;padding:0 24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.navbar a,.navbar button{font:inherit;font-weight:700;font-size:14px;text-decoration:none;color:#0b2427;background:#fff;border:1px solid #e3ebe9;border-radius:12px;padding:9px 14px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 4px 12px #0b24270d}
+.navbar a:hover{border-color:#0b6e6d;color:#0b6e6d}
+.navbar .home{background:#0b2427;color:#fff;border-color:#0b2427}
+.navbar .next{background:linear-gradient(135deg,#0b6e6d,#11908e);color:#fff;border-color:#0b6e6d;margin-left:auto}
+.navbar .steps{display:flex;gap:6px;flex-wrap:wrap}
+.navbar .steps a.cur{background:#fbf1d3;border-color:#c9a227;color:#5a4300}
+.navbar .dis{opacity:.35;pointer-events:none}
 </style>
 <style>
 .sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:16px}
@@ -171,6 +179,7 @@ footer{font-weight:600}
   <div class="ttl"><span class="arL">النَّتِيجَةُ النِّهَائِيَّةُ</span><small>RUMUSAN JOHAN KESELURUHAN · 3 PERMAINAN</small></div>
   <div class="byline"><div><span class="arL">إِعْدَادُ: الْأُسْتَاذ مُحَمَّد شَزْوَان عَبْدُ الرَّحْمٰن</span><small>Oleh Ustaz Mohd Syazwan Ab Rahman</small></div><img src="ustaz.jpg" alt="Ustaz Mohd Syazwan Ab Rahman" onerror="this.style.display='none'"></div>
 </div></header>
+<nav class="navbar" aria-label="Navigasi permainan"><a class="home" href="guru.html" data-nav>🏠 <span class="arL" style="font-size:16px">الرَّئِيسِيَّةُ</span> Utama</a><a href="papan-irama.html" class="" data-nav>← Sebelum</a><div class="steps"><a href="papan-lumba.html" class="" data-nav>Stesen 1 · Lumba</a><a href="papan.html" class="" data-nav>Stesen 2 · Isyarat Tangan</a><a href="papan-irama.html" class="" data-nav>Stesen 3 · Irama Warna</a><a href="rumusan.html" class="cur" data-nav>Rumusan Johan</a></div><a class="next" href="guru.html" data-nav>Selesai · Kembali ke Utama →</a></nav>
 <main>
   <div class="bar">
     <h1 class="bi" style="margin:0"><span class="arL">تَرْتِيبُ الْفِرَقِ الْعَامُّ</span><span class="ms">Kedudukan keseluruhan kumpulan · dikira automatik</span></h1>
@@ -381,6 +390,11 @@ $('#bDoc').onclick=async()=>{const {css,body}=await reportHTML();
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿',html],{type:'application/msword'}));a.download='Laporan-Arabic-e-Camp-SKBM.doc';document.body.appendChild(a);a.click();a.remove()};
 $('#bClose').onclick=()=>{$('#show').classList.remove('on');try{speechSynthesis.cancel()}catch(e){}};
 }
+</script>
+<script>
+document.addEventListener('click',e=>{const a=e.target.closest('[data-nav]');if(!a)return;
+  const live=document.querySelector('#sLive.on,#sLobby.on');
+  if(live&&!confirm('Permainan/bilik sedang dibuka. Keluar ke halaman lain? (Markah yang sudah masuk tetap disimpan)'))e.preventDefault()});
 </script>
 </body>
 </html>

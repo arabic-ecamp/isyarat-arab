@@ -130,6 +130,14 @@ footer{font-weight:600}
 .eqn b{color:var(--c)}
 .eqb.lead .eqv{box-shadow:0 0 0 3px #c9a227,0 0 24px #c9a22788}
 .stagefl{position:relative;margin-top:10px;text-align:center;font-weight:800;font-size:13px;letter-spacing:2px;color:#5d7376}.stagefl .arL{font-size:18px;color:var(--teal)}
+.navbar{max-width:1280px;margin:12px auto 0;padding:0 24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.navbar a,.navbar button{font:inherit;font-weight:700;font-size:14px;text-decoration:none;color:#0b2427;background:#fff;border:1px solid #e3ebe9;border-radius:12px;padding:9px 14px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 4px 12px #0b24270d}
+.navbar a:hover{border-color:#0b6e6d;color:#0b6e6d}
+.navbar .home{background:#0b2427;color:#fff;border-color:#0b2427}
+.navbar .next{background:linear-gradient(135deg,#0b6e6d,#11908e);color:#fff;border-color:#0b6e6d;margin-left:auto}
+.navbar .steps{display:flex;gap:6px;flex-wrap:wrap}
+.navbar .steps a.cur{background:#fbf1d3;border-color:#c9a227;color:#5a4300}
+.navbar .dis{opacity:.35;pointer-events:none}
 </style>
 </head>
 <body>
@@ -139,6 +147,7 @@ footer{font-weight:600}
   <div class="ttl"><span class="arL">لَحْنُ الْأَلْوَانِ</span><small>IRAMA WARNA · UNIT 3 AL-ALWAN HAULANA</small></div>
   <div class="byline"><div><span class="arL">إِعْدَادُ: الْأُسْتَاذ مُحَمَّد شَزْوَان عَبْدُ الرَّحْمٰن</span><small>Oleh Ustaz Mohd Syazwan Ab Rahman</small></div><img src="ustaz.jpg" alt="Ustaz Mohd Syazwan Ab Rahman" onerror="this.style.display='none'"><button class="mbtn" id="bMus">🎵</button></div>
 </div></header>
+<nav class="navbar" aria-label="Navigasi permainan"><a class="home" href="guru.html" data-nav>🏠 <span class="arL" style="font-size:16px">الرَّئِيسِيَّةُ</span> Utama</a><a href="papan.html" class="" data-nav>← Sebelum</a><div class="steps"><a href="papan-lumba.html" class="" data-nav>Stesen 1 · Lumba</a><a href="papan.html" class="" data-nav>Stesen 2 · Isyarat Tangan</a><a href="papan-irama.html" class="cur" data-nav>Stesen 3 · Irama Warna</a><a href="rumusan.html" class="" data-nav>Rumusan Johan</a></div><a class="next" href="rumusan.html" data-nav>Seterusnya: Rumusan Johan →</a></nav>
 <main>
   <section class="scr on" id="sSet"><div class="setwrap">
     <div><span class="bi"><span class="arL">أَنْشِئْ غُرْفَةً جَدِيْدَةً</span><span class="ms">Cipta pentas baharu · semua kumpulan bermain irama serentak di iPad</span></span><div class="feat"><div><i>🎵</i><div><span class="arL">اِسْتَمِعْ وَاضْغَطْ</span><small>Dengar warna, ketuk ikut rentak lagu</small></div></div><div><i>🔥</i><div><span class="arL">سِلْسِلَةٌ</span><small>Combo &amp; gred Perfect · Great · Good</small></div></div><div><i>🍎</i><div><span class="arL">مَا لَوْنُهُ؟</span><small>Pola ayat لَوْنُهُ / لَوْنُهَا</small></div></div></div></div>
@@ -299,6 +308,11 @@ function winner(b){
   setTimeout(()=>{try{speechSynthesis.cancel()}catch(e){}announceAr('مبروك! الفائز هو '+w.map(x=>x.nm).join(' و '),()=>announce(w.length>1?'Keputusan seri! Tahniah '+w.map(x=>x.nm).join(' dan ')+'!':'Tahniah! Pemenangnya ialah '+w[0].nm+', dengan '+w[0].skor+' mata!'))},1300);
 }
 }
+</script>
+<script>
+document.addEventListener('click',e=>{const a=e.target.closest('[data-nav]');if(!a)return;
+  const live=document.querySelector('#sLive.on,#sLobby.on');
+  if(live&&!confirm('Permainan/bilik sedang dibuka. Keluar ke halaman lain? (Markah yang sudah masuk tetap disimpan)'))e.preventDefault()});
 </script>
 </body>
 </html>

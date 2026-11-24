@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Arabic e-Camp · Halaman Utama Guru</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Fredoka:wght@500;600;700&family=Noto+Naskh+Arabic:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{--ink:#0d2b2e;--teal:#0e7c7b;--sun:#ffc531;--coral:#ff5d5d;--ok:#1fb86a;--line:#d6ece8;--mut:#5a7477}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:linear-gradient(160deg,#e9fbf7 0%,#fff7df 55%,#ffe9e6 100%);color:var(--ink);font:18px/1.45 Fredoka,system-ui,sans-serif}
+button{font:inherit;cursor:pointer;border:0}
+.top{background:var(--teal);color:#fff;padding:12px 24px;display:flex;align-items:center;gap:12px}
+.cred{display:flex;align-items:center;gap:10px;text-align:left}.cred img{width:46px;height:46px;object-fit:contain;background:#fff;border-radius:12px;padding:3px}.cred b{display:block;font-size:15px;line-height:1.2}.cred span{font-size:13px;opacity:.85}
+.top>b{font-size:22px;flex:1}
+.top button{background:#ffffff22;color:#fff;border:1px solid #ffffff55;border-radius:999px;padding:8px 16px}
+main{max-width:1240px;margin:0 auto;padding:24px}
+.scr{display:none}.scr.on{display:block;animation:f .4s}
+@keyframes f{from{opacity:0;transform:translateY(10px)}}
+h1{font-size:clamp(34px,4.5vw,54px);line-height:1.05;margin:0 0 10px}
+.mut{color:var(--mut)}
+.card{background:#fff;border:1px solid var(--line);border-radius:28px;padding:24px;box-shadow:0 18px 50px #0e7c7b1f}
+.seg{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 20px}
+.seg button{background:#fff;border:2px solid var(--line);border-radius:16px;padding:12px 22px;font-weight:600;font-size:20px}
+.seg button.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.btn{background:var(--teal);color:#fff;border-radius:18px;padding:14px 30px;font-weight:700;font-size:22px;box-shadow:0 6px 0 #09595a}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #09595a}
+.btn.sun{background:var(--sun);color:var(--ink);box-shadow:0 6px 0 #d29d10}
+.btn.red{background:var(--coral);box-shadow:0 6px 0 #c63c3c}
+.btn:disabled{opacity:.5}
+.lobby{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:24px;align-items:start}
+.qrbox{text-align:center}
+#qr{display:inline-block;padding:16px;background:#fff;border-radius:20px;border:4px solid var(--sun)}
+#qr img,#qr canvas{width:min(330px,70vw)!important;height:auto!important}
+.arname{font-family:'Noto Naskh Arabic',serif;font-size:44px;font-weight:700;color:#0d2b2e;line-height:1.3}
+.code{font-size:clamp(44px,6vw,72px);font-weight:700;letter-spacing:4px;color:var(--teal);line-height:1;margin:10px 0}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 20px;min-height:50px}
+.chips span{background:#fff;border:2px solid var(--c);color:var(--c);border-radius:999px;padding:8px 16px;font-weight:700;animation:pop .4s cubic-bezier(.3,1.6,.6,1)}
+@keyframes pop{from{transform:scale(.3)}}
+.warn{background:#fff0f0;color:#b02a2a;border-radius:14px;padding:12px 16px;margin-bottom:14px}
+.lb{display:grid;gap:10px}
+.row{position:relative;display:grid;grid-template-columns:60px minmax(0,1fr) 110px;align-items:center;gap:14px;background:#fff;border-radius:20px;padding:10px 16px;border:2px solid var(--line);transition:transform .4s}
+.row .rk{font-size:30px;font-weight:700;color:var(--mut);text-align:center}
+.row .nm{font-weight:700;font-size:22px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .bar{height:12px;background:#eef6f5;border-radius:999px;overflow:hidden;margin-top:6px}
+.row .bar i{display:block;height:100%;background:var(--c);border-radius:999px;transition:width .6s}
+.row .pt{font-size:38px;font-weight:700;color:var(--c);text-align:right}
+.dots{display:flex;flex-wrap:wrap;gap:4px;margin:6px 0 2px}.dots .d{width:24px;height:24px;border-radius:7px;background:#eef3f2;color:#9aaeb0;font-style:normal;font-size:11px;font-weight:700;display:grid;place-items:center}.dots .d.y{background:#1fb86a;color:#fff;font-size:14px}.dots .d.n{background:#ff5d5d;color:#fff;font-size:14px}
+.st{font-size:14px;font-weight:600;background:#eef6f5;color:#0e7c7b;border-radius:999px;padding:2px 10px;margin-left:8px}.st.ok{background:#e8faf0;color:#1fb86a}
+.row .pt small{display:block;font-size:13px;color:#5a7477;font-weight:600;text-align:right}
+.row .pr{font-size:14px;color:var(--mut)}
+.row.first{border-color:var(--sun);background:#fffaeb}
+.head{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.win{text-align:center;padding:30px 10px}
+.win .tro{font-size:120px;animation:b 1s ease-in-out infinite alternate}
+@keyframes b{to{transform:translateY(-14px) rotate(-5deg)}}
+.win .who{font-size:clamp(44px,7vw,88px);font-weight:700;line-height:1.05}
+.pod{display:flex;justify-content:center;align-items:flex-end;gap:14px;margin:26px 0}
+.pod div{width:170px;border-radius:20px 20px 8px 8px;background:var(--c);color:#fff;padding:14px;font-weight:700;display:flex;flex-direction:column;justify-content:flex-end;box-shadow:0 10px 30px #0003}
+.pod b{font-size:40px}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:9;width:100%;height:100%}
+footer{text-align:center;color:var(--mut);font-size:14px;padding:16px}
+@media(max-width:800px){.lobby{grid-template-columns:1fr}}
+
+/* ===== TEMA ELEGAN KORPORAT ===== */
+:root{--ink:#0b2427;--teal:#0b6e6d;--teal2:#11908e;--gold:#c9a227;--gold2:#e8c766;--mut:#5d7376;--line:#e3ebe9;--sun:#e8c766}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:#f5f8f7 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%230e7c7b' stroke-opacity='.07' stroke-width='1.2'%3E%3Cpath d='M40 4 L50 30 L76 40 L50 50 L40 76 L30 50 L4 40 L30 30 Z'/%3E%3Crect x='22' y='22' width='36' height='36' transform='rotate(45 40 40)'/%3E%3Ccircle cx='40' cy='40' r='8'/%3E%3C/g%3E%3C/svg%3E");color:var(--ink)}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(900px 500px at 100% 0,#d9f1ec 0,transparent 60%),radial-gradient(800px 500px at 0 100%,#fbefd0 0,transparent 55%)}
+.ar,.arL{font-family:'Noto Naskh Arabic',serif;direction:rtl}
+.hdr{position:sticky;top:0;z-index:5;background:#ffffffe8;backdrop-filter:blur(14px);border-bottom:1px solid var(--line);box-shadow:0 6px 24px #0b24270d}
+.hdr-in{max-width:1280px;margin:0 auto;padding:10px 24px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:18px}
+.school{display:flex;align-items:center;gap:12px}
+.school img{width:54px;height:54px;object-fit:contain}
+.school b{display:block;font-size:15px;font-weight:800;letter-spacing:.2px}
+.school span{font-size:12.5px;color:var(--mut);font-weight:600}
+.ttl{text-align:center}
+.ttl .arL{font-size:26px;font-weight:700;line-height:1.25;color:var(--teal)}
+.ttl small{display:block;font-size:13px;color:var(--mut);font-weight:700;letter-spacing:.3px}
+.byline{display:flex;align-items:center;gap:12px}
+.byline img{width:54px;height:54px;border-radius:50%;object-fit:cover;border:3px solid var(--gold);box-shadow:0 0 0 3px #fff,0 6px 16px #0003}
+.byline .arL{font-size:15px;font-weight:700;line-height:1.35;text-align:right}
+.byline small{display:block;font-size:11.5px;color:var(--mut);font-weight:600;text-align:right}
+.mbtn{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-weight:700;color:var(--teal)}
+main{max-width:1280px}
+.bi{display:block;text-align:left}.bi .arL{display:block;text-align:left;font-size:clamp(30px,3.6vw,44px);font-weight:700;line-height:1.3;color:var(--ink)}
+.bi .ms{display:block;font-size:15px;color:var(--mut);font-weight:600;margin-top:2px}
+.lbl2 .arL{font-size:22px;font-weight:700}.lbl2 .ms{font-size:13px;color:var(--mut);font-weight:600}
+.card{border-radius:24px;border:1px solid var(--line);box-shadow:0 20px 60px #0b24271a;background:#fff}
+.btn{font-family:inherit;border-radius:14px;background:linear-gradient(135deg,var(--teal),var(--teal2));box-shadow:0 10px 24px #0b6e6d40;font-size:18px;padding:14px 26px}
+.btn:active{transform:translateY(2px);box-shadow:0 4px 12px #0b6e6d40}
+.btn.sun{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#2b2100;box-shadow:0 10px 24px #c9a22745}
+.btn.red{background:linear-gradient(135deg,#d94848,#ff6b6b);box-shadow:0 10px 24px #d9484840}
+.btn .arL{font-size:20px;margin-left:8px}
+.seg button{border-radius:12px;font-family:inherit;font-weight:700;border:1.5px solid var(--line)}
+.seg button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.setwrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:center}
+.feat{display:grid;gap:10px;margin-top:18px}
+.feat>div{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.feat>div>i{font-style:normal;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:#e9f5f3;font-size:20px;flex:none}
+.feat .arL{font-size:18px;font-weight:700;display:block}.feat small{color:var(--mut);font-weight:600}
+#qr{border:none;padding:18px;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(135deg,var(--gold),var(--gold2),var(--teal)) border-box;border:5px solid transparent;border-radius:24px}
+.code{color:var(--ink);font-family:'Plus Jakarta Sans',sans-serif;font-weight:800}
+.arname{color:var(--teal)}
+.chips span{font-family:inherit;border-width:1.5px;background:#fff;box-shadow:0 4px 12px #0001}
+.row{border-radius:18px;border:1px solid var(--line);box-shadow:0 6px 18px #0b24270a;padding:12px 18px}
+.row .rk{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-size:20px;background:#eef3f2;color:var(--mut);margin:auto}
+.row.r1 .rk{background:linear-gradient(135deg,#f6d365,#c9a227);color:#3a2b00;box-shadow:0 6px 16px #c9a22766}
+.row.r2 .rk{background:linear-gradient(135deg,#eceff1,#b0bec5);color:#263238}
+.row.r3 .rk{background:linear-gradient(135deg,#f3c9a1,#cd7f32);color:#3b1f00}
+.row.first{border-color:var(--gold);background:linear-gradient(90deg,#fffaf0,#fff)}
+.row .nm{font-family:inherit;font-weight:800}
+.row .pt{font-family:inherit;font-weight:800}
+.head h1{font-family:inherit}
+.win .who{font-family:inherit;font-weight:800}
+.pod div{border-radius:18px 18px 8px 8px}
+footer{font-weight:600}
+@media(max-width:900px){.hdr-in{grid-template-columns:auto minmax(0,1fr)}.byline{grid-column:1/-1;justify-content:center}.setwrap{grid-template-columns:1fr}}
+.navbar{max-width:1280px;margin:12px auto 0;padding:0 24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.navbar a,.navbar button{font:inherit;font-weight:700;font-size:14px;text-decoration:none;color:#0b2427;background:#fff;border:1px solid #e3ebe9;border-radius:12px;padding:9px 14px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 4px 12px #0b24270d}
+.navbar a:hover{border-color:#0b6e6d;color:#0b6e6d}
+.navbar .home{background:#0b2427;color:#fff;border-color:#0b2427}
+.navbar .next{background:linear-gradient(135deg,#0b6e6d,#11908e);color:#fff;border-color:#0b6e6d;margin-left:auto}
+.navbar .steps{display:flex;gap:6px;flex-wrap:wrap}
+.navbar .steps a.cur{background:#fbf1d3;border-color:#c9a227;color:#5a4300}
+.navbar .dis{opacity:.35;pointer-events:none}
+</style>
+<style>
+.hero2{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:24px;align-items:center;margin-top:8px}
+.hero2 h1{margin:0}
+.steps2{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:22px}
+.gcard2{position:relative;display:flex;flex-direction:column;gap:8px;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 18px 50px #0b24271a;transition:transform .15s,box-shadow .15s;border-top:6px solid var(--c)}
+.gcard2:hover{transform:translateY(-4px);box-shadow:0 24px 60px #0b242726}
+.gcard2 .no{font-size:12px;font-weight:800;letter-spacing:2px;color:var(--c)}
+.gcard2 .arL{font-size:30px;font-weight:700;line-height:1.3}
+.gcard2 h3{margin:0;font-size:22px}
+.gcard2 p{margin:0;color:var(--mut);font-size:14.5px}
+.gcard2 .kw{font-family:'Noto Naskh Arabic',serif;direction:rtl;background:#f5f8f7;border-radius:12px;padding:8px 10px;font-size:15px;line-height:1.8}
+.gcard2 .go{margin-top:auto;align-self:flex-start;background:var(--c);color:#fff;border-radius:12px;padding:10px 16px;font-weight:800}
+.sumcard{display:flex;align-items:center;gap:18px;margin-top:18px;text-decoration:none;color:inherit;background:linear-gradient(90deg,#fff8e1,#fff);border:2px solid var(--gold);border-radius:24px;padding:18px 22px;box-shadow:0 18px 50px #c9a2272a}
+.sumcard .big{font-size:54px}
+.sumcard h3{margin:0;font-size:22px}
+.flow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px;color:var(--mut);font-weight:700;font-size:14px}
+.flow b{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--ink)}
+@media(max-width:900px){.hero2,.steps2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<canvas id="fx"></canvas>
+<header class="hdr"><div class="hdr-in">
+  <div class="school"><img src="lencana.png" alt="Lencana SK Bukit Mutiara" onerror="this.style.display='none'"><div><b>SK BUKIT MUTIARA</b><span>Arabic e-Camp 2026</span></div></div>
+  <div class="ttl"><span class="arL">مُخَيَّمُ اللُّغَةِ الْعَرَبِيَّةِ</span><small>ARABIC e-CAMP · HALAMAN UTAMA GURU</small></div>
+  <div class="byline"><div><span class="arL">إِعْدَادُ: الْأُسْتَاذ مُحَمَّد شَزْوَان عَبْدُ الرَّحْمٰن</span><small>Oleh Ustaz Mohd Syazwan Ab Rahman</small></div><img src="ustaz.jpg" alt="Ustaz Mohd Syazwan Ab Rahman" onerror="this.style.display='none'"></div>
+</div></header>
+
+<main>
+  <div class="hero2">
+    <div>
+      <h1 class="bi"><span class="arL">أَهْلًا وَسَهْلًا يَا أُسْتَاذ!</span><span class="ms">Selamat datang, Ustaz. Pilih stesen untuk mula, atau ikut susunan di bawah.</span></h1>
+      <div class="flow"><b>1 · Lumba</b>→<b>2 · Isyarat Tangan</b>→<b>3 · Irama Warna</b>→<b>🏆 Rumusan Johan</b></div>
+    </div>
+    <div class="card" style="padding:18px 20px">
+      <div class="lbl2"><span class="arL">طَرِيقَةُ الِاسْتِخْدَامِ</span><div class="ms">Cara guna</div></div>
+      <ol style="margin:8px 0 0;padding-left:20px;line-height:1.7;font-weight:600;font-size:14.5px">
+        <li>Tekan stesen, pilih bilangan soalan, kemudian <b>Cipta</b>.</li>
+        <li>Murid imbas QR dengan iPad.</li>
+        <li>Tekan <b>MULA</b>. Semua main serentak.</li>
+        <li>Tekan <b>Seterusnya →</b> untuk stesen berikutnya.</li>
+        <li>Akhir sekali, buka <b>Rumusan</b> untuk Johan dan laporan.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="steps2">
+    <a class="gcard2" href="papan-lumba.html" style="--c:#0b6e6d"><span class="no">STESEN 1</span><span class="arL">سِبَاقُ الْمَلَابِسِ</span><h3>Lumba Pakaian Grand Prix</h3><p>Unit 2: Malabisi al-Jamilah · 11 kata kunci · pola ayat هٰذَا / هٰذِهِ</p><div class="kw">قَمِيْصٌ · فُسْتَانٌ · حِذَاءٌ · نَظَّارَةٌ …</div><span class="go">Buka Stesen 1 →</span></a>
+    <a class="gcard2" href="papan.html" style="--c:#c9a227"><span class="no">STESEN 2</span><span class="arL">الْأَرْقَامُ بِالْإِشَارَةِ</span><h3>Isyarat Tangan (kamera)</h3><p>Nombor 21–30 · ABCD dengan jari, seret ke kotak, pecah belon</p><div class="kw">وَاحِدٌ وَعِشْرُونَ … ثَلَاثُونَ</div><span class="go">Buka Stesen 2 →</span></a>
+    <a class="gcard2" href="papan-irama.html" style="--c:#11908e"><span class="no">STESEN 3</span><span class="arL">لَحْنُ الْأَلْوَانِ</span><h3>Irama Warna</h3><p>Unit 3: al-Alwan Haulana · ketuk warna ikut rentak lagu · مَا لَوْنُهُ؟</p><div class="kw">أَحْمَرُ · أَزْرَقُ · أَخْضَرُ · أَصْفَرُ · أَبْيَضُ · أَسْوَدُ</div><span class="go">Buka Stesen 3 →</span></a>
+  </div>
+  <a class="sumcard" href="rumusan.html"><span class="big">🏆</span><div style="flex:1"><h3><span class="arL" style="font-size:24px;color:var(--teal)">النَّتِيجَةُ النِّهَائِيَّةُ</span> · Rumusan Johan Keseluruhan</h3><div class="mut">Markah ketiga-tiga permainan dikira automatik · Umum Johan · Muat turun laporan PDF/Word</div></div><span class="btn sun">Buka Rumusan →</span></a>
+</main>
+<footer>© 2026 SK Bukit Mutiara · Arabic e-Camp · Ustaz Mohd Syazwan Ab Rahman</footer>
+</body>
+</html>
