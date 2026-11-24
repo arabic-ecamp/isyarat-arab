@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<base target="_top">
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Papan Markah · Isyarat Tangan Arab</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
@@ -108,7 +109,7 @@ footer{text-align:center;color:var(--mut);font-size:14px;padding:16px}
     </div>
   </section>
 </main>
-<footer>© 2026 ZuSystem 🌸</footer>
+<footer>Arabic e-Camp · Ustaz Syazwan</footer>
 <script>
 {
 const $=s=>document.querySelector(s);
@@ -117,7 +118,15 @@ const show=id=>document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('
 const COLS=['#0e7c7b','#ff5d5d','#e5a500','#3d7bfd','#9b51e0','#e8590c','#2b8a3e','#d6336c','#1971c2','#795548'];
 const col=i=>COLS[i]||`hsl(${(i*67)%360} 65% 42%)`;
 let room=null,nQ=12,pollT=null,announced=false,colorOf={};
-const run=(fn,...a)=>new Promise((res,rej)=>google.script.run.withSuccessHandler(res).withFailureHandler(rej)[fn](...a));
+const API='https://script.google.com/macros/s/AKfycbweHSghtOLwly3suJUaVc-IRxYidgSs-WHcxhj6JzXrYL5Esh3Ne_wnO20RPxrCwm9K/exec';
+async function api(params){const c=new AbortController(),t=setTimeout(()=>c.abort(),15000);try{const r=await fetch(API+'?'+new URLSearchParams(params),{signal:c.signal});const j=await r.json();if(!j.ok)throw new Error(j.err||'Ralat');return j}finally{clearTimeout(t)}}
+const GAME=location.href.replace(/papan\.html.*$/,'');
+const run=(fn,...a)=>{
+  if(fn==='createRoom')return api({action:'create',soalan:a[0]}).then(j=>({bilik:j.bilik,kunci:j.kunci,api:API,game:GAME}));
+  if(fn==='startRoom')return api({action:'start',bilik:a[0],kunci:room.kunci});
+  if(fn==='endRoom')return api({action:'end',bilik:a[0],kunci:room.kunci});
+  return api({action:'board',bilik:a[0]});
+};
 
 /* bunyi */
 let ac=null,musOn=true,musT=null,step=0,nextT=0,musG;
@@ -145,14 +154,14 @@ $('#bCreate').onclick=async()=>{
     room=await run('createRoom',nQ);announced=false;colorOf={};
     $('#code').textContent=room.bilik;$('#qr').innerHTML='';
     const ok=/^https:\/\//.test(room.game);
-    $('#warn').innerHTML=ok?'':'<div class="warn">GAME_URL belum ditetapkan dalam Code.gs. Tampal pautan GitHub Pages permainan, kemudian Deploy semula.</div>';
+    $('#warn').innerHTML='';
     const url=(ok?room.game:'')+'?bilik='+room.bilik+'&api='+encodeURIComponent(room.api);
     try{new QRCode($('#qr'),{text:url,width:360,height:360,correctLevel:QRCode.CorrectLevel.M})}catch(e){$('#qr').textContent=url}
     show('sLobby');music(true);startPoll();
   }catch(e){$('#setMsg').textContent='Ralat: '+e.message}
   $('#bCreate').disabled=false;
 };
-$('#bStart').onclick=async()=>{$('#bStart').disabled=true;ding();try{await run('startRoom',room.bilik);show('sLive')}catch(e){alert('Ralat: '+e.message);$('#bStart').disabled=false}};
+$('#bStart').onclick=async()=>{$('#bStart').disabled=true;ding();try{await run('startRoom',room.bilik);show('sLive')}catch(e){$('#warn').innerHTML='<div class="warn">Ralat: '+esc(e.message)+'</div>';$('#bStart').disabled=false}};
 $('#bEnd').onclick=async()=>{$('#bEnd').disabled=true;try{const b=await run('endRoom',room.bilik);winner(b)}catch(e){$('#bEnd').disabled=false}};
 $('#bNew').onclick=()=>{clearInterval(pollT);music(false);show('sSet')};
 
