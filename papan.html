@@ -264,7 +264,7 @@ function render(b){
 }
 function ranked(g){const s=g.slice().sort((a,b)=>b.skor-a.skor||b.betul-a.betul);let rk=0;s.forEach((x,k)=>{if(k>0&&x.skor<s[k-1].skor)rk=k;x.rk=rk+1});return s}
 function dots(r,n){let h='';for(let k=0;k<n;k++){const c=r[k];h+=`<i class="d ${c==='1'?'y':c==='0'?'n':''}">${c==='1'?'✓':c==='0'?'✗':k+1}</i>`}return `<div class="dots">${h}</div>`}
-function rows(g,n){return ranked(g).map(x=>{const acc=x.dijawab?Math.round(x.betul/x.dijawab*100):0;return `<div class="row r${x.rk} ${x.rk===1&&x.skor>0?'first':''}" style="--c:${cOf(x.id)}"><div class="rk">${x.rk===1&&x.skor>0?'👑':'#'+x.rk}</div><div><div class="nm">${esc(x.nm)} <span class="st ${x.selesai?'ok':''}">${x.selesai?'✅ Selesai':'🎮 Soalan '+Math.min(x.dijawab+1,n)+'/'+n}</span></div>${dots(x.rekod||'',n)}<div class="pr">${x.betul} betul · ${x.dijawab-x.betul} salah · ketepatan ${acc}%</div></div><div class="pt">${x.skor}<small>mata</small></div></div>`}).join('')}
+function rows(g,n){return ranked(g).map(x=>{const acc=x.dijawab?Math.round(x.betul/x.dijawab*100):0;return `<div class="row r${x.rk} ${x.rk===1&&x.skor>0?'first':''}" style="--c:${cOf(x.id)}"><div class="rk">${x.rk===1&&x.skor>0?'👑':'#'+x.rk}</div><div><div class="nm">${esc(x.nm)} <span class="st ${x.selesai?'ok':''}">${x.selesai?'✅ Selesai':'🎮 Soalan '+Math.min(x.dijawab+1,n)+'/'+n}</span></div>${dots(x.rekod||'',n)}<div class="pr">${x.betul} Betul · ${x.dijawab-x.betul} Salah · Ketepatan ${acc}%</div></div><div class="pt">${x.skor}<small>Mata</small></div></div>`}).join('')}
 function winner(b){
   if(announced||!b)return;announced=true;clearInterval(pollT);
   const s=ranked(b.groups),w=s.filter(x=>x.rk===1);
