@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Papan Markah · Isyarat Tangan Arab</title>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Fredoka:wght@500;600;700&family=Noto+Naskh+Arabic:wght@600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 :root{--ink:#0d2b2e;--teal:#0e7c7b;--sun:#ffc531;--coral:#ff5d5d;--ok:#1fb86a;--line:#d6ece8;--mut:#5a7477}
@@ -62,61 +62,118 @@ h1{font-size:clamp(34px,4.5vw,54px);line-height:1.05;margin:0 0 10px}
 #fx{position:fixed;inset:0;pointer-events:none;z-index:9;width:100%;height:100%}
 footer{text-align:center;color:var(--mut);font-size:14px;padding:16px}
 @media(max-width:800px){.lobby{grid-template-columns:1fr}}
+
+/* ===== TEMA ELEGAN KORPORAT ===== */
+:root{--ink:#0b2427;--teal:#0b6e6d;--teal2:#11908e;--gold:#c9a227;--gold2:#e8c766;--mut:#5d7376;--line:#e3ebe9;--sun:#e8c766}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:#f5f8f7 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%230e7c7b' stroke-opacity='.07' stroke-width='1.2'%3E%3Cpath d='M40 4 L50 30 L76 40 L50 50 L40 76 L30 50 L4 40 L30 30 Z'/%3E%3Crect x='22' y='22' width='36' height='36' transform='rotate(45 40 40)'/%3E%3Ccircle cx='40' cy='40' r='8'/%3E%3C/g%3E%3C/svg%3E");color:var(--ink)}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(900px 500px at 100% 0,#d9f1ec 0,transparent 60%),radial-gradient(800px 500px at 0 100%,#fbefd0 0,transparent 55%)}
+.ar,.arL{font-family:'Noto Naskh Arabic',serif;direction:rtl}
+.hdr{position:sticky;top:0;z-index:5;background:#ffffffe8;backdrop-filter:blur(14px);border-bottom:1px solid var(--line);box-shadow:0 6px 24px #0b24270d}
+.hdr-in{max-width:1280px;margin:0 auto;padding:10px 24px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:18px}
+.school{display:flex;align-items:center;gap:12px}
+.school img{width:54px;height:54px;object-fit:contain}
+.school b{display:block;font-size:15px;font-weight:800;letter-spacing:.2px}
+.school span{font-size:12.5px;color:var(--mut);font-weight:600}
+.ttl{text-align:center}
+.ttl .arL{font-size:26px;font-weight:700;line-height:1.25;color:var(--teal)}
+.ttl small{display:block;font-size:13px;color:var(--mut);font-weight:700;letter-spacing:.3px}
+.byline{display:flex;align-items:center;gap:12px}
+.byline img{width:54px;height:54px;border-radius:50%;object-fit:cover;border:3px solid var(--gold);box-shadow:0 0 0 3px #fff,0 6px 16px #0003}
+.byline .arL{font-size:15px;font-weight:700;line-height:1.35;text-align:right}
+.byline small{display:block;font-size:11.5px;color:var(--mut);font-weight:600;text-align:right}
+.mbtn{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-weight:700;color:var(--teal)}
+main{max-width:1280px}
+.bi{display:block;text-align:left}.bi .arL{display:block;text-align:left;font-size:clamp(30px,3.6vw,44px);font-weight:700;line-height:1.3;color:var(--ink)}
+.bi .ms{display:block;font-size:15px;color:var(--mut);font-weight:600;margin-top:2px}
+.lbl2 .arL{font-size:22px;font-weight:700}.lbl2 .ms{font-size:13px;color:var(--mut);font-weight:600}
+.card{border-radius:24px;border:1px solid var(--line);box-shadow:0 20px 60px #0b24271a;background:#fff}
+.btn{font-family:inherit;border-radius:14px;background:linear-gradient(135deg,var(--teal),var(--teal2));box-shadow:0 10px 24px #0b6e6d40;font-size:18px;padding:14px 26px}
+.btn:active{transform:translateY(2px);box-shadow:0 4px 12px #0b6e6d40}
+.btn.sun{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#2b2100;box-shadow:0 10px 24px #c9a22745}
+.btn.red{background:linear-gradient(135deg,#d94848,#ff6b6b);box-shadow:0 10px 24px #d9484840}
+.btn .arL{font-size:20px;margin-left:8px}
+.seg button{border-radius:12px;font-family:inherit;font-weight:700;border:1.5px solid var(--line)}
+.seg button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.setwrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:center}
+.feat{display:grid;gap:10px;margin-top:18px}
+.feat>div{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.feat>div>i{font-style:normal;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:#e9f5f3;font-size:20px;flex:none}
+.feat .arL{font-size:18px;font-weight:700;display:block}.feat small{color:var(--mut);font-weight:600}
+#qr{border:none;padding:18px;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(135deg,var(--gold),var(--gold2),var(--teal)) border-box;border:5px solid transparent;border-radius:24px}
+.code{color:var(--ink);font-family:'Plus Jakarta Sans',sans-serif;font-weight:800}
+.arname{color:var(--teal)}
+.chips span{font-family:inherit;border-width:1.5px;background:#fff;box-shadow:0 4px 12px #0001}
+.row{border-radius:18px;border:1px solid var(--line);box-shadow:0 6px 18px #0b24270a;padding:12px 18px}
+.row .rk{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-size:20px;background:#eef3f2;color:var(--mut);margin:auto}
+.row.r1 .rk{background:linear-gradient(135deg,#f6d365,#c9a227);color:#3a2b00;box-shadow:0 6px 16px #c9a22766}
+.row.r2 .rk{background:linear-gradient(135deg,#eceff1,#b0bec5);color:#263238}
+.row.r3 .rk{background:linear-gradient(135deg,#f3c9a1,#cd7f32);color:#3b1f00}
+.row.first{border-color:var(--gold);background:linear-gradient(90deg,#fffaf0,#fff)}
+.row .nm{font-family:inherit;font-weight:800}
+.row .pt{font-family:inherit;font-weight:800}
+.head h1{font-family:inherit}
+.win .who{font-family:inherit;font-weight:800}
+.pod div{border-radius:18px 18px 8px 8px}
+footer{font-weight:600}
+@media(max-width:900px){.hdr-in{grid-template-columns:auto minmax(0,1fr)}.byline{grid-column:1/-1;justify-content:center}.setwrap{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <canvas id="fx"></canvas>
-<div class="top"><div class="cred"><img src="lencana.png" alt="Lencana SK Bukit Mutiara" onerror="this.style.display='none'"><div><b>Oleh Ustaz Mohd Syazwan Ab Rahman</b><span>SK Bukit Mutiara</span></div></div><b style="text-align:center">🏆 Papan Markah · Isyarat Tangan Arab</b><button id="bMus">🎵 Muzik</button></div>
+<header class="hdr"><div class="hdr-in">
+  <div class="school"><img src="lencana.png" alt="Lencana SK Bukit Mutiara" onerror="this.style.display='none'"><div><b>SK BUKIT MUTIARA</b><span>Arabic e-Camp 2026</span></div></div>
+  <div class="ttl"><span class="arL">لُعْبَةُ الْأَرْقَامِ بِالْإِشَارَةِ</span><small>ISYARAT TANGAN ARAB · NOMBOR 21–30</small></div>
+  <div class="byline"><div><span class="arL">إِعْدَادُ: الْأُسْتَاذ مُحَمَّد شَزْوَان عَبْدُ الرَّحْمٰن</span><small>Oleh Ustaz Mohd Syazwan Ab Rahman</small></div><img src="ustaz.jpg" alt="Ustaz Mohd Syazwan Ab Rahman" onerror="this.style.display='none'"><button class="mbtn" id="bMus">🎵</button></div>
+</div></header>
 <main>
-  <section class="scr on" id="sSet">
-    <h1>Cipta bilik permainan baharu</h1>
-    <p class="mut">Semua kumpulan main serentak di iPad masing-masing. Soalan bergilir: ABCD dengan jari, seret ke kotak, dan pecah belon.</p>
+  <section class="scr on" id="sSet"><div class="setwrap">
+    <div><span class="bi"><span class="arL">أَنْشِئْ غُرْفَةً جَدِيْدَةً</span><span class="ms">Cipta bilik permainan baharu · semua kumpulan main serentak di iPad</span></span><div class="feat"><div><i>✋</i><div><span class="arL">اَلْأَصَابِعُ</span><small>ABCD dengan jari</small></div></div><div><i>🤏</i><div><span class="arL">اِسْحَبْ وَضَعْ</span><small>Seret ke kotak</small></div></div><div><i>🎈</i><div><span class="arL">فَجِّرِ الْبَالُوْنَ</span><small>Pecah belon</small></div></div></div></div>
     <div class="card">
-      <b>Bilangan soalan</b>
+      <div class="lbl2"><span class="arL">عَدَدُ الْأَسْئِلَةِ</span><div class="ms">Bilangan soalan</div></div>
       <div class="seg" id="segQ"></div>
-      <button class="btn sun" id="bCreate">Cipta bilik &amp; papar QR</button>
+      <button class="btn sun" id="bCreate"><span class="arL">أَنْشِئْ</span> · Cipta bilik &amp; papar QR</button>
       <p class="mut" id="setMsg"></p>
-    </div>
+    </div></div>
   </section>
 
   <section class="scr" id="sLobby">
     <div class="lobby">
       <div class="card qrbox">
-        <b>Imbas QR dengan kamera iPad</b>
+        <div class="lbl2"><span class="arL">اِمْسَحْ رَمْزَ QR مِنْ فَضْلِكَ</span><div class="ms">Sila imbas QR</div></div>
         <div id="qr"></div>
-        <div class="mut">Nama bilik</div>
+        <div class="lbl2"><span class="arL" style="font-size:16px">اِسْمُ الْغُرْفَةِ</span> <span class="ms">Nama bilik</span></div>
         <div class="arname" id="arname"></div>
         <div class="code" id="code"></div>
-        <button class="btn sun" id="bDl" style="font-size:18px;padding:10px 20px">⬇ Muat turun QR</button>
+        <button class="btn sun" id="bDl" style="font-size:18px;padding:10px 20px">⬇ <span class="arL" style="font-size:17px">تَحْمِيْلُ</span> Muat turun QR</button>
       </div>
       <div>
         <div id="warn"></div>
-        <h1><span id="nJoin">0</span> kumpulan sudah sertai</h1>
+        <h1 class="bi"><span class="arL">الْفِرَقُ الْمُشَارِكَةُ: <span id="nJoin">0</span></span><span class="ms">Kumpulan sudah sertai</span></h1>
         <div class="chips" id="chips"></div>
-        <button class="btn" id="bStart" disabled>▶ MULA (semua serentak)</button>
-        <p class="mut">Tekan MULA bila semua kumpulan sudah sertai. Semua iPad akan kira 3-2-1 dan bermula pada masa yang sama.</p>
+        <button class="btn" id="bStart" disabled><span class="arL">اِبْدَأْ</span> · ▶ MULA (semua serentak)</button>
+        <p class="mut"><span class="arL" style="display:block;font-size:18px;color:#0b2427">اِضْغَطْ «اِبْدَأْ» عِنْدَمَا تَنْضَمُّ جَمِيْعُ الْفِرَقِ</span>Tekan MULA bila semua kumpulan sudah sertai. Semua iPad akan kira 3-2-1 dan bermula pada masa yang sama.</p>
       </div>
     </div>
   </section>
 
   <section class="scr" id="sLive">
-    <div class="head"><h1 style="margin:0">🔥 Markah langsung</h1><div><span class="mut" id="liveInfo"></span> &nbsp; <button class="btn red" id="bEnd">Tamat &amp; umum pemenang</button></div></div>
+    <div class="head"><h1 style="margin:0" class="bi"><span class="arL">النَّتَائِجُ الْمُبَاشِرَةُ</span><span class="ms">Markah langsung</span></h1><div><span class="mut" id="liveInfo"></span> &nbsp; <button class="btn red" id="bEnd"><span class="arL">إِعْلَانُ الْفَائِزِ</span> · Tamat &amp; umum pemenang</button></div></div>
     <div class="lb" id="lb"></div>
   </section>
 
   <section class="scr" id="sWin">
     <div class="card win">
       <div class="tro">🏆</div>
-      <div class="mut" style="font-size:24px;font-weight:600">PEMENANG</div>
+      <div class="bi"><span class="arL" style="color:#c9a227">الْفَائِزُ</span><span class="ms">PEMENANG</span></div>
       <div class="who" id="wWho"></div>
       <div class="mut" id="wPts" style="font-size:26px"></div>
       <div class="pod" id="pod"></div>
       <div class="lb" id="lbEnd" style="max-width:720px;margin:0 auto"></div>
-      <p><button class="btn sun" id="bNew">Permainan baharu</button></p>
+      <p><button class="btn sun" id="bNew"><span class="arL">لُعْبَةٌ جَدِيْدَةٌ</span> · Permainan baharu</button></p>
     </div>
   </section>
 </main>
-<footer>Arabic e-Camp · Ustaz Mohd Syazwan Ab Rahman · SK Bukit Mutiara</footer>
+<footer>© 2026 SK Bukit Mutiara · Arabic e-Camp · Ustaz Mohd Syazwan Ab Rahman</footer>
 <script>
 {
 const $=s=>document.querySelector(s);
@@ -156,13 +213,13 @@ function burst(n){fx.width=innerWidth;fx.height=innerHeight;for(let i=0;i<n;i++)
 function d(){fc.clearRect(0,0,fx.width,fx.height);parts=parts.filter(p=>p.l-->0&&p.y<fx.height+20);parts.forEach(p=>{p.vy+=.05;p.x+=p.vx;p.y+=p.vy;p.r+=.08;fc.save();fc.translate(p.x,p.y);fc.rotate(p.r);fc.fillStyle=p.c;fc.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);fc.restore()});raf=parts.length?requestAnimationFrame(d):0}
 
 /* tetapan */
-$('#segQ').innerHTML=[6,9,12,15,18,21,24,30].map(v=>`<button data-v="${v}" class="${v===nQ?'on':''}">${v} soalan</button>`).join('');
+$('#segQ').innerHTML=[6,9,12,15,18,21,24,30].map(v=>`<button data-v="${v}" class="${v===nQ?'on':''}">${v} Soalan</button>`).join('');
 $('#segQ').querySelectorAll('button').forEach(b=>b.onclick=()=>{nQ=+b.dataset.v;$('#segQ').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b))});
 $('#bCreate').onclick=async()=>{
   audio();$('#bCreate').disabled=true;$('#setMsg').textContent='Mencipta bilik…';
   try{
     room=await run('createRoom',nQ);announced=false;colorOf={};
-    $('#code').textContent=room.bilik;{const a=arOf(room.bilik);$('#arname').innerHTML=a?esc(a[0])+' <span style="font-family:Fredoka,sans-serif;font-size:20px;color:#5a7477">('+esc(a[1])+')</span>':''}$('#qr').innerHTML='';
+    $('#code').textContent=room.bilik;{const a=arOf(room.bilik);$('#arname').innerHTML=a?esc(a[0])+' <span style="font-family:Fredoka,sans-serif;font-size:20px;color:#5a7477">('+esc(a[1].charAt(0).toUpperCase()+a[1].slice(1))+')</span>':''}$('#qr').innerHTML='';
     const ok=/^https:\/\//.test(room.game);
     $('#warn').innerHTML='';
     const url=(ok?room.game:'')+'?bilik='+room.bilik+'&api='+encodeURIComponent(room.api);
@@ -179,8 +236,8 @@ $('#bDl').onclick=()=>{
   x.fillStyle='#ffffff';x.fillRect(0,0,W,H);
   x.fillStyle='#0e7c7b';x.fillRect(0,0,W,150);
   x.fillStyle='#fff';x.textAlign='center';x.font='bold 52px Fredoka, sans-serif';x.fillText('Isyarat Tangan Arab',W/2,95);
-  x.fillStyle='#0d2b2e';x.font='600 34px Fredoka, sans-serif';x.fillText('Imbas QR dengan kamera iPad',W/2,220);
-  x.fillStyle='#ffc531';x.fillRect(110,260,680,680);x.fillStyle='#fff';x.fillRect(125,275,650,650);
+  x.fillStyle='#0d2b2e';x.font='600 34px Fredoka, sans-serif';x.font='bold 40px "Noto Naskh Arabic", serif';x.fillText('اِمْسَحْ رَمْزَ QR مِنْ فَضْلِكَ',W/2,215);x.font='600 24px Fredoka, sans-serif';x.fillStyle='#5a7477';x.fillText('Sila imbas QR',W/2,248);
+  x.fillStyle='#c9a227';x.fillRect(110,270,680,680);x.fillStyle='#fff';x.fillRect(125,275,650,650);
   x.imageSmoothingEnabled=false;x.drawImage(src,150,300,600,600);
   x.fillStyle='#5a7477';x.font='28px Fredoka, sans-serif';x.fillText('Nama bilik',W/2,985);{const a=arOf(room.bilik);if(a){x.fillStyle='#0d2b2e';x.font='bold 46px "Noto Naskh Arabic", serif';x.fillText(a[0]+'  ·  '+a[1],W/2,1035)}}
   x.fillStyle='#0e7c7b';x.font='bold 64px Fredoka, sans-serif';x.fillText(room.bilik,W/2,1100);
@@ -200,14 +257,14 @@ function render(b){
     $('#chips').innerHTML=g.map(x=>`<span style="--c:${cOf(x.id)}">${esc(x.nm)}</span>`).join('');
   }
   if($('#sLive').classList.contains('on')){
-    const done=g.filter(x=>x.selesai).length;$('#liveInfo').textContent=`${done}/${g.length} kumpulan selesai`;
+    const done=g.filter(x=>x.selesai).length;$('#liveInfo').innerHTML=`<span class="arL">الْفِرَقُ الْمُنْتَهِيَةُ ${done}/${g.length}</span> · Kumpulan selesai`;
     $('#lb').innerHTML=rows(g,b.soalan);
     if(g.length&&done===g.length&&!announced){run('endRoom',room.bilik).then(winner)}
   }
 }
 function ranked(g){const s=g.slice().sort((a,b)=>b.skor-a.skor||b.betul-a.betul);let rk=0;s.forEach((x,k)=>{if(k>0&&x.skor<s[k-1].skor)rk=k;x.rk=rk+1});return s}
 function dots(r,n){let h='';for(let k=0;k<n;k++){const c=r[k];h+=`<i class="d ${c==='1'?'y':c==='0'?'n':''}">${c==='1'?'✓':c==='0'?'✗':k+1}</i>`}return `<div class="dots">${h}</div>`}
-function rows(g,n){return ranked(g).map(x=>{const acc=x.dijawab?Math.round(x.betul/x.dijawab*100):0;return `<div class="row ${x.rk===1&&x.skor>0?'first':''}" style="--c:${cOf(x.id)}"><div class="rk">${x.rk===1&&x.skor>0?'👑':'#'+x.rk}</div><div><div class="nm">${esc(x.nm)} <span class="st ${x.selesai?'ok':''}">${x.selesai?'✅ Selesai':'🎮 Soalan '+Math.min(x.dijawab+1,n)+'/'+n}</span></div>${dots(x.rekod||'',n)}<div class="pr">${x.betul} betul · ${x.dijawab-x.betul} salah · ketepatan ${acc}%</div></div><div class="pt">${x.skor}<small>mata</small></div></div>`}).join('')}
+function rows(g,n){return ranked(g).map(x=>{const acc=x.dijawab?Math.round(x.betul/x.dijawab*100):0;return `<div class="row r${x.rk} ${x.rk===1&&x.skor>0?'first':''}" style="--c:${cOf(x.id)}"><div class="rk">${x.rk===1&&x.skor>0?'👑':'#'+x.rk}</div><div><div class="nm">${esc(x.nm)} <span class="st ${x.selesai?'ok':''}">${x.selesai?'✅ Selesai':'🎮 Soalan '+Math.min(x.dijawab+1,n)+'/'+n}</span></div>${dots(x.rekod||'',n)}<div class="pr">${x.betul} betul · ${x.dijawab-x.betul} salah · ketepatan ${acc}%</div></div><div class="pt">${x.skor}<small>mata</small></div></div>`}).join('')}
 function winner(b){
   if(announced||!b)return;announced=true;clearInterval(pollT);
   const s=ranked(b.groups),w=s.filter(x=>x.rk===1);

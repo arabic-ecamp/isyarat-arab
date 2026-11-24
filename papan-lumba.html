@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Trek Lumba · Pakaian Arab</title>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Fredoka:wght@500;600;700&family=Noto+Naskh+Arabic:wght@600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 :root{--ink:#0d2b2e;--teal:#0e7c7b;--sun:#ffc531;--coral:#ff5d5d;--ok:#1fb86a;--line:#d6ece8;--mut:#5a7477}
@@ -81,61 +81,134 @@ h1{font-size:clamp(34px,4.5vw,54px);line-height:1.05;margin:0 0 10px}
 #fx{position:fixed;inset:0;pointer-events:none;z-index:9;width:100%;height:100%}
 footer{text-align:center;color:var(--mut);font-size:14px;padding:16px}
 @media(max-width:800px){.lobby{grid-template-columns:1fr}}
+
+/* ===== TEMA ELEGAN KORPORAT ===== */
+:root{--ink:#0b2427;--teal:#0b6e6d;--teal2:#11908e;--gold:#c9a227;--gold2:#e8c766;--mut:#5d7376;--line:#e3ebe9;--sun:#e8c766}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:#f5f8f7 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%230e7c7b' stroke-opacity='.07' stroke-width='1.2'%3E%3Cpath d='M40 4 L50 30 L76 40 L50 50 L40 76 L30 50 L4 40 L30 30 Z'/%3E%3Crect x='22' y='22' width='36' height='36' transform='rotate(45 40 40)'/%3E%3Ccircle cx='40' cy='40' r='8'/%3E%3C/g%3E%3C/svg%3E");color:var(--ink)}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(900px 500px at 100% 0,#d9f1ec 0,transparent 60%),radial-gradient(800px 500px at 0 100%,#fbefd0 0,transparent 55%)}
+.ar,.arL{font-family:'Noto Naskh Arabic',serif;direction:rtl}
+.hdr{position:sticky;top:0;z-index:5;background:#ffffffe8;backdrop-filter:blur(14px);border-bottom:1px solid var(--line);box-shadow:0 6px 24px #0b24270d}
+.hdr-in{max-width:1280px;margin:0 auto;padding:10px 24px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:18px}
+.school{display:flex;align-items:center;gap:12px}
+.school img{width:54px;height:54px;object-fit:contain}
+.school b{display:block;font-size:15px;font-weight:800;letter-spacing:.2px}
+.school span{font-size:12.5px;color:var(--mut);font-weight:600}
+.ttl{text-align:center}
+.ttl .arL{font-size:26px;font-weight:700;line-height:1.25;color:var(--teal)}
+.ttl small{display:block;font-size:13px;color:var(--mut);font-weight:700;letter-spacing:.3px}
+.byline{display:flex;align-items:center;gap:12px}
+.byline img{width:54px;height:54px;border-radius:50%;object-fit:cover;border:3px solid var(--gold);box-shadow:0 0 0 3px #fff,0 6px 16px #0003}
+.byline .arL{font-size:15px;font-weight:700;line-height:1.35;text-align:right}
+.byline small{display:block;font-size:11.5px;color:var(--mut);font-weight:600;text-align:right}
+.mbtn{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-weight:700;color:var(--teal)}
+main{max-width:1280px}
+.bi{display:block;text-align:left}.bi .arL{display:block;text-align:left;font-size:clamp(30px,3.6vw,44px);font-weight:700;line-height:1.3;color:var(--ink)}
+.bi .ms{display:block;font-size:15px;color:var(--mut);font-weight:600;margin-top:2px}
+.lbl2 .arL{font-size:22px;font-weight:700}.lbl2 .ms{font-size:13px;color:var(--mut);font-weight:600}
+.card{border-radius:24px;border:1px solid var(--line);box-shadow:0 20px 60px #0b24271a;background:#fff}
+.btn{font-family:inherit;border-radius:14px;background:linear-gradient(135deg,var(--teal),var(--teal2));box-shadow:0 10px 24px #0b6e6d40;font-size:18px;padding:14px 26px}
+.btn:active{transform:translateY(2px);box-shadow:0 4px 12px #0b6e6d40}
+.btn.sun{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#2b2100;box-shadow:0 10px 24px #c9a22745}
+.btn.red{background:linear-gradient(135deg,#d94848,#ff6b6b);box-shadow:0 10px 24px #d9484840}
+.btn .arL{font-size:20px;margin-left:8px}
+.seg button{border-radius:12px;font-family:inherit;font-weight:700;border:1.5px solid var(--line)}
+.seg button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.setwrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:center}
+.feat{display:grid;gap:10px;margin-top:18px}
+.feat>div{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.feat>div>i{font-style:normal;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:#e9f5f3;font-size:20px;flex:none}
+.feat .arL{font-size:18px;font-weight:700;display:block}.feat small{color:var(--mut);font-weight:600}
+#qr{border:none;padding:18px;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(135deg,var(--gold),var(--gold2),var(--teal)) border-box;border:5px solid transparent;border-radius:24px}
+.code{color:var(--ink);font-family:'Plus Jakarta Sans',sans-serif;font-weight:800}
+.arname{color:var(--teal)}
+.chips span{font-family:inherit;border-width:1.5px;background:#fff;box-shadow:0 4px 12px #0001}
+.row{border-radius:18px;border:1px solid var(--line);box-shadow:0 6px 18px #0b24270a;padding:12px 18px}
+.row .rk{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-size:20px;background:#eef3f2;color:var(--mut);margin:auto}
+.row.r1 .rk{background:linear-gradient(135deg,#f6d365,#c9a227);color:#3a2b00;box-shadow:0 6px 16px #c9a22766}
+.row.r2 .rk{background:linear-gradient(135deg,#eceff1,#b0bec5);color:#263238}
+.row.r3 .rk{background:linear-gradient(135deg,#f3c9a1,#cd7f32);color:#3b1f00}
+.row.first{border-color:var(--gold);background:linear-gradient(90deg,#fffaf0,#fff)}
+.row .nm{font-family:inherit;font-weight:800}
+.row .pt{font-family:inherit;font-weight:800}
+.head h1{font-family:inherit}
+.win .who{font-family:inherit;font-weight:800}
+.pod div{border-radius:18px 18px 8px 8px}
+footer{font-weight:600}
+@media(max-width:900px){.hdr-in{grid-template-columns:auto minmax(0,1fr)}.byline{grid-column:1/-1;justify-content:center}.setwrap{grid-template-columns:1fr}}
+
+.circ{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:16px;align-items:start}
+.cwrap{background:#fff;border:1px solid var(--line);border-radius:24px;padding:10px;box-shadow:0 20px 60px #0b24271a}
+.cwrap svg{display:block;width:100%;height:auto;border-radius:16px}
+.tower{background:#0b2427;color:#fff;border-radius:20px;padding:12px;box-shadow:0 20px 50px #0b242733;max-height:calc(100vh - 220px);overflow:auto}
+.th{display:flex;justify-content:space-between;align-items:baseline;padding:4px 6px 10px;border-bottom:1px solid #ffffff22;margin-bottom:6px}.th .arL{font-size:22px;font-weight:700;color:var(--gold2)}.th small{color:#a9c2c0;font-weight:600}
+.tr{display:grid;grid-template-columns:40px 6px minmax(0,1fr) 64px;gap:8px;align-items:center;padding:7px 6px;border-radius:12px;transition:background .3s}
+.tr+.tr{border-top:1px solid #ffffff12}
+.tp{font-weight:800;font-size:17px;text-align:center;background:#ffffff14;border-radius:8px;padding:4px 0}
+.tr.p1 .tp{background:linear-gradient(135deg,#f6d365,#c9a227);color:#2b2100}.tr.p2 .tp{background:linear-gradient(135deg,#eceff1,#b0bec5);color:#263238}.tr.p3 .tp{background:linear-gradient(135deg,#f3c9a1,#cd7f32);color:#3b1f00}
+.tc{display:block;width:6px;height:36px;border-radius:3px}
+.tn b{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb{height:6px;background:#ffffff1c;border-radius:3px;overflow:hidden;margin:4px 0}.tb i{display:block;height:100%;border-radius:3px;transition:width .8s}
+.td{display:flex;align-items:center;gap:2px;font-size:11.5px;color:#a9c2c0;font-weight:600}.td em{width:7px;height:7px;border-radius:2px;display:block}.td em.y{background:#2dff7a}.td em.n{background:#ff5d5d}.td span{margin-left:6px}
+.tg{text-align:right;font-weight:800;font-size:18px}.tg small{display:block;font-size:11px;color:#a9c2c0;font-weight:600}
+@media(max-width:1000px){.circ{grid-template-columns:1fr}.tower{max-height:none}}
 </style>
 </head>
 <body>
 <canvas id="fx"></canvas>
-<div class="top"><div class="cred"><img src="lencana.png" alt="Lencana SK Bukit Mutiara" onerror="this.style.display='none'"><div><b>Oleh Ustaz Mohd Syazwan Ab Rahman</b><span>SK Bukit Mutiara</span></div></div><b style="text-align:center">🏎️ Trek Lumba · Pakaian Arab (Unit 2)</b><button id="bMus">🎵 Muzik</button></div>
+<header class="hdr"><div class="hdr-in">
+  <div class="school"><img src="lencana.png" alt="Lencana SK Bukit Mutiara" onerror="this.style.display='none'"><div><b>SK BUKIT MUTIARA</b><span>Arabic e-Camp 2026</span></div></div>
+  <div class="ttl"><span class="arL">سِبَاقُ الْمَلَابِسِ</span><small>LUMBA PAKAIAN ARAB · UNIT 2 MALABISI AL-JAMILAH</small></div>
+  <div class="byline"><div><span class="arL">إِعْدَادُ: الْأُسْتَاذ مُحَمَّد شَزْوَان عَبْدُ الرَّحْمٰن</span><small>Oleh Ustaz Mohd Syazwan Ab Rahman</small></div><img src="ustaz.jpg" alt="Ustaz Mohd Syazwan Ab Rahman" onerror="this.style.display='none'"><button class="mbtn" id="bMus">🎵</button></div>
+</div></header>
 <main>
-  <section class="scr on" id="sSet">
-    <h1>Cipta perlumbaan baharu</h1>
-    <p class="mut">Semua kumpulan berlumba serentak di iPad. Setiap jawapan betul menggerakkan kereta ke hadapan. Salah jawab, enjin panas 2 saat. Kumpulan pertama sampai penamat menang!</p>
+  <section class="scr on" id="sSet"><div class="setwrap">
+    <div><span class="bi"><span class="arL">سِبَاقٌ جَدِيْدٌ</span><span class="ms">Cipta perlumbaan baharu · semua kumpulan berlumba serentak di iPad</span></span><div class="feat"><div><i>🏎️</i><div><span class="arL">سِبَاقٌ مُبَاشِرٌ</span><small>Kereta bergerak setiap jawapan betul</small></div></div><div><i>🔥</i><div><span class="arL">الْمُحَرِّكُ حَارٌّ</span><small>Salah jawab: berhenti 2 saat</small></div></div><div><i>🏁</i><div><span class="arL">خَطُّ النِّهَايَةِ</span><small>Pertama sampai penamat menang</small></div></div></div></div>
     <div class="card">
-      <b>Panjang trek (jawapan betul untuk sampai penamat)</b>
+      <div class="lbl2"><span class="arL">طُوْلُ الْمِضْمَارِ</span><div class="ms">Panjang trek (jawapan betul untuk sampai penamat)</div></div>
       <div class="seg" id="segQ"></div>
-      <button class="btn sun" id="bCreate">Cipta trek &amp; papar QR</button>
+      <button class="btn sun" id="bCreate"><span class="arL">أَنْشِئْ</span> · Cipta trek &amp; papar QR</button>
       <p class="mut" id="setMsg"></p>
-    </div>
+    </div></div>
   </section>
 
   <section class="scr" id="sLobby">
     <div class="lobby">
       <div class="card qrbox">
-        <b>Imbas QR dengan kamera iPad</b>
+        <div class="lbl2"><span class="arL">اِمْسَحْ رَمْزَ QR مِنْ فَضْلِكَ</span><div class="ms">Sila imbas QR</div></div>
         <div id="qr"></div>
-        <div class="mut">Nama bilik</div>
+        <div class="lbl2"><span class="arL" style="font-size:16px">اِسْمُ الْغُرْفَةِ</span> <span class="ms">Nama bilik</span></div>
         <div class="arname" id="arname"></div>
         <div class="code" id="code"></div>
-        <button class="btn sun" id="bDl" style="font-size:18px;padding:10px 20px">⬇ Muat turun QR</button>
+        <button class="btn sun" id="bDl" style="font-size:18px;padding:10px 20px">⬇ <span class="arL" style="font-size:17px">تَحْمِيْلُ</span> Muat turun QR</button>
       </div>
       <div>
         <div id="warn"></div>
-        <h1><span id="nJoin">0</span> kereta di garisan mula</h1>
+        <h1 class="bi"><span class="arL">الْفِرَقُ الْمُشَارِكَةُ: <span id="nJoin">0</span></span><span class="ms">Kereta di garisan mula</span></h1>
         <div class="chips" id="chips"></div>
-        <button class="btn" id="bStart" disabled>🚦 MULA LUMBA</button>
-        <p class="mut">Tekan MULA bila semua kumpulan sudah sertai. Semua iPad akan kira 3-2-1 dan bermula pada masa yang sama.</p>
+        <button class="btn" id="bStart" disabled><span class="arL">اِبْدَأْ</span> · 🚦 MULA LUMBA</button>
+        <p class="mut"><span class="arL" style="display:block;font-size:18px;color:#0b2427">اِضْغَطْ «اِبْدَأْ» عِنْدَمَا تَنْضَمُّ جَمِيْعُ الْفِرَقِ</span>Tekan MULA bila semua kumpulan sudah sertai. Semua iPad akan kira 3-2-1 dan bermula pada masa yang sama.</p>
       </div>
     </div>
   </section>
 
   <section class="scr" id="sLive">
-    <div class="head"><h1 style="margin:0">🏎️ Lumba sedang berlangsung</h1><div><span class="mut" id="liveInfo"></span> &nbsp; <button class="btn red" id="bEnd">Tamat &amp; umum johan</button></div></div>
+    <div class="head"><h1 style="margin:0" class="bi"><span class="arL">السِّبَاقُ جَارٍ</span><span class="ms">Lumba sedang berlangsung</span></h1><div><span class="mut" id="liveInfo"></span> &nbsp; <button class="btn red" id="bEnd"><span class="arL">إِعْلَانُ الْفَائِزِ</span> · Tamat &amp; umum johan</button></div></div>
     <div class="lb" id="lb"></div>
   </section>
 
   <section class="scr" id="sWin">
     <div class="card win">
       <div class="tro">🏆</div>
-      <div class="mut" style="font-size:24px;font-weight:600">JOHAN LUMBA</div>
+      <div class="bi"><span class="arL" style="color:#c9a227">الْفَائِزُ</span><span class="ms">JOHAN LUMBA</span></div>
       <div class="who" id="wWho"></div>
       <div class="mut" id="wPts" style="font-size:26px"></div>
       <div class="pod" id="pod"></div>
       <div class="lb" id="lbEnd" style="max-width:720px;margin:0 auto"></div>
-      <p><button class="btn sun" id="bNew">Permainan baharu</button></p>
+      <p><button class="btn sun" id="bNew"><span class="arL">لُعْبَةٌ جَدِيْدَةٌ</span> · Permainan baharu</button></p>
     </div>
   </section>
 </main>
-<footer>Arabic e-Camp · Ustaz Mohd Syazwan Ab Rahman · SK Bukit Mutiara</footer>
+<footer>© 2026 SK Bukit Mutiara · Arabic e-Camp · Ustaz Mohd Syazwan Ab Rahman</footer>
 <script>
 {
 const $=s=>document.querySelector(s);
@@ -181,13 +254,13 @@ function burst(n){fx.width=innerWidth;fx.height=innerHeight;for(let i=0;i<n;i++)
 function d(){fc.clearRect(0,0,fx.width,fx.height);parts=parts.filter(p=>p.l-->0&&p.y<fx.height+20);parts.forEach(p=>{p.vy+=.05;p.x+=p.vx;p.y+=p.vy;p.r+=.08;fc.save();fc.translate(p.x,p.y);fc.rotate(p.r);fc.fillStyle=p.c;fc.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);fc.restore()});raf=parts.length?requestAnimationFrame(d):0}
 
 /* tetapan */
-$('#segQ').innerHTML=[5,10,15,20,25,30].map(v=>`<button data-v="${v}" class="${v===nQ?'on':''}">${v} betul</button>`).join('');
+$('#segQ').innerHTML=[5,10,15,20,25,30].map(v=>`<button data-v="${v}" class="${v===nQ?'on':''}">${v} Betul</button>`).join('');
 $('#segQ').querySelectorAll('button').forEach(b=>b.onclick=()=>{nQ=+b.dataset.v;$('#segQ').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b))});
 $('#bCreate').onclick=async()=>{
   audio();$('#bCreate').disabled=true;$('#setMsg').textContent='Mencipta bilik…';
   try{
     room=await run('createRoom',nQ);announced=false;colorOf={};
-    $('#code').textContent=room.bilik;{const a=arOf(room.bilik);$('#arname').innerHTML=a?esc(a[0])+' <span style="font-family:Fredoka,sans-serif;font-size:20px;color:#5a7477">('+esc(a[1])+')</span>':''}$('#qr').innerHTML='';
+    $('#code').textContent=room.bilik;{const a=arOf(room.bilik);$('#arname').innerHTML=a?esc(a[0])+' <span style="font-family:Fredoka,sans-serif;font-size:20px;color:#5a7477">('+esc(a[1].charAt(0).toUpperCase()+a[1].slice(1))+')</span>':''}$('#qr').innerHTML='';
     const ok=/^https:\/\//.test(room.game);
     $('#warn').innerHTML='';
     const url=(ok?room.game:'')+'?bilik='+room.bilik+'&api='+encodeURIComponent(room.api);
@@ -204,8 +277,8 @@ $('#bDl').onclick=()=>{
   x.fillStyle='#ffffff';x.fillRect(0,0,W,H);
   x.fillStyle='#0e7c7b';x.fillRect(0,0,W,150);
   x.fillStyle='#fff';x.textAlign='center';x.font='bold 52px Fredoka, sans-serif';x.fillText('Lumba Pakaian Arab',W/2,95);
-  x.fillStyle='#0d2b2e';x.font='600 34px Fredoka, sans-serif';x.fillText('Imbas QR dengan kamera iPad',W/2,220);
-  x.fillStyle='#ffc531';x.fillRect(110,260,680,680);x.fillStyle='#fff';x.fillRect(125,275,650,650);
+  x.fillStyle='#0d2b2e';x.font='600 34px Fredoka, sans-serif';x.font='bold 40px "Noto Naskh Arabic", serif';x.fillText('اِمْسَحْ رَمْزَ QR مِنْ فَضْلِكَ',W/2,215);x.font='600 24px Fredoka, sans-serif';x.fillStyle='#5a7477';x.fillText('Sila imbas QR',W/2,248);
+  x.fillStyle='#c9a227';x.fillRect(110,270,680,680);x.fillStyle='#fff';x.fillRect(125,275,650,650);
   x.imageSmoothingEnabled=false;x.drawImage(src,150,300,600,600);
   x.fillStyle='#5a7477';x.font='28px Fredoka, sans-serif';x.fillText('Nama bilik',W/2,985);{const a=arOf(room.bilik);if(a){x.fillStyle='#0d2b2e';x.font='bold 46px "Noto Naskh Arabic", serif';x.fillText(a[0]+'  ·  '+a[1],W/2,1035)}}
   x.fillStyle='#0e7c7b';x.font='bold 64px Fredoka, sans-serif';x.fillText(room.bilik,W/2,1100);
@@ -230,20 +303,64 @@ function render(b){
     $('#chips').innerHTML=g.map(x=>`<span style="--c:${cOf(x.id)}">${esc(x.nm)}</span>`).join('');
   }
   if($('#sLive').classList.contains('on')){
-    const done=g.filter(x=>x.selesai).length;$('#liveInfo').textContent=`${done}/${g.length} kumpulan selesai`;
-    $('#lb').innerHTML=rows(g,b.soalan);fxRace(g);
+    const done=g.filter(x=>x.selesai).length;$('#liveInfo').innerHTML=`<span class="arL">الْفِرَقُ الْمُنْتَهِيَةُ ${done}/${g.length}</span> · Kumpulan selesai`;
+    circuit(g,b.soalan);fxRace(g);
     if(g.length&&done===g.length&&!announced){run('endRoom',room.bilik).then(winner)}
   }
 }
 function ranked(g){const s=g.slice().sort((a,b)=>(b.selesai-a.selesai)||(a.selesai&&b.selesai?(a.masa||0)-(b.masa||0):0)||(b.skor-a.skor));let rk=0;s.forEach((x,k)=>{const prev=s[k-1];if(k>0&&!(x.selesai===prev.selesai&&x.skor===prev.skor&&(!x.selesai||x.masa===prev.masa)))rk=k;x.rk=rk+1});return s}
 function carSVG(col){return `<svg viewBox="0 0 120 56"><ellipse cx="60" cy="52" rx="54" ry="4" fill="#0003"/><path d="M8 38 Q6 26 18 24 L36 22 L50 10 Q56 6 66 6 L82 6 Q90 6 94 12 L102 22 Q114 24 114 34 L114 40 Q114 44 108 44 L12 44 Q8 44 8 38 Z" fill="${col}" stroke="#0005" stroke-width="2"/><path d="M52 12 L64 10 L64 22 L42 22 Z M68 10 L82 10 Q88 10 90 14 L94 22 L68 22 Z" fill="#cfefff"/><circle cx="32" cy="44" r="10" fill="#222"/><circle cx="32" cy="44" r="4" fill="#ccc"/><circle cx="92" cy="44" r="10" fill="#222"/><circle cx="92" cy="44" r="4" fill="#ccc"/></svg>`}
 function rows(g,n){
-  if(!$('#sWin').classList.contains('on')&&$('#sLive').classList.contains('on'))return lanes(g,n);
-  return ranked(g).map(x=>`<div class="row ${x.rk===1&&(x.skor>0)?'first':''}" style="--c:${cOf(x.id)}"><div class="rk">${x.rk===1&&x.skor>0?'👑':'#'+x.rk}</div><div><div class="nm">${esc(x.nm)}</div><div class="bar"><i style="width:${Math.round(Math.min(1,x.skor/n)*100)}%"></i></div><div class="pr">${x.selesai?'🏁 Sampai penamat':x.skor+'/'+n+' betul'} · ${x.dijawab} jawapan</div></div><div class="pt">${x.skor}</div></div>`).join('')}
-function lanes(g,n){
-  const r=ranked(g),pos={};r.forEach(x=>pos[x.id]=x.rk);
-  const order=g.slice().sort((a,b)=>String(a.id).localeCompare(String(b.id)));
-  return `<div class="race">`+order.map(x=>{const pc=Math.min(1,x.skor/n);return `<div class="lane" style="--c:${cOf(x.id)}"><div class="lname"><b>#${pos[x.id]}</b> ${esc(x.nm)}<div class="lst">${x.betul}✓ ${x.dijawab-x.betul}✗ · ${x.dijawab?Math.round(x.betul/x.dijawab*100):0}%</div><div class="ldots">${(x.rekod||'').slice(-12).split('').map(c=>`<i class="${c==='1'?'y':'n'}"></i>`).join('')}</div></div><div class="road"><div class="fin"></div><div class="car" style="left:calc(${(pc*100).toFixed(1)}% - ${(pc*96).toFixed(1)}px)">${carSVG(cOf(x.id))}${x.selesai?'<span class="flag">🏁</span>':''}</div></div><div class="lpt">${x.skor}/${n}</div></div>`}).join('')+`</div>`}
+  return ranked(g).map(x=>`<div class="row r${x.rk} ${x.rk===1&&(x.skor>0)?'first':''}" style="--c:${cOf(x.id)}"><div class="rk">${x.rk===1&&x.skor>0?'👑':'#'+x.rk}</div><div><div class="nm">${esc(x.nm)}</div><div class="bar"><i style="width:${Math.round(Math.min(1,x.skor/n)*100)}%"></i></div><div class="pr">${x.selesai?'🏁 Sampai penamat':x.skor+'/'+n+' betul'} · ${x.dijawab} jawapan</div></div><div class="pt">${x.skor}</div></div>`).join('')}
+/* ===== LITAR LUMBA ===== */
+const TRK='M500 110 H700 A170 170 0 0 1 700 450 H300 A170 170 0 0 1 300 110 Z';
+let cv=null,cars={},trkLen=0,rafC=0;
+function buildCircuit(){
+  const crowd=Array.from({length:120},(_,k)=>`<circle cx="${60+(k%60)*15}" cy="${14+Math.floor(k/60)*14}" r="5" fill="${['#ff6b6b','#ffd43b','#4dabf7','#69db7c','#f783ac','#fff'][k%6]}"><animate attributeName="cy" values="${14+Math.floor(k/60)*14};${10+Math.floor(k/60)*14};${14+Math.floor(k/60)*14}" dur="${.5+(k%5)/10}s" repeatCount="indefinite"/></circle>`).join('');
+  const tyres=[[120,120],[120,440],[880,120],[880,440],[150,280],[850,280]].map(([x,y])=>`<g><circle cx="${x}" cy="${y}" r="9" fill="#222"/><circle cx="${x+16}" cy="${y}" r="9" fill="#222"/><circle cx="${x+8}" cy="${y-13}" r="9" fill="#222"/></g>`).join('');
+  $('#lb').innerHTML=`<div class="circ"><div class="cwrap"><svg id="csvg" viewBox="0 0 1000 560">
+   <defs><pattern id="mow" width="80" height="80" patternUnits="userSpaceOnUse"><rect width="80" height="80" fill="#86c86f"/><rect width="40" height="80" fill="#7bbd64"/></pattern>
+   <pattern id="chk" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#fff"/><rect width="6" height="6" fill="#111"/><rect x="6" y="6" width="6" height="6" fill="#111"/></pattern></defs>
+   <rect width="1000" height="560" fill="url(#mow)"/>
+   <rect x="40" y="0" width="920" height="42" rx="6" fill="#33414d"/>${crowd}
+   <path d="${TRK}" fill="none" stroke="#efe6cf" stroke-width="150"/>
+   <path d="${TRK}" fill="none" stroke="#fff" stroke-width="124"/>
+   <path d="${TRK}" fill="none" stroke="#d62828" stroke-width="124" stroke-dasharray="18 18"/>
+   <path id="trk" d="${TRK}" fill="none" stroke="#4b535c" stroke-width="112"/>
+   <path d="${TRK}" fill="none" stroke="#ffffff55" stroke-width="2" stroke-dasharray="20 18"/>
+   <path d="M300 110 H700 A170 170 0 0 1 700 450 H300 A170 170 0 0 1 300 110 Z" fill="#9ad482" transform="translate(500 280) scale(.0001) translate(-500 -280)"/>
+   <rect x="494" y="54" width="14" height="112" fill="url(#chk)"/>
+   <text x="530" y="184" font-size="13" font-weight="800" fill="#fff" font-family="Plus Jakarta Sans">START / FINISH</text>
+   ${tyres}
+   <image href="lencana.png" x="440" y="222" width="120" height="120" opacity=".95"/>
+   <text x="500" y="378" text-anchor="middle" font-size="30" font-weight="700" fill="#0b2427" font-family="Noto Naskh Arabic">سِبَاقُ الْمَلَابِسِ</text>
+   <text x="500" y="402" text-anchor="middle" font-size="13" font-weight="800" fill="#0b2427" opacity=".7" font-family="Plus Jakarta Sans">SK BUKIT MUTIARA GRAND PRIX</text>
+   <g id="carsL"></g></svg></div>
+   <div class="tower"><div class="th"><span class="arL">التَّرْتِيبُ</span><small>Kedudukan langsung</small></div><div id="tw"></div></div></div>`;
+  cv=$('#csvg');trkLen=$('#trk').getTotalLength();cars={};
+  if(!rafC)rafC=requestAnimationFrame(stepCars);
+}
+function topCar(col,num){return `<g class="cbody"><rect x="-17" y="-9" width="34" height="18" rx="6" fill="${col}" stroke="#0006" stroke-width="1.5"/><rect x="-15" y="-12" width="7" height="4" rx="1.5" fill="#222"/><rect x="8" y="-12" width="7" height="4" rx="1.5" fill="#222"/><rect x="-15" y="8" width="7" height="4" rx="1.5" fill="#222"/><rect x="8" y="8" width="7" height="4" rx="1.5" fill="#222"/><rect x="2" y="-6" width="7" height="12" rx="2" fill="#cfefff"/><rect x="18" y="-4" width="3" height="8" fill="#ffd43b"/><text x="-7" y="4" font-size="10" font-weight="800" fill="#fff" text-anchor="middle" font-family="Plus Jakarta Sans">${num}</text></g>`}
+function circuit(g,n){
+  if(!cv||!document.body.contains(cv))buildCircuit();
+  const r=ranked(g),order=g.slice().sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+  order.forEach((x,k)=>{
+    let c=cars[x.id];
+    if(!c){const el=document.createElementNS('http://www.w3.org/2000/svg','g');el.innerHTML=topCar(cOf(x.id),k+1)+`<g class="lab"><rect rx="9" height="18" y="-34" fill="#ffffffee" stroke="${cOf(x.id)}" stroke-width="2"/><text y="-21" font-size="11" font-weight="800" fill="#0b2427" text-anchor="middle" font-family="Plus Jakarta Sans"></text></g>`;$('#carsL').appendChild(el);
+      c=cars[x.id]={el,cur:0,tgt:0,off:((k%7)-3)*13};}
+    c.tgt=Math.min(1,x.skor/n);c.done=x.selesai;
+    const pos=r.find(y=>y.id===x.id).rk,t=c.el.querySelector('.lab text');t.textContent=`P${pos} ${x.nm}${x.selesai?' 🏁':''}`;
+    const w=Math.max(40,t.getComputedTextLength?t.getComputedTextLength()+16:80),rc=c.el.querySelector('.lab rect');rc.setAttribute('width',w);rc.setAttribute('x',-w/2);
+  });
+  const lead=r[0]?r[0].skor:0;
+  $('#tw').innerHTML=r.map(x=>{const acc=x.dijawab?Math.round(x.betul/x.dijawab*100):0,gap=lead-x.skor;return `<div class="tr ${x.rk<=3?'p'+x.rk:''}"><div class="tp">P${x.rk}</div><i class="tc" style="background:${cOf(x.id)}"></i><div class="tn"><b>${esc(x.nm)}${x.selesai?' 🏁':''}</b><div class="tb"><i style="width:${Math.min(100,x.skor/n*100)}%;background:${cOf(x.id)}"></i></div><div class="td">${(x.rekod||'').slice(-10).split('').map(c=>`<em class="${c==='1'?'y':'n'}"></em>`).join('')}<span>${x.betul}✓ ${x.dijawab-x.betul}✗ · ${acc}%</span></div></div><div class="tg">${x.skor}/${n}<small>${x.rk===1?'Pendahulu':'-'+gap}</small></div></div>`}).join('');
+}
+function stepCars(){
+  for(const id in cars){const c=cars[id];c.cur+=(c.tgt-c.cur)*.05;if(Math.abs(c.tgt-c.cur)<.0005)c.cur=c.tgt;
+    const trk=$('#trk');if(!trk)break;const d=(c.cur>=1?.999:c.cur)*trkLen,p=trk.getPointAtLength(d),q=trk.getPointAtLength((d+2)%trkLen),a=Math.atan2(q.y-p.y,q.x-p.x),nx=-Math.sin(a),ny=Math.cos(a);
+    const x=p.x+nx*c.off,y=p.y+ny*c.off;c.el.querySelector('.cbody').setAttribute('transform',`translate(${x} ${y}) rotate(${a*180/Math.PI})`);c.el.querySelector('.lab').setAttribute('transform',`translate(${x} ${y})`);}
+  rafC=requestAnimationFrame(stepCars);
+}
 function winner(b){
   if(announced||!b)return;announced=true;clearInterval(pollT);
   const s=ranked(b.groups),w=s.filter(x=>x.rk===1);
