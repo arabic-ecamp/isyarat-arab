@@ -8,7 +8,7 @@ const GAME_URL = 'https://g-52008900-ai.github.io/isyarat-arab/';
 const SHEET_ID = '1HilszcEAyL-bpDXfjJ5n41CwzqvDJbQPGNiKuo-tuE4'; // Google Sheet markah
 
 const BILIK_H = ['bilik', 'status', 'soalan', 'seed', 'mulaMs', 'dicipta', 'kunci'];
-const SKOR_H  = ['bilik', 'id', 'kumpulan', 'skor', 'betul', 'dijawab', 'selesai', 'dikemaskini'];
+const SKOR_H  = ['bilik', 'id', 'kumpulan', 'skor', 'betul', 'dijawab', 'selesai', 'dikemaskini', 'rekod'];
 
 function doGet(e) {
   const p = (e && e.parameter) || {};
@@ -38,7 +38,7 @@ function findRoom_(code) {
 function groups_(code) {
   return sh_('Skor', SKOR_H).getDataRange().getValues().slice(1)
     .filter(x => String(x[0]) === code)
-    .map(x => ({ id: String(x[1]), nm: String(x[2]), skor: Number(x[3]) || 0, betul: Number(x[4]) || 0, dijawab: Number(x[5]) || 0, selesai: x[6] === true || x[6] === 'TRUE', masa: x[7] ? new Date(x[7]).getTime() : 0 }));
+    .map(x => ({ id: String(x[1]), nm: String(x[2]), skor: Number(x[3]) || 0, betul: Number(x[4]) || 0, dijawab: Number(x[5]) || 0, selesai: x[6] === true || x[6] === 'TRUE', masa: x[7] ? new Date(x[7]).getTime() : 0, rekod: String(x[8] || '') }));
 }
 
 /* ---------- API untuk iPad murid ---------- */
@@ -75,7 +75,7 @@ function api_(p) {
         let base = nm, k = 2;
         while (names.indexOf(nm.toLowerCase()) >= 0) nm = base + ' ' + (k++);
         const id = 'k' + Utilities.getUuid().replace(/-/g, '').slice(0, 10);
-        s.appendRow([code, id, nm, 0, 0, 0, false, new Date()]);
+        s.appendRow([code, id, nm, 0, 0, 0, false, new Date(), '']);
         return json_({ ok: true, id: id, nama: nm });
       }
       if (p.action === 'score') {
@@ -86,7 +86,7 @@ function api_(p) {
             const dij = Number(p.dijawab) || 0;
             if (dij < (Number(v[i][5]) || 0)) return json_({ ok: true, lama: true }); // abaikan kemaskini lama
             if (v[i][6] === true) return json_({ ok: true, siap: true }); // sudah tamat: kekalkan masa penamat
-            s.getRange(i + 1, 4, 1, 5).setValues([[Number(p.skor) || 0, Number(p.betul) || 0, dij, String(p.selesai) === '1', new Date()]]);
+            s.getRange(i + 1, 4, 1, 6).setValues([[Number(p.skor) || 0, Number(p.betul) || 0, dij, String(p.selesai) === '1', new Date(), "'" + String(p.rekod || '').replace(/[^01]/g, '').slice(0, 200)]]);
             return json_({ ok: true });
           }
         }
@@ -102,9 +102,9 @@ function api_(p) {
 /* ---------- Fungsi guru (dipanggil dari Papan.html) ---------- */
 function createRoom(soalan) {
   const s = sh_('Bilik', BILIK_H);
-  const A = 'ABCDEFGHJKMNPQRSTUVWXYZ';
-  let code;
-  do { code = ''; for (let i = 0; i < 4; i++) code += A[Math.floor(Math.random() * A.length)]; } while (findRoom_(code));
+  const NAMA = ['QAMAR', 'SHAMS', 'NAJM', 'NUR', 'FAJR', 'BADR', 'ZAHRAH', 'WARDAH', 'LULU', 'ASAD', 'SAQR', 'JAMAL', 'TAMR', 'ZAITUN', 'QALAM', 'KITAB', 'SALAM', 'HILAL', 'BARQ', 'NAHR'];
+  let code, cuba = 0;
+  do { code = NAMA[Math.floor(Math.random() * NAMA.length)] + (10 + Math.floor(Math.random() * 90)); cuba++; } while (findRoom_(code) && cuba < 60);
   const kunci = Utilities.getUuid().replace(/-/g, '').slice(0, 12);
   s.appendRow([code, 'menunggu', Number(soalan) || 12, Math.floor(Math.random() * 1e9), 0, new Date(), kunci]);
   return { bilik: code, kunci: kunci, api: ScriptApp.getService().getUrl(), game: GAME_URL };

@@ -23,7 +23,7 @@ button{font:inherit;cursor:pointer;border:0;color:inherit}
 label{font-weight:600;text-align:left;display:grid;gap:6px}
 input{font:inherit;font-size:20px;padding:14px 16px;border-radius:16px;border:2px solid var(--line);background:#fff;width:100%}
 input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
-#inBilik{text-transform:uppercase;letter-spacing:6px;text-align:center;font-weight:700;font-size:28px}
+#inBilik{text-transform:uppercase;letter-spacing:3px;text-align:center;font-weight:700;font-size:28px}
 .btn{background:var(--coral);color:#fff;border-radius:18px;padding:14px 26px;min-height:56px;font-weight:700;font-size:20px;box-shadow:0 6px 0 #c63c3c}
 .btn:active{transform:translateY(4px);box-shadow:0 2px 0 #c63c3c}
 .btn.link{background:none;box-shadow:none;color:var(--teal);font-size:16px;min-height:44px;padding:6px}
@@ -67,6 +67,11 @@ input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
 .hot b{display:block;font-size:56px}
 .boost{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(90deg,transparent 0 60px,#ffffff66 60px 64px);animation:zoomz .5s linear forwards;z-index:4}
 @keyframes zoomz{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(-200px)}}
+.qa{font-size:24px;color:#0d2b2e}
+.okpop{position:absolute;left:50%;top:30%;transform:translate(-50%,-50%);background:#fff;border-radius:24px;padding:8px 26px;text-align:center;box-shadow:0 12px 30px #0003;z-index:6;color:#1fb86a;animation:nit .65s ease-out forwards;pointer-events:none}
+.okpop .ar{display:block;font-size:44px;line-height:1.3}.okpop small{color:#5a7477;font-weight:600}
+.nitro{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);font-size:clamp(44px,9vw,90px);font-weight:700;color:#ff5d5d;text-shadow:0 4px 0 #ffc531,0 10px 30px #0005;z-index:6;animation:nit .9s ease-out forwards;pointer-events:none;white-space:nowrap}
+@keyframes nit{0%{transform:translate(-50%,-50%) scale(.3) rotate(-8deg);opacity:0}30%{transform:translate(-50%,-50%) scale(1.15) rotate(-4deg);opacity:1}100%{transform:translate(-50%,-90%) scale(1);opacity:0}}
 .count{position:fixed;inset:0;display:grid;place-items:center;z-index:9;background:#0d2b2ecc}
 .lights{display:flex;gap:18px;background:#111;padding:20px 26px;border-radius:30px}
 .lights i{width:clamp(60px,12vw,110px);height:clamp(60px,12vw,110px);border-radius:50%;background:#333;display:block}
@@ -75,6 +80,8 @@ input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
 .rank{width:min(460px,100%);display:grid;gap:6px}
 .rank div{display:flex;justify-content:space-between;background:#fff;border-radius:14px;padding:8px 14px;border:2px solid var(--line);font-weight:600}
 .rank div.me{border-color:var(--sun);background:#fff8e1}
+.cred{display:flex;align-items:center;gap:10px;text-align:left}.cred img{width:46px;height:46px;object-fit:contain;background:#fff;border-radius:12px;padding:3px}.cred b{display:block;font-size:15px;line-height:1.2}.cred span{font-size:13px;opacity:.85}
+.credj{background:#ffffffe6;border:1px solid #d6ece8;border-radius:18px;padding:8px 14px;color:#0d2b2e;box-shadow:0 8px 20px #0001}
 #fx{position:fixed;inset:0;pointer-events:none;z-index:20;width:100%;height:100%}
 .brandz{position:fixed;right:12px;bottom:calc(6px + env(safe-area-inset-bottom));font-size:12px;color:var(--mut);z-index:1}
 @media(prefers-reduced-motion:reduce){*{animation:none!important}}
@@ -84,14 +91,16 @@ input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
 <canvas id="fx"></canvas>
 
 <section class="scr on" id="sJoin"><div class="center">
+  <div class="cred credj"><img src="lencana.png" alt="Lencana SK Bukit Mutiara" onerror="this.style.display='none'"><div><b>Oleh Ustaz Mohd Syazwan Ab Rahman</b><span>SK Bukit Mutiara</span></div></div>
   <div id="heroCar" class="carbig"></div>
   <p class="logo">Lumba <span>Pakaian</span> Arab</p>
+  <p class="ar" style="font-size:30px;margin:0">أَهْلًا وَسَهْلًا!</p>
   <p class="sub">Arabic e-Camp · Unit 2: Malabisi al-Jamilah. Jawab betul, kereta laju!</p>
   <form class="card" id="fJoin">
-    <label>Kod bilik<input id="inBilik" maxlength="4" autocomplete="off" required></label>
+    <label>Nama bilik<input id="inBilik" maxlength="12" autocomplete="off" required></label>
     <label>Nama kumpulan<input id="inNama" maxlength="20" autocomplete="off" placeholder="cth: Kumpulan Kilat" required></label>
     <div class="err" id="joinErr"></div>
-    <button class="btn" id="btnJoin" type="submit">Masuk trek lumba</button>
+    <button class="btn" id="btnJoin" type="submit">اُدْخُلْ · Masuk trek lumba</button>
     <button class="btn link" type="button" id="btnDemo">Cuba latihan dahulu (tanpa markah)</button>
   </form>
 </div></section>
@@ -99,14 +108,14 @@ input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
 <section class="scr" id="sWait"><div class="center">
   <span class="chip"><span class="pulse"></span> <span id="wName"></span> di garisan mula · bilik <b id="wBilik"></b></span>
   <div id="waitCar" class="carbig"></div>
-  <h2 style="margin:0;font-size:clamp(26px,4vw,40px)">Tunggu cikgu tekan MULA…</h2>
+  <h2 class="ar" style="margin:0;font-size:clamp(30px,4.5vw,44px)">اِنْتَظِرْ مِنْ فَضْلِكَ…</h2><p class="sub" style="margin-top:-8px">Tunggu cikgu tekan MULA</p>
   <p class="sub">Tekan jawapan yang betul secepat mungkin. Salah jawab = enjin panas 2 saat!</p>
 </div></section>
 
 <section class="scr" id="sPlay">
   <div class="hud">
-    <span class="chip">Kedudukan <b id="hRank">–</b></span>
-    <span class="chip">Betul <b id="hS">0</b>/<span id="hN">15</span></span>
+    <span class="chip"><span class="ar">الْمَرْتَبَةُ</span> <small>Kedudukan</small> <b id="hRank">–</b></span>
+    <span class="chip"><span class="ar">صَحِيْحٌ</span> <small>Betul</small> <b id="hS">0</b>/<span id="hN">15</span></span>
     <span class="chip" id="hStreak" hidden>🔥 <b id="hSt">0</b></span>
     <button class="iconbtn" id="bMus" aria-label="Muzik">🎵</button>
   </div>
@@ -122,7 +131,7 @@ input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
   <div class="rank" id="eRank"></div>
   <p class="sub" id="eNote">Lihat trek lumba di skrin hadapan!</p>
 </div></section>
-<div class="brandz">Arabic e-Camp · Ustaz Syazwan</div>
+<div class="brandz">Ustaz Mohd Syazwan Ab Rahman · SK Bukit Mutiara</div>
 
 <script>
 {
@@ -185,18 +194,25 @@ const SFX={
  screech(){tone(1800,.5,'sawtooth',.06,0,null,900);noise(.6,.35,3000);tone(120,.6,'square',.1,0,null,60)},
  light(hi){tone(hi?880:440,hi?.6:.25,'square',.15)},
  win(){[[523,0],[659,.15],[784,.3],[1047,.45],[784,.62],[1047,.75]].forEach(([f,t])=>{tone(f,.35,'triangle',.22,t);tone(f/2,.35,'sine',.1,t)});tone(1319,.9,'triangle',.2,.9)},
+ nitro(){tone(200,.5,'sawtooth',.12,0,null,1600);noise(.5,.3,2500,0,null,'highpass');tone(1200,.3,'triangle',.1,.25,null,2400)},
+ cheer(){noise(2.2,.3,1400);noise(2.2,.18,3200,.1);[0,.25,.5].forEach(t=>tone(1046,.15,'triangle',.1,t+.2))},
  horn(){tone(392,.25,'square',.12);tone(494,.25,'square',.1);tone(392,.35,'square',.12,.3);tone(494,.35,'square',.1,.3)}
 };
 /* muzik lumba: rentak laju */
-const BASS=[40,40,52,40,43,43,55,43,45,45,57,45,43,43,55,47],MEL=[64,0,67,0,69,67,64,0,62,64,0,67,69,0,71,69];
+const HIJ=[62,63,66,67,69,70,72,74];
+const MEL=[0,1,2,3,4,3,2,1,4,5,4,3,2,3,1,0, 4,4,5,6,7,6,5,4,3,4,2,3,1,2,0,0];
+const DRUM='D.tkD.t.D.tkDttk';
 const midi=m=>440*Math.pow(2,(m-69)/12);
-function musicTick(){if(!ac)return;while(nextT<ac.currentTime+.3){const t=nextT-ac.currentTime,s=step%16;
-  tone(midi(BASS[s]),.12,'sawtooth',.06,t,musG);if(MEL[s]&&step%32>=16)tone(midi(MEL[s]),.12,'square',.035,t,musG);
-  if(s%4===0)tone(120,.15,'sine',.22,t,musG,45);if(s%4===2)noise(.08,.16,2500,t,musG);noise(.03,.06,7000,t,musG);
-  nextT+=.115;step++}}
+function musicTick(){if(!ac)return;while(nextT<ac.currentTime+.3){const t=nextT-ac.currentTime,s=step%16,dr=DRUM[s],m=MEL[step%32];
+  tone(midi(HIJ[m]+12),.13,'triangle',.05,t,musG);if(step%2===0)tone(midi(HIJ[m]),.2,'sawtooth',.02,t,musG);
+  if(s%8===0)tone(midi(38),.3,'sine',.15,t,musG);
+  if(dr==='D')tone(110,.2,'sine',.24,t,musG,50);if(dr==='t')noise(.06,.2,3200,t,musG);if(dr==='k')noise(.04,.1,5000,t,musG);
+  nextT+=.12;step++}}
 function music(on){clearInterval(musT);musT=null;if(on&&musOn&&audio()){nextT=ac.currentTime+.05;musT=setInterval(musicTick,80)}}
 let arVoice=null;function lv(){try{arVoice=speechSynthesis.getVoices().find(v=>/^ar/i.test(v.lang))||null}catch(e){}}
 try{speechSynthesis.onvoiceschanged=lv;lv()}catch(e){}
+const PRAISE=['أحسنت','ممتاز','صحيح','جيد جدا'];
+function speakQ(t,rate){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='ar-SA';if(arVoice)u.voice=arVoice;u.rate=rate||1;speechSynthesis.speak(u)}catch(e){}}
 function speak(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/[ً-ْٰ]/g,''));u.lang='ar-SA';if(arVoice)u.voice=arVoice;u.rate=.8;speechSynthesis.speak(u)}catch(e){}}
 
 /* ===== KONFETI ===== */
@@ -220,7 +236,7 @@ let G=null; // {bilik,id,nama,seed,n,betul,dijawab,demo,streak}
 const save=()=>{try{if(G&&!G.demo)localStorage.setItem('lpa-sesi',JSON.stringify(G))}catch(e){}};
 let sending=false,pending=false;
 async function push(){if(!G||G.demo)return;if(sending){pending=true;return}sending=true;pending=false;
-  try{await api({action:'score',bilik:G.bilik,id:G.id,skor:G.betul,betul:G.betul,dijawab:G.dijawab,selesai:G.betul>=G.n?1:0})}catch(e){pending=true}
+  try{await api({action:'score',bilik:G.bilik,id:G.id,skor:G.betul,betul:G.betul,dijawab:G.dijawab,selesai:G.betul>=G.n?1:0,rekod:G.rekod||''})}catch(e){pending=true}
   sending=false;if(pending)setTimeout(push,1500)}
 
 /* ===== SERTAI ===== */
@@ -230,7 +246,7 @@ if($('#inBilik').value)setTimeout(()=>$('#inNama').focus(),300);
 $('#fJoin').onsubmit=async e=>{
   e.preventDefault();audio();SFX.horn();
   const bilik=$('#inBilik').value.trim().toUpperCase(),nama=$('#inNama').value.trim();
-  if(bilik.length!==4)return $('#joinErr').textContent='Kod bilik mesti 4 huruf.';
+  if(!/^[A-Z0-9]{3,12}$/.test(bilik))return $('#joinErr').textContent='Semak nama bilik (cth: QAMAR27).';
   if(!nama)return $('#joinErr').textContent='Tulis nama kumpulan.';
   $('#btnJoin').disabled=true;$('#joinErr').textContent='Menyambung…';
   try{
@@ -257,7 +273,7 @@ function lights(waitMs){
   const o=document.createElement('div');o.className='count';o.innerHTML='<div class="lights"><i></i><i></i><i></i></div>';document.body.appendChild(o);
   const L=[...o.querySelectorAll('i')],t0=performance.now()+Math.max(0,waitMs-3000);let st=-1;
   (function tick(){const e=performance.now()-t0,s=e<0?-1:Math.min(3,Math.floor(e/1000));
-    if(s!==st){st=s;if(s>=0&&s<3){L[s].className='r';SFX.light(false)}if(s===3){L.forEach(x=>x.className='g');SFX.light(true);SFX.vroom()}}
+    if(s!==st){st=s;if(s>=0&&s<3){L[s].className='r';SFX.light(false);speakQ(['ثلاثة','اثنان','واحد'][s],1.1)}if(s===3){L.forEach(x=>x.className='g');SFX.light(true);SFX.vroom();speakQ('انطلق',1.1)}}
     if(e<3500)requestAnimationFrame(tick);else{o.remove();startRace()}})();
 }
 
@@ -278,9 +294,9 @@ function next(){
   if(ended)return;if(G.betul>=G.n)return finish(false);
   locked=false;cur=gen();const q=cur,a=q.ans,qw=$('#qwrap');
   let top='',opts='';
-  if(q.type==='gambar'){top=`<div class="lbl">Apakah ini dalam Bahasa Arab?</div><div class="pic">${S(a.id)}</div>`;opts=q.opts.map(o=>`<button class="op" data-k="${o.id}"><span class="ar" lang="ar">${esc(o.ar)}</span></button>`).join('')}
-  else if(q.type==='dengar'){top=`<div class="lbl">Tekan gambar yang betul</div><div class="ar" lang="ar">${esc(a.ar)}</div><button class="say" id="say">🔊 Dengar</button>`;opts=q.opts.map(o=>`<button class="op" data-k="${o.id}">${S(o.id)}</button>`).join('')}
-  else{top=`<div class="lbl">مَا هٰذَا؟ · Lengkapkan ayat</div><div class="pic">${S(a.id)}</div><div class="ar" lang="ar">______ ${esc(a.ar)}</div>`;opts=q.opts.map(o=>`<button class="op" data-k="${o}"><span class="ar" lang="ar">${o} ${esc(a.ar)}</span></button>`).join('')}
+  if(q.type==='gambar'){top=`<div class="lbl"><span class="ar qa">مَا هٰذَا؟</span><br>Apakah ini dalam Bahasa Arab?</div><div class="pic">${S(a.id)}</div>`;opts=q.opts.map(o=>`<button class="op" data-k="${o.id}"><span class="ar" lang="ar">${esc(o.ar)}</span></button>`).join('')}
+  else if(q.type==='dengar'){top=`<div class="lbl"><span class="ar qa">اِخْتَرِ الصُّوْرَةَ الصَّحِيْحَةَ</span><br>Tekan gambar yang betul</div><div class="ar" lang="ar">${esc(a.ar)}</div><button class="say" id="say">🔊 <span class="ar">اِسْتَمِعْ</span> <small>Dengar</small></button>`;opts=q.opts.map(o=>`<button class="op" data-k="${o.id}">${S(o.id)}</button>`).join('')}
+  else{top=`<div class="lbl"><span class="ar qa">أَكْمِلِ الْجُمْلَةَ · مَا هٰذَا؟</span><br>Lengkapkan ayat</div><div class="pic">${S(a.id)}</div><div class="ar" lang="ar">______ ${esc(a.ar)}</div>`;opts=q.opts.map(o=>`<button class="op" data-k="${o}"><span class="ar" lang="ar">${o} ${esc(a.ar)}</span></button>`).join('')}
   qw.innerHTML=`<div class="qcard">${top}</div><div class="opts">${opts}</div>`;
   if($('#say')){$('#say').onclick=()=>speak(a.ar);setTimeout(()=>speak(a.ar),200)}
   qw.querySelectorAll('.op').forEach(b=>b.addEventListener('click',()=>answer(b)));
@@ -290,27 +306,28 @@ function answer(b){
   const q=cur,k=b.dataset.k,right=q.type==='pola'?k===(q.ans.f?HADHIHI:HADHA):k===q.ans.id;
   const correctKey=q.type==='pola'?(q.ans.f?HADHIHI:HADHA):q.ans.id;
   $('#qwrap').querySelectorAll('.op').forEach(o=>o.classList.add(o.dataset.k===correctKey?'good':o===b?'bad':'dim'));
-  G.dijawab++;
+  G.dijawab++;G.rekod=(G.rekod||'')+(right?'1':'0');
   if(right){
-    G.betul++;G.streak++;SFX.vroom();const bz=document.createElement('div');bz.className='boost';$('#qwrap').appendChild(bz);
+    G.betul++;G.streak++;SFX.vroom();{const OK=[['صَحِيْحٌ!','Betul!'],['مُمْتَازٌ!','Cemerlang!'],['أَحْسَنْتَ!','Bagus!']],[ar,ms]=OK[Math.floor(Math.random()*3)],e=document.createElement('div');e.className='okpop';e.innerHTML=`<span class="ar">${ar}</span><small>${ms}</small>`;$('#qwrap').appendChild(e);setTimeout(()=>e.remove(),640)}const bz=document.createElement('div');bz.className='boost';$('#qwrap').appendChild(bz);
     $('#track').style.setProperty('--run','running');setTimeout(()=>$('#track').style.setProperty('--run','paused'),800);
     moveCar();save();push();
-    if(G.streak%3===0)burst(50);
+    speakQ(PRAISE[Math.floor(Math.random()*PRAISE.length)],1.1);
+    if(G.streak%3===0){burst(60);SFX.nitro();const n=document.createElement('div');n.className='nitro';n.textContent='NITRO! 🔥 x'+G.streak;$('#qwrap').appendChild(n);setTimeout(()=>n.remove(),900)}
     setTimeout(next,650);
   }else{
     G.streak=0;SFX.screech();moveCar();save();push();
     $('#smoke').style.left=Math.max(0,parseFloat($('#meCar').style.left)||0)+'px';$('#smoke').classList.add('on');
-    const h=document.createElement('div');h.className='hot';h.innerHTML=`<div><b>🔥</b>Enjin panas!<br><span style="font-size:18px;color:#5a7477">Jawapan: ${q.type==='pola'?correctKey+' ':''}${esc(q.ans.ar)} (${esc(q.ans.ms)})</span></div>`;$('#qwrap').appendChild(h);
-    setTimeout(()=>speak((q.type==='pola'?correctKey+' ':'')+q.ans.ar),300);
+    const h=document.createElement('div');h.className='hot';h.innerHTML=`<div><b>🔥</b><span class="ar" style="font-size:34px">خَطَأٌ!</span><br><span style="font-size:18px">Salah! Enjin panas 2 saat</span><br><span style="font-size:18px;color:#5a7477">Jawapan: ${q.type==='pola'?correctKey+' ':''}${esc(q.ans.ar)} (${esc(q.ans.ms)})</span></div>`;$('#qwrap').appendChild(h);
+    speakQ('خطأ',1);setTimeout(()=>speak((q.type==='pola'?correctKey+' ':'')+q.ans.ar),700);
     setTimeout(()=>{$('#smoke').classList.remove('on');next()},2200);
   }
 }
 async function finish(byTeacher){
   if(ended)return;ended=true;clearInterval(rankT);clearInterval(pollT);music(false);
-  show('sEnd');SFX.win();burst(160);
+  show('sEnd');SFX.win();setTimeout(()=>speakQ('مبروك',.9),900);if(G.betul>=G.n)SFX.cheer();burst(160);
   const done=G.betul>=G.n;
   $('#eIcon').textContent=done?'🏁':'⏱️';
-  $('#eTitle').textContent=done?'Penamat! Tahniah '+G.nama+'!':'Lumba tamat!';
+  $('#eTitle').innerHTML=done?'<span class="ar">مَبْرُوْكٌ!</span><br><small style="font-size:18px">Penamat! Tahniah '+esc(G.nama)+'!</small>':'<span class="ar">اِنْتَهَى السِّبَاقُ</span><br><small style="font-size:18px">Lumba tamat</small>';
   $('#eScore').textContent=G.betul+' / '+G.n;
   $('#eSub').textContent=`Betul ${G.betul} daripada ${G.dijawab} jawapan.`;
   if(G.demo){$('#eNote').innerHTML='Itu latihan sahaja. <button class="btn" onclick="location.reload()">Kembali</button>';return}

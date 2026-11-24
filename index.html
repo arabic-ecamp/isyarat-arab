@@ -26,7 +26,7 @@ button{font:inherit;cursor:pointer;border:0;color:inherit}
 label{font-weight:600;text-align:left;display:grid;gap:6px}
 input{font:inherit;font-size:20px;padding:14px 16px;border-radius:16px;border:2px solid var(--line);background:#fff;width:100%;text-transform:none}
 input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
-#inBilik{text-transform:uppercase;letter-spacing:6px;text-align:center;font-weight:700;font-size:28px}
+#inBilik{text-transform:uppercase;letter-spacing:3px;text-align:center;font-weight:700;font-size:28px}
 .btn{background:var(--teal);color:#fff;border-radius:18px;padding:14px 26px;min-height:56px;font-weight:700;font-size:20px;box-shadow:0 6px 0 #09595a;transition:transform .08s}
 .btn:active{transform:translateY(4px);box-shadow:0 2px 0 #09595a}
 .btn.sun{background:var(--sun);color:var(--ink);box-shadow:0 6px 0 #d29d10}
@@ -101,6 +101,8 @@ input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
 @keyframes zoom{from{transform:scale(.3);opacity:0}}
 .fbk h2{margin:0;font-size:clamp(36px,6vw,60px);line-height:1}
 .fbk .ok{color:var(--ok)}.fbk .no{color:var(--coral)}
+.fbk .fms{font-size:18px;font-weight:600;color:var(--mut)}
+.qtop .ms{font-size:14px;color:var(--mut);margin-top:-2px}
 .fbk p{margin:6px 0 0;font-size:20px;color:var(--mut)}
 .count{position:absolute;inset:0;display:grid;place-items:center;z-index:9;background:#0d2b2e99}
 .count b{font-size:min(40vw,240px);color:#fff;font-weight:700;text-shadow:0 10px 40px #0008;animation:zoom .6s cubic-bezier(.3,1.6,.6,1)}
@@ -112,6 +114,8 @@ input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
 .rank{width:min(460px,100%);display:grid;gap:6px}
 .rank div{display:flex;justify-content:space-between;background:#fff;border-radius:14px;padding:8px 14px;border:2px solid var(--line);font-weight:600}
 .rank div.me{border-color:var(--sun);background:#fff8e1}
+.cred{display:flex;align-items:center;gap:10px;text-align:left}.cred img{width:46px;height:46px;object-fit:contain;background:#fff;border-radius:12px;padding:3px}.cred b{display:block;font-size:15px;line-height:1.2}.cred span{font-size:13px;opacity:.85}
+.credj{background:#ffffffe6;border:1px solid #d6ece8;border-radius:18px;padding:8px 14px;color:#0d2b2e;box-shadow:0 8px 20px #0001}
 #fx{position:fixed;inset:0;pointer-events:none;z-index:20;width:100%;height:100%}
 .brandz{position:fixed;right:12px;bottom:calc(6px + env(safe-area-inset-bottom));font-size:12px;color:var(--mut);z-index:1}
 @media(max-width:700px){.howto{grid-template-columns:minmax(0,1fr)}}
@@ -125,13 +129,15 @@ input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
 
 <!-- SERTAI -->
 <section class="scr on" id="sJoin"><div class="center">
+  <div class="cred credj"><img src="lencana.png" alt="Lencana SK Bukit Mutiara" onerror="this.style.display='none'"><div><b>Oleh Ustaz Mohd Syazwan Ab Rahman</b><span>SK Bukit Mutiara</span></div></div>
   <p class="logo">Isyarat <span>Tangan</span> Arab</p>
+  <p class="ar" style="font-size:30px;margin:0">أَهْلًا وَسَهْلًا!</p>
   <p class="sub">Arabic e-Camp · Nombor 21–30. Masukkan nama kumpulan anda.</p>
   <form class="card" id="fJoin">
-    <label>Kod bilik<input id="inBilik" maxlength="4" autocomplete="off" required></label>
+    <label>Nama bilik<input id="inBilik" maxlength="12" autocomplete="off" required></label>
     <label>Nama kumpulan<input id="inNama" maxlength="20" autocomplete="off" placeholder="cth: Kumpulan Bintang" required></label>
     <div class="err" id="joinErr"></div>
-    <button class="btn sun" id="btnJoin" type="submit">Sertai permainan</button>
+    <button class="btn sun" id="btnJoin" type="submit">اُدْخُلْ · Sertai permainan</button>
     <button class="btn link" type="button" id="btnDemo">Cuba main latihan dahulu (tanpa markah)</button>
   </form>
 </div></section>
@@ -139,7 +145,7 @@ input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
 <!-- MENUNGGU -->
 <section class="scr" id="sWait"><div class="center">
   <span class="chip"><span class="pulse"></span> <span id="wName"></span> sudah sertai bilik <b id="wBilik"></b></span>
-  <h2 style="margin:0;font-size:clamp(26px,4vw,40px)">Tunggu cikgu tekan MULA…</h2>
+  <h2 class="ar" style="margin:0;font-size:clamp(30px,4.5vw,44px)">اِنْتَظِرْ مِنْ فَضْلِكَ…</h2><p class="sub" style="margin-top:-8px">Tunggu cikgu tekan MULA</p>
   <div class="wait-cam" id="waitCam"></div>
   <p class="sub" id="waitMsg">Sambil menunggu, cuba gerakkan tangan di depan kamera.</p>
   <div class="howto">
@@ -152,8 +158,8 @@ input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
 <!-- MAIN -->
 <section class="scr" id="sPlay">
   <div class="hud">
-    <span class="chip">Soalan <b id="hQ">1</b>/<span id="hN">12</span></span>
-    <span class="chip">Mata <b id="hS">0</b></span>
+    <span class="chip"><span class="ar">السُّؤَالُ</span> <small>Soalan</small> <b id="hQ">1</b>/<span id="hN">12</span></span>
+    <span class="chip"><span class="ar">النِّقَاطُ</span> <small>Mata</small> <b id="hS">0</b></span>
     <span class="chip" id="hStreak" hidden>🔥 <b id="hSt">0</b></span>
     <div class="tbar" id="tbar"><i></i></div>
     <button class="iconbtn" id="bMus" aria-label="Muzik">🎵</button>
@@ -175,7 +181,7 @@ input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
   <div class="rank" id="eRank"></div>
   <p class="sub" id="eNote">Lihat papan markah di hadapan kelas!</p>
 </div></section>
-<div class="brandz">Arabic e-Camp · Ustaz Syazwan</div>
+<div class="brandz">Ustaz Mohd Syazwan Ab Rahman · SK Bukit Mutiara</div>
 
 <script>
 {
@@ -234,6 +240,8 @@ function musicTick(){if(!ac)return;while(nextT<ac.currentTime+.3){const t=nextT-
 function music(on){clearInterval(musT);musT=null;if(on&&musOn&&audio()){nextT=ac.currentTime+.05;musT=setInterval(musicTick,80)}}
 let arVoice=null;function lv(){try{arVoice=speechSynthesis.getVoices().find(v=>/^ar/i.test(v.lang))||null}catch(e){}}
 try{speechSynthesis.onvoiceschanged=lv;lv()}catch(e){}
+const PRAISE=['أحسنت','ممتاز','صحيح','جيد جدا'];
+function speakQ(t,rate){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='ar-SA';if(arVoice)u.voice=arVoice;u.rate=rate||1;speechSynthesis.speak(u)}catch(e){}}
 function speak(d){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(d.say);u.lang='ar-SA';if(arVoice)u.voice=arVoice;u.rate=.8;speechSynthesis.speak(u)}catch(e){}}
 
 /* ================= KONFETI ================= */
@@ -323,7 +331,7 @@ let sending=false,pending=false;
 async function pushScore(){
   if(!S||S.demo)return;if(sending){pending=true;return}
   sending=true;pending=false;
-  try{await api({action:'score',bilik:S.bilik,id:S.id,skor:S.skor,betul:S.betul,dijawab:S.i,selesai:S.i>=S.n?1:0})}catch(e){pending=true}
+  try{await api({action:'score',bilik:S.bilik,id:S.id,skor:S.skor,betul:S.betul,dijawab:S.i,selesai:S.i>=S.n?1:0,rekod:S.rekod||''})}catch(e){pending=true}
   sending=false;if(pending)setTimeout(pushScore,1500);
 }
 
@@ -334,7 +342,7 @@ if($('#inBilik').value)setTimeout(()=>$('#inNama').focus(),300);
 $('#fJoin').onsubmit=async e=>{
   e.preventDefault();audio();SFX.tap();initCam();
   const bilik=$('#inBilik').value.trim().toUpperCase(),nama=$('#inNama').value.trim();
-  if(bilik.length!==4)return $('#joinErr').textContent='Kod bilik mesti 4 huruf.';
+  if(!/^[A-Z0-9]{3,12}$/.test(bilik))return $('#joinErr').textContent='Semak nama bilik (cth: QAMAR27).';
   if(!nama)return $('#joinErr').textContent='Tulis nama kumpulan.';
   $('#btnJoin').disabled=true;$('#joinErr').textContent='Menyambung…';
   try{
@@ -373,8 +381,8 @@ function startCountdown(waitMs){
   const t0=performance.now()+Math.max(0,waitMs-3000);let last=null;
   (function tick(){
     const left=Math.ceil((t0+3000-performance.now())/1000);
-    const v=left>3?'…':left>0?left:'Mula!';
-    if(v!==last){last=v;ov2.innerHTML=`<b>${v}</b>`;if(typeof v==='number')SFX.beep(false);else if(v==='Mula!')SFX.beep(true)}
+    const v=left>3?'…':left>0?'٠١٢٣'[left]:'اِبْدَأْ!';
+    if(v!==last){last=v;ov2.innerHTML=`<b class="ar">${v}</b>`;if(v.length===1&&v!=='…'){SFX.beep(false);speakQ({'٣':'ثلاثة','٢':'اثنان','١':'واحد'}[v],1.1)}else if(v!=='…'){SFX.beep(true);speakQ('ابدأ',1.1)}}
     if(performance.now()<t0+3600)requestAnimationFrame(tick);else{ov2.remove();startPlay()}
   })();
 }
@@ -397,26 +405,27 @@ function nextQ(){
 }
 function result(q,picked,left){
   clearInterval(tId);
-  const ok=picked===q.ans.n;S.i++;
+  const ok=picked===q.ans.n;S.i++;S.rekod=(S.rekod||'')+(ok?'1':'0');
   if(ok){S.betul++;S.streak++;const add=10+Math.round(left/5)+(S.streak>=3?5:0);S.skor+=add;SFX.ok();burst(80);if(S.streak>=3)setTimeout(SFX.streak,350);fb(true,`+${add} mata`+(S.streak>=3?' · 🔥 '+S.streak+' berturut':''))}
-  else{S.streak=0;SFX.no();fb(false,(picked==null?'Masa tamat · ':'')+`Jawapan: ${q.ans.n} = ${q.ans.rm}`)}
-  setTimeout(()=>speak(q.ans),500);
+  else{S.streak=0;SFX.no();fb(false,`Jawapan: ${q.ans.n} = ${q.ans.rm}`,picked==null)}
+  speakQ(ok?PRAISE[Math.floor(Math.random()*PRAISE.length)]:(picked==null?'انتهى الوقت':'خطأ'),1);setTimeout(()=>speak(q.ans),1100);
   hud();save();pushScore();
   setTimeout(nextQ,2600);
 }
-function fb(ok,txt){const d=document.createElement('div');d.className='fbk';d.innerHTML=`<div><h2 class="${ok?'ok':'no'}">${ok?['Betul!','Hebat!','Mumtaz!','Bagus!'][Math.floor(Math.random()*4)]:'Alamak!'}</h2><p>${esc(txt)}</p></div>`;layer.appendChild(d)}
-function qTop(html,label,tag){const d=document.createElement('div');d.className='qtop';d.innerHTML=`<div class="lbl"><em>${tag}</em>${label}</div>${html}`;layer.appendChild(d);return d}
-function sayBtn(top,a){const b=document.createElement('button');b.className='say';b.textContent='🔊 Dengar';b.onclick=e=>{e.stopPropagation();speak(a)};top.appendChild(b);setTimeout(()=>speak(a),300)}
+const OK_AR=[['صَحِيْحٌ!','Betul!'],['مُمْتَازٌ!','Cemerlang!'],['أَحْسَنْتَ!','Bagus!'],['جَيِّدٌ جِدًّا!','Sangat baik!']];
+function fb(ok,txt,timeout){const d=document.createElement('div');d.className='fbk';const [ar,ms]=ok?OK_AR[Math.floor(Math.random()*OK_AR.length)]:(timeout?['اِنْتَهَى الْوَقْتُ!','Masa tamat!']:['خَطَأٌ!','Salah!']);d.innerHTML=`<div><h2 class="ar ${ok?'ok':'no'}">${ar}</h2><div class="fms">${ms}</div><p>${esc(txt)}</p></div>`;layer.appendChild(d)}
+function qTop(html,label,tag){const [arL,msL]=label.split('|');const d=document.createElement('div');d.className='qtop';d.innerHTML=`<div class="lbl"><em>${tag}</em><span class="ar" style="font-size:22px;color:#0d2b2e">${arL}</span></div><div class="ms">${msL}</div>${html}`;layer.appendChild(d);return d}
+function sayBtn(top,a){const b=document.createElement('button');b.className='say';b.innerHTML='🔊 <span class="ar">اِسْتَمِعْ</span> <small>Dengar</small>';b.onclick=e=>{e.stopPropagation();speak(a)};top.appendChild(b);setTimeout(()=>speak(a),300)}
 
 /* ---------- JENIS 1: ABCD DENGAN JARI ---------- */
 const COL=['#0e7c7b','#ff5d5d','#e5a500','#3d7bfd'];
 function QAbcd(q,done){
-  qTop(`<div class="num">${q.ans.n}</div>`,'Pilih perkataan Arab yang betul','A B C D');
+  qTop(`<div class="num">${q.ans.n}</div>`,'اِخْتَرِ الْجَوَابَ الصَّحِيْحَ|Pilih jawapan yang betul · 1 jari = A, 2 = B, 3 = C, 4 = D','A B C D');
   const g=document.createElement('div');g.className='abcd';
   g.innerHTML=q.opts.map((o,i)=>`<div class="op" style="--c:${COL[i]}" data-i="${i}"><div class="k">${'ABCD'[i]}<small>${i+1} jari</small></div><div class="ar" lang="ar">${esc(o.ar)}</div></div>`).join('');
   layer.appendChild(g);const els=[...g.children];
   const bub=document.createElement('div');bub.className='holdbub';bub.innerHTML=`<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="#0d2b2e88" stroke="#ffffff44" stroke-width="9"/><circle id="hr" cx="50" cy="50" r="42" fill="none" stroke="#ffc531" stroke-width="9" stroke-linecap="round" stroke-dasharray="263.9" stroke-dashoffset="263.9" transform="rotate(-90 50 50)"/></svg><div class="n" id="hn"></div>`;layer.appendChild(bub);
-  const tip=document.createElement('div');tip.className='downtip';tip.textContent='✋ Turunkan tangan dahulu';
+  const tip=document.createElement('div');tip.className='downtip';tip.innerHTML='✋ <span class="ar">أَنْزِلْ يَدَكَ</span> <small>Turunkan tangan</small>';
   const c={done:false,cursor:false,armed:touchMode,hv:null,hs:0,down:0};
   if(!c.armed)layer.appendChild(tip);
   const ring=bub.querySelector('#hr'),hn=bub.querySelector('#hn');
@@ -436,10 +445,10 @@ function QAbcd(q,done){
 /* ---------- JENIS 2: SERET KE KOTAK ---------- */
 function QSeret(q,done){
   const W=stage.clientWidth,H=stage.clientHeight;
-  const top=qTop(`<div class="ar" lang="ar">${esc(q.ans.ar)}</div><div class="rm">${esc(q.ans.rm)}</div>`,'Cubit &amp; seret nombor yang betul ke dalam kotak','SERET');sayBtn(top,q.ans);
+  const top=qTop(`<div class="ar" lang="ar">${esc(q.ans.ar)}</div><div class="rm">${esc(q.ans.rm)}</div>`,'اِسْحَبِ الرَّقْمَ الصَّحِيْحَ إِلَى الصُّنْدُوْقِ|Cubit &amp; seret nombor yang betul ke dalam kotak','SERET');sayBtn(top,q.ans);
   const box=document.createElement('div');box.className='box';
   const bw=Math.min(W*.34,300),bh=Math.min(H*.26,190),bx=(W-bw)/2,by=Math.max(top.offsetHeight+24,H*.30);
-  Object.assign(box.style,{left:bx+'px',top:by+'px',width:bw+'px',height:bh+'px'});box.innerHTML='<span>📥 Kotak Jawapan<br>Letak di sini</span>';layer.appendChild(box);
+  Object.assign(box.style,{left:bx+'px',top:by+'px',width:bw+'px',height:bh+'px'});box.innerHTML='<span>📥 <span class="ar" style="font-size:22px">ضَعْ هُنَا</span><br>Letak di sini</span>';layer.appendChild(box);
   const cs=Math.min(W*.17,H*.24,150),cy=H-cs*.62-14;
   const cards=q.opts.map((o,i)=>{const el=document.createElement('div');el.className='dcard';const hx=W*(.2+.3*i);
     Object.assign(el.style,{width:cs+'px',height:cs+'px',left:hx+'px',top:cy+'px',fontSize:cs*.45+'px'});el.textContent=o.n;layer.appendChild(el);return {el,o,hx,hy:cy,x:hx,y:cy}});
@@ -482,7 +491,7 @@ const BCOL=[['#ff6b6b','#c92a2a'],['#4dabf7','#1864ab'],['#ffd43b','#e67700'],['
 function balloonSVG(i){const [a,b]=BCOL[i%5];return `<svg viewBox="0 0 100 150"><defs><radialGradient id="bg${i}" cx="35%" cy="30%" r="70%"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".25" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></radialGradient></defs><path d="M50 108 Q47 125 53 135 Q58 145 50 150" stroke="#fff" stroke-width="2" fill="none" opacity=".8"/><ellipse cx="50" cy="55" rx="44" ry="52" fill="url(#bg${i})"/><path d="M44 106 L56 106 L50 98 Z" fill="${b}"/><ellipse cx="34" cy="32" rx="9" ry="14" fill="#fff" opacity=".45" transform="rotate(-20 34 32)"/></svg>`}
 function QBelon(q,done){
   const W=stage.clientWidth,H=stage.clientHeight;
-  const top=qTop(`<div class="ar" lang="ar">${esc(q.ans.ar)}</div><div class="rm">${esc(q.ans.rm)}</div>`,'Pecahkan belon nombor yang betul dengan jari telunjuk','BELON');sayBtn(top,q.ans);
+  const top=qTop(`<div class="ar" lang="ar">${esc(q.ans.ar)}</div><div class="rm">${esc(q.ans.rm)}</div>`,'فَجِّرِ الْبَالُوْنَ الصَّحِيْحَ|Pecahkan belon yang betul dengan jari telunjuk','BELON');sayBtn(top,q.ans);
   const hint=document.createElement('div');hint.className='tips2';hint.textContent=touchMode?'Sentuh belon yang betul':'☝️ Sentuh belon dengan hujung jari telunjuk';layer.appendChild(hint);
   const bw=Math.min(W*.15,H*.2,130),bh=bw*1.5,minY=top.offsetHeight+20+bh*.35,n=q.opts.length,speed=H/9;
   const bs=q.opts.map((o,i)=>{const el=document.createElement('div');el.className='bal';el.style.width=bw+'px';el.innerHTML=balloonSVG(i)+`<b style="font-size:${bw*.42}px">${o.n}</b>`;layer.appendChild(el);
@@ -510,9 +519,9 @@ let ended=false;
 async function finish(byTeacher){
   if(ended)return;ended=true;
   clearInterval(tId);clearInterval(playPoll);clearInterval(pollT);if(ctl)ctl.done=true;ctl=null;music(false);
-  show('sEnd');SFX.win();burst(160);
+  show('sEnd');SFX.win();burst(160);setTimeout(()=>speakQ('مبروك',.9),900);
   const n=S.n||qList.length;
-  $('#eTitle').textContent=byTeacher&&S.i<n?'Masa tamat! Cikgu sudah tamatkan permainan':'Tahniah, '+S.nama+'!';
+  $('#eTitle').innerHTML=byTeacher&&S.i<n?'<span class="ar">اِنْتَهَى الْوَقْتُ!</span><br><small style="font-size:18px">Masa tamat</small>':'<span class="ar">مَبْرُوْكٌ!</span><br><small style="font-size:18px">Tahniah, '+esc(S.nama)+'!</small>';
   $('#eScore').textContent=S.skor+' mata';
   $('#eSub').textContent=`Betul ${S.betul} daripada ${S.i} soalan dijawab.`;
   if(S.demo){$('#eNote').innerHTML='Itu latihan sahaja. <button class="btn" onclick="location.reload()">Kembali</button>';return}

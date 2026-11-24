@@ -12,7 +12,8 @@
 body{margin:0;min-height:100vh;background:linear-gradient(160deg,#e9fbf7 0%,#fff7df 55%,#ffe9e6 100%);color:var(--ink);font:18px/1.45 Fredoka,system-ui,sans-serif}
 button{font:inherit;cursor:pointer;border:0}
 .top{background:var(--teal);color:#fff;padding:12px 24px;display:flex;align-items:center;gap:12px}
-.top b{font-size:22px;flex:1}
+.cred{display:flex;align-items:center;gap:10px;text-align:left}.cred img{width:46px;height:46px;object-fit:contain;background:#fff;border-radius:12px;padding:3px}.cred b{display:block;font-size:15px;line-height:1.2}.cred span{font-size:13px;opacity:.85}
+.top>b{font-size:22px;flex:1}
 .top button{background:#ffffff22;color:#fff;border:1px solid #ffffff55;border-radius:999px;padding:8px 16px}
 main{max-width:1240px;margin:0 auto;padding:24px}
 .scr{display:none}.scr.on{display:block;animation:f .4s}
@@ -32,7 +33,8 @@ h1{font-size:clamp(34px,4.5vw,54px);line-height:1.05;margin:0 0 10px}
 .qrbox{text-align:center}
 #qr{display:inline-block;padding:16px;background:#fff;border-radius:20px;border:4px solid var(--sun)}
 #qr img,#qr canvas{width:min(330px,70vw)!important;height:auto!important}
-.code{font-size:72px;font-weight:700;letter-spacing:14px;color:var(--teal);line-height:1;margin:10px 0}
+.arname{font-family:'Noto Naskh Arabic',serif;font-size:44px;font-weight:700;color:#0d2b2e;line-height:1.3}
+.code{font-size:clamp(44px,6vw,72px);font-weight:700;letter-spacing:4px;color:var(--teal);line-height:1;margin:10px 0}
 .chips{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 20px;min-height:50px}
 .chips span{background:#fff;border:2px solid var(--c);color:var(--c);border-radius:999px;padding:8px 16px;font-weight:700;animation:pop .4s cubic-bezier(.3,1.6,.6,1)}
 @keyframes pop{from{transform:scale(.3)}}
@@ -55,7 +57,8 @@ h1{font-size:clamp(34px,4.5vw,54px);line-height:1.05;margin:0 0 10px}
 .pod div{width:170px;border-radius:20px 20px 8px 8px;background:var(--c);color:#fff;padding:14px;font-weight:700;display:flex;flex-direction:column;justify-content:flex-end;box-shadow:0 10px 30px #0003}
 .pod b{font-size:40px}
 .race{display:grid;gap:10px;background:#2f3a44;border-radius:24px;padding:14px;box-shadow:0 16px 40px #0003}
-.lane{display:grid;grid-template-columns:170px minmax(0,1fr) 70px;align-items:center;gap:12px}
+.lane{display:grid;grid-template-columns:190px minmax(0,1fr) 70px;align-items:center;gap:12px}
+.lst{font-size:13px;color:#cfe3e1;font-weight:600}.ldots{display:flex;gap:3px;margin-top:3px}.ldots i{width:9px;height:9px;border-radius:3px;display:block}.ldots i.y{background:#2dff7a}.ldots i.n{background:#ff5d5d}
 .lname{color:#fff;font-weight:700;font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.lname b{color:var(--sun)}
 .road{position:relative;height:64px;background:#3b4550;border-radius:12px;border-top:3px solid var(--c);overflow:hidden}
 .road::before{content:"";position:absolute;left:0;right:30px;top:50%;height:4px;margin-top:-2px;background:repeating-linear-gradient(90deg,#ffffff99 0 34px,transparent 34px 68px)}
@@ -64,6 +67,17 @@ h1{font-size:clamp(34px,4.5vw,54px);line-height:1.05;margin:0 0 10px}
 .car .flag{position:absolute;right:-6px;top:-12px;font-size:26px}
 .lpt{color:#fff;font-weight:700;font-size:24px;text-align:right}
 @media(max-width:800px){.lane{grid-template-columns:100px minmax(0,1fr) 54px}.lname{font-size:15px}}
+.lightsov{position:fixed;inset:0;z-index:8;background:#0d2b2ecc;display:grid;place-content:center;justify-items:center;gap:20px}
+.lights{display:flex;gap:22px;background:#111;padding:24px 30px;border-radius:34px;box-shadow:0 20px 60px #0008}
+.lights i{width:120px;height:120px;border-radius:50%;background:#333;display:block}
+.lights i.r{background:#ff3b3b;box-shadow:0 0 50px #ff3b3b}.lights i.g{background:#2dff7a;box-shadow:0 0 50px #2dff7a}
+.lt{color:#fff;font-size:90px;font-weight:700;line-height:1}
+.bann{position:fixed;left:50%;top:90px;transform:translateX(-50%);background:var(--sun);color:var(--ink);font-weight:700;font-size:34px;padding:14px 30px;border-radius:999px;box-shadow:0 14px 40px #0004;z-index:7;animation:bn .5s cubic-bezier(.3,1.6,.6,1)}
+@keyframes bn{from{transform:translate(-50%,-40px) scale(.6);opacity:0}}
+.race{background:linear-gradient(180deg,#2f3a44,#25303a);position:relative}
+.race::before{content:"👏🙌🎉👏📣🙌👏🎉🙌📣👏🙌🎉👏";display:block;font-size:22px;letter-spacing:10px;text-align:center;opacity:.85;margin-bottom:6px;animation:crowd .6s ease-in-out infinite alternate}
+@keyframes crowd{to{transform:translateY(-3px)}}
+.car svg{filter:drop-shadow(0 4px 4px #0006)}
 #fx{position:fixed;inset:0;pointer-events:none;z-index:9;width:100%;height:100%}
 footer{text-align:center;color:var(--mut);font-size:14px;padding:16px}
 @media(max-width:800px){.lobby{grid-template-columns:1fr}}
@@ -71,7 +85,7 @@ footer{text-align:center;color:var(--mut);font-size:14px;padding:16px}
 </head>
 <body>
 <canvas id="fx"></canvas>
-<div class="top"><b>🏎️ Trek Lumba · Pakaian Arab (Unit 2)</b><button id="bMus">🎵 Muzik</button></div>
+<div class="top"><div class="cred"><img src="lencana.png" alt="Lencana SK Bukit Mutiara" onerror="this.style.display='none'"><div><b>Oleh Ustaz Mohd Syazwan Ab Rahman</b><span>SK Bukit Mutiara</span></div></div><b style="text-align:center">🏎️ Trek Lumba · Pakaian Arab (Unit 2)</b><button id="bMus">🎵 Muzik</button></div>
 <main>
   <section class="scr on" id="sSet">
     <h1>Cipta perlumbaan baharu</h1>
@@ -89,7 +103,8 @@ footer{text-align:center;color:var(--mut);font-size:14px;padding:16px}
       <div class="card qrbox">
         <b>Imbas QR dengan kamera iPad</b>
         <div id="qr"></div>
-        <div class="mut">atau masukkan kod bilik</div>
+        <div class="mut">Nama bilik</div>
+        <div class="arname" id="arname"></div>
         <div class="code" id="code"></div>
         <button class="btn sun" id="bDl" style="font-size:18px;padding:10px 20px">⬇ Muat turun QR</button>
       </div>
@@ -120,10 +135,12 @@ footer{text-align:center;color:var(--mut);font-size:14px;padding:16px}
     </div>
   </section>
 </main>
-<footer>Arabic e-Camp · Ustaz Syazwan</footer>
+<footer>Arabic e-Camp · Ustaz Mohd Syazwan Ab Rahman · SK Bukit Mutiara</footer>
 <script>
 {
 const $=s=>document.querySelector(s);
+const ARNAME={QAMAR:['قَمَر','bulan'],SHAMS:['شَمْس','matahari'],NAJM:['نَجْم','bintang'],NUR:['نُوْر','cahaya'],FAJR:['فَجْر','fajar'],BADR:['بَدْر','bulan purnama'],ZAHRAH:['زَهْرَة','bunga'],WARDAH:['وَرْدَة','mawar'],LULU:['لُؤْلُؤ','mutiara'],ASAD:['أَسَد','singa'],SAQR:['صَقْر','helang'],JAMAL:['جَمَل','unta'],TAMR:['تَمْر','kurma'],ZAITUN:['زَيْتُوْن','zaitun'],QALAM:['قَلَم','pena'],KITAB:['كِتَاب','buku'],SALAM:['سَلَام','kesejahteraan'],HILAL:['هِلَال','anak bulan'],BARQ:['بَرْق','kilat'],NAHR:['نَهْر','sungai']};
+const arOf=c=>{const k=String(c).replace(/[0-9]+$/,'');return ARNAME[k]||null};
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const show=id=>document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id===id));
 const COLS=['#0e7c7b','#ff5d5d','#e5a500','#3d7bfd','#9b51e0','#e8590c','#2b8a3e','#d6336c','#1971c2','#795548'];
@@ -143,11 +160,18 @@ const run=(fn,...a)=>{
 let ac=null,musOn=true,musT=null,step=0,nextT=0,musG;
 function audio(){if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)();musG=ac.createGain();musG.gain.value=.5;musG.connect(ac.destination)}catch(e){}}if(ac&&ac.state==='suspended')ac.resume();return ac}
 function tone(f,d,type,v,at,dest){if(!audio())return;const t=ac.currentTime+(at||0),o=ac.createOscillator(),g=ac.createGain();o.type=type||'sine';o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v||.2,t+.01);g.gain.exponentialRampToValueAtTime(.0008,t+d);o.connect(g);g.connect(dest||ac.destination);o.start(t);o.stop(t+d+.05)}
-const MEL=[62,63,66,67,69,0,67,66,63,62,0,0,69,70,69,67,66,67,63,62,62,63,66,67,69,72,70,69,67,66,63,62],midi=m=>440*Math.pow(2,(m-69)/12);
-function tick(){while(nextT<ac.currentTime+.3){const t=nextT-ac.currentTime,m=MEL[Math.floor(step/2)%MEL.length];if(step%2===0&&m)tone(midi(m),.3,'triangle',.06,t,musG);if(step%8===0)tone(midi(38),.35,'sine',.14,t,musG);if(step%4===0)tone(110,.18,'sine',.18,t,musG);nextT+=.135;step++}}
+const midi=m=>440*Math.pow(2,(m-69)/12);
+const HIJ=[62,63,66,67,69,70,72,74],MEL2=[0,1,2,3,4,3,2,1,4,5,4,3,2,3,1,0,4,4,5,6,7,6,5,4,3,4,2,3,1,2,0,0],DRUM='D.tkD.t.D.tkDttk';
+let nb=null;function noise(d,v,freq,at,type){if(!audio())return;if(!nb){nb=ac.createBuffer(1,ac.sampleRate*1.5,ac.sampleRate);const x=nb.getChannelData(0);for(let i=0;i<x.length;i++)x[i]=Math.random()*2-1}const t=ac.currentTime+(at||0),s=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();s.buffer=nb;f.type=type||'bandpass';f.frequency.value=freq;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+Math.min(.3,d/3));g.gain.exponentialRampToValueAtTime(.0008,t+d);s.connect(f);f.connect(g);g.connect(ac.destination);s.start(t);s.stop(t+d+.05)}
+const vroom=()=>{tone(80,.7,'sawtooth',.16,0,null);tone(160,.6,'square',.05,.05);noise(.6,.25,700,0,'lowpass')};
+const horn=()=>{tone(392,.22,'square',.1);tone(494,.22,'square',.08);tone(392,.3,'square',.1,.28);tone(494,.3,'square',.08,.28)};
+const cheer=()=>{noise(2.4,.35,1400,0,'bandpass');noise(2.4,.2,3200,.1,'bandpass');[0,.25,.5].forEach(t=>tone(1046,.15,'triangle',.1,t+.2))};
+const beep=hi=>tone(hi?880:440,hi?.7:.3,'square',.15);
+function tick(){while(nextT<ac.currentTime+.3){const t=nextT-ac.currentTime,q=step%16,m=MEL2[step%32],dr=DRUM[q];tone(midi(HIJ[m]+12),.13,'triangle',.05,t,musG);if(step%2===0)tone(midi(HIJ[m]),.2,'sawtooth',.02,t,musG);if(q%8===0)tone(midi(38),.3,'sine',.14,t,musG);if(dr==='D')tone(110,.2,'sine',.22,t,musG);if(dr==='t'||dr==='k')tone(dr==='t'?2600:4200,.04,'square',.02,t,musG);nextT+=.12;step++}}
 function music(on){clearInterval(musT);if(on&&musOn&&audio()){nextT=ac.currentTime+.05;musT=setInterval(tick,80)}}
 const ding=()=>{tone(784,.2,'triangle',.2);tone(1175,.3,'triangle',.2,.1)};
 const fanfare=()=>[[523,0],[659,.15],[784,.3],[1047,.45],[784,.62],[1047,.75],[1319,.9]].forEach(([f,t])=>{tone(f,.45,'triangle',.25,t);tone(f/2,.45,'sine',.12,t)});
+function announceAr(t,then){try{const v=speechSynthesis.getVoices().find(x=>/^ar/i.test(x.lang)),u=new SpeechSynthesisUtterance(t);u.lang='ar-SA';if(v)u.voice=v;u.rate=.9;u.onend=u.onerror=then;speechSynthesis.speak(u)}catch(e){then&&then()}}
 function announce(t){try{speechSynthesis.cancel();const v=speechSynthesis.getVoices().find(x=>/^(ms|id)/i.test(x.lang)),u=new SpeechSynthesisUtterance(t);u.lang=v?v.lang:'ms-MY';if(v)u.voice=v;u.rate=.95;speechSynthesis.speak(u)}catch(e){}}
 $('#bMus').onclick=()=>{musOn=!musOn;$('#bMus').style.opacity=musOn?1:.5;music(musOn&&!$('#sSet').classList.contains('on'))};
 
@@ -157,13 +181,13 @@ function burst(n){fx.width=innerWidth;fx.height=innerHeight;for(let i=0;i<n;i++)
 function d(){fc.clearRect(0,0,fx.width,fx.height);parts=parts.filter(p=>p.l-->0&&p.y<fx.height+20);parts.forEach(p=>{p.vy+=.05;p.x+=p.vx;p.y+=p.vy;p.r+=.08;fc.save();fc.translate(p.x,p.y);fc.rotate(p.r);fc.fillStyle=p.c;fc.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);fc.restore()});raf=parts.length?requestAnimationFrame(d):0}
 
 /* tetapan */
-$('#segQ').innerHTML=[10,15,20,25].map(v=>`<button data-v="${v}" class="${v===nQ?'on':''}">${v} betul</button>`).join('');
+$('#segQ').innerHTML=[5,10,15,20,25,30].map(v=>`<button data-v="${v}" class="${v===nQ?'on':''}">${v} betul</button>`).join('');
 $('#segQ').querySelectorAll('button').forEach(b=>b.onclick=()=>{nQ=+b.dataset.v;$('#segQ').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b))});
 $('#bCreate').onclick=async()=>{
   audio();$('#bCreate').disabled=true;$('#setMsg').textContent='Mencipta bilik…';
   try{
     room=await run('createRoom',nQ);announced=false;colorOf={};
-    $('#code').textContent=room.bilik;$('#qr').innerHTML='';
+    $('#code').textContent=room.bilik;{const a=arOf(room.bilik);$('#arname').innerHTML=a?esc(a[0])+' <span style="font-family:Fredoka,sans-serif;font-size:20px;color:#5a7477">('+esc(a[1])+')</span>':''}$('#qr').innerHTML='';
     const ok=/^https:\/\//.test(room.game);
     $('#warn').innerHTML='';
     const url=(ok?room.game:'')+'?bilik='+room.bilik+'&api='+encodeURIComponent(room.api);
@@ -172,7 +196,7 @@ $('#bCreate').onclick=async()=>{
   }catch(e){$('#setMsg').textContent='Ralat: '+e.message}
   $('#bCreate').disabled=false;
 };
-$('#bStart').onclick=async()=>{$('#bStart').disabled=true;ding();try{await run('startRoom',room.bilik);show('sLive')}catch(e){$('#warn').innerHTML='<div class="warn">Ralat: '+esc(e.message)+'</div>';$('#bStart').disabled=false}};
+$('#bStart').onclick=async()=>{$('#bStart').disabled=true;ding();try{await run('startRoom',room.bilik);show('sLive');lightsBoard()}catch(e){$('#warn').innerHTML='<div class="warn">Ralat: '+esc(e.message)+'</div>';$('#bStart').disabled=false}};
 $('#bEnd').onclick=async()=>{$('#bEnd').disabled=true;try{const b=await run('endRoom',room.bilik);winner(b)}catch(e){$('#bEnd').disabled=false}};
 $('#bDl').onclick=()=>{
   const src=$('#qr canvas');if(!src||!room)return;
@@ -183,26 +207,31 @@ $('#bDl').onclick=()=>{
   x.fillStyle='#0d2b2e';x.font='600 34px Fredoka, sans-serif';x.fillText('Imbas QR dengan kamera iPad',W/2,220);
   x.fillStyle='#ffc531';x.fillRect(110,260,680,680);x.fillStyle='#fff';x.fillRect(125,275,650,650);
   x.imageSmoothingEnabled=false;x.drawImage(src,150,300,600,600);
-  x.fillStyle='#5a7477';x.font='28px Fredoka, sans-serif';x.fillText('Kod bilik',W/2,1000);
-  x.fillStyle='#0e7c7b';x.font='bold 80px Fredoka, sans-serif';x.fillText(room.bilik.split('').join(' '),W/2,1080);
-  x.fillStyle='#5a7477';x.font='24px Fredoka, sans-serif';x.fillText('Arabic e-Camp · Ustaz Syazwan',W/2,1130);
+  x.fillStyle='#5a7477';x.font='28px Fredoka, sans-serif';x.fillText('Nama bilik',W/2,985);{const a=arOf(room.bilik);if(a){x.fillStyle='#0d2b2e';x.font='bold 46px "Noto Naskh Arabic", serif';x.fillText(a[0]+'  ·  '+a[1],W/2,1035)}}
+  x.fillStyle='#0e7c7b';x.font='bold 64px Fredoka, sans-serif';x.fillText(room.bilik,W/2,1100);
+  x.fillStyle='#5a7477';x.font='24px Fredoka, sans-serif';x.fillText('Arabic e-Camp · Ustaz Syazwan',W/2,1140);
   const a=document.createElement('a');a.download='QR-Lumba-Pakaian-Arab-'+room.bilik+'.png';a.href=c.toDataURL('image/png');document.body.appendChild(a);a.click();a.remove();
 };
 $('#bNew').onclick=()=>{clearInterval(pollT);music(false);show('sSet')};
 
 function startPoll(){clearInterval(pollT);let busy=false;pollT=setInterval(async()=>{if(busy)return;busy=true;try{render(await run('getBoard',room.bilik))}catch(e){}busy=false},2000)}
+let prevSk={},prevDone={};
+function lightsBoard(){const o=document.createElement('div');o.className='lightsov';o.innerHTML='<div class="lights"><i></i><i></i><i></i></div><div class="lt">Bersedia…</div>';document.body.appendChild(o);const L=[...o.querySelectorAll('i')],t0=performance.now()+3000;let st=-1;
+ (function tk(){const e=performance.now()-t0,s=e<0?-1:Math.min(3,Math.floor(e/1000));if(s!==st){st=s;const say=t=>{try{const v=speechSynthesis.getVoices().find(x=>/^ar/i.test(x.lang)),u=new SpeechSynthesisUtterance(t);u.lang='ar-SA';if(v)u.voice=v;u.rate=1.1;speechSynthesis.speak(u)}catch(e){}};if(s>=0&&s<3){L[s].className='r';beep(false);o.querySelector('.lt').textContent='٣٢١'[s];say(['ثلاثة','اثنان','واحد'][s])}if(s===3){L.forEach(x=>x.className='g');beep(true);vroom();horn();o.querySelector('.lt').innerHTML='<span style="font-family:Noto Naskh Arabic,serif">اِنْطَلِقْ!</span> GO!';say('انطلق')}}if(e<3800)requestAnimationFrame(tk);else o.remove()})()}
+function fxRace(g){let moved=false;g.forEach(x=>{if(prevSk[x.id]!=null&&x.skor>prevSk[x.id])moved=true;if(x.selesai&&!prevDone[x.id]&&prevSk[x.id]!=null){cheer();banner('🏁 '+x.nm+' sampai penamat!')}prevSk[x.id]=x.skor;prevDone[x.id]=x.selesai});if(moved)vroom()}
+function banner(t){const b=document.createElement('div');b.className='bann';b.textContent=t;document.body.appendChild(b);setTimeout(()=>b.remove(),2600)}
 function cOf(id){if(!(id in colorOf))colorOf[id]=col(Object.keys(colorOf).length);return colorOf[id]}
 let lastJoin=0;
 function render(b){
   if(!b)return;const g=b.groups;
   if($('#sLobby').classList.contains('on')){
     $('#nJoin').textContent=g.length;$('#bStart').disabled=g.length<1;
-    if(g.length>lastJoin)ding();lastJoin=g.length;
+    if(g.length>lastJoin){horn();vroom()}lastJoin=g.length;
     $('#chips').innerHTML=g.map(x=>`<span style="--c:${cOf(x.id)}">${esc(x.nm)}</span>`).join('');
   }
   if($('#sLive').classList.contains('on')){
     const done=g.filter(x=>x.selesai).length;$('#liveInfo').textContent=`${done}/${g.length} kumpulan selesai`;
-    $('#lb').innerHTML=rows(g,b.soalan);
+    $('#lb').innerHTML=rows(g,b.soalan);fxRace(g);
     if(g.length&&done===g.length&&!announced){run('endRoom',room.bilik).then(winner)}
   }
 }
@@ -214,7 +243,7 @@ function rows(g,n){
 function lanes(g,n){
   const r=ranked(g),pos={};r.forEach(x=>pos[x.id]=x.rk);
   const order=g.slice().sort((a,b)=>String(a.id).localeCompare(String(b.id)));
-  return `<div class="race">`+order.map(x=>{const pc=Math.min(1,x.skor/n);return `<div class="lane" style="--c:${cOf(x.id)}"><div class="lname"><b>#${pos[x.id]}</b> ${esc(x.nm)}</div><div class="road"><div class="fin"></div><div class="car" style="left:calc(${(pc*100).toFixed(1)}% - ${(pc*96).toFixed(1)}px)">${carSVG(cOf(x.id))}${x.selesai?'<span class="flag">🏁</span>':''}</div></div><div class="lpt">${x.skor}/${n}</div></div>`}).join('')+`</div>`}
+  return `<div class="race">`+order.map(x=>{const pc=Math.min(1,x.skor/n);return `<div class="lane" style="--c:${cOf(x.id)}"><div class="lname"><b>#${pos[x.id]}</b> ${esc(x.nm)}<div class="lst">${x.betul}✓ ${x.dijawab-x.betul}✗ · ${x.dijawab?Math.round(x.betul/x.dijawab*100):0}%</div><div class="ldots">${(x.rekod||'').slice(-12).split('').map(c=>`<i class="${c==='1'?'y':'n'}"></i>`).join('')}</div></div><div class="road"><div class="fin"></div><div class="car" style="left:calc(${(pc*100).toFixed(1)}% - ${(pc*96).toFixed(1)}px)">${carSVG(cOf(x.id))}${x.selesai?'<span class="flag">🏁</span>':''}</div></div><div class="lpt">${x.skor}/${n}</div></div>`}).join('')+`</div>`}
 function winner(b){
   if(announced||!b)return;announced=true;clearInterval(pollT);
   const s=ranked(b.groups),w=s.filter(x=>x.rk===1);
@@ -225,8 +254,8 @@ function winner(b){
   const h=[200,150,115];
   $('#pod').innerHTML=s.filter(x=>x.rk<=3).slice(0,6).map(x=>`<div style="--c:${cOf(x.id)};height:${h[x.rk-1]+40}px"><span>#${x.rk}</span><b>${x.skor}</b><span>${esc(x.nm)}</span></div>`).join('');
   $('#lbEnd').innerHTML=rows(b.groups,b.soalan);
-  fanfare();burst(260);setTimeout(()=>burst(200),1500);
-  setTimeout(()=>announce(w.length>1?'Keputusan seri! Tahniah '+w.map(x=>x.nm).join(' dan ')+'!':'Tahniah! Johan perlumbaan ialah '+w[0].nm+'!'),1300);
+  fanfare();cheer();burst(260);setTimeout(()=>burst(200),1500);
+  setTimeout(()=>{try{speechSynthesis.cancel()}catch(e){}announceAr('مبروك! الفائز هو '+w.map(x=>x.nm).join(' و '),()=>announce(w.length>1?'Keputusan seri! Tahniah '+w.map(x=>x.nm).join(' dan ')+'!':'Tahniah! Johan perlumbaan ialah '+w[0].nm+'!'))},1300);
 }
 }
 </script>

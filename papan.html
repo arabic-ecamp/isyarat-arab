@@ -12,7 +12,8 @@
 body{margin:0;min-height:100vh;background:linear-gradient(160deg,#e9fbf7 0%,#fff7df 55%,#ffe9e6 100%);color:var(--ink);font:18px/1.45 Fredoka,system-ui,sans-serif}
 button{font:inherit;cursor:pointer;border:0}
 .top{background:var(--teal);color:#fff;padding:12px 24px;display:flex;align-items:center;gap:12px}
-.top b{font-size:22px;flex:1}
+.cred{display:flex;align-items:center;gap:10px;text-align:left}.cred img{width:46px;height:46px;object-fit:contain;background:#fff;border-radius:12px;padding:3px}.cred b{display:block;font-size:15px;line-height:1.2}.cred span{font-size:13px;opacity:.85}
+.top>b{font-size:22px;flex:1}
 .top button{background:#ffffff22;color:#fff;border:1px solid #ffffff55;border-radius:999px;padding:8px 16px}
 main{max-width:1240px;margin:0 auto;padding:24px}
 .scr{display:none}.scr.on{display:block;animation:f .4s}
@@ -32,7 +33,8 @@ h1{font-size:clamp(34px,4.5vw,54px);line-height:1.05;margin:0 0 10px}
 .qrbox{text-align:center}
 #qr{display:inline-block;padding:16px;background:#fff;border-radius:20px;border:4px solid var(--sun)}
 #qr img,#qr canvas{width:min(330px,70vw)!important;height:auto!important}
-.code{font-size:72px;font-weight:700;letter-spacing:14px;color:var(--teal);line-height:1;margin:10px 0}
+.arname{font-family:'Noto Naskh Arabic',serif;font-size:44px;font-weight:700;color:#0d2b2e;line-height:1.3}
+.code{font-size:clamp(44px,6vw,72px);font-weight:700;letter-spacing:4px;color:var(--teal);line-height:1;margin:10px 0}
 .chips{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 20px;min-height:50px}
 .chips span{background:#fff;border:2px solid var(--c);color:var(--c);border-radius:999px;padding:8px 16px;font-weight:700;animation:pop .4s cubic-bezier(.3,1.6,.6,1)}
 @keyframes pop{from{transform:scale(.3)}}
@@ -44,6 +46,9 @@ h1{font-size:clamp(34px,4.5vw,54px);line-height:1.05;margin:0 0 10px}
 .row .bar{height:12px;background:#eef6f5;border-radius:999px;overflow:hidden;margin-top:6px}
 .row .bar i{display:block;height:100%;background:var(--c);border-radius:999px;transition:width .6s}
 .row .pt{font-size:38px;font-weight:700;color:var(--c);text-align:right}
+.dots{display:flex;flex-wrap:wrap;gap:4px;margin:6px 0 2px}.dots .d{width:24px;height:24px;border-radius:7px;background:#eef3f2;color:#9aaeb0;font-style:normal;font-size:11px;font-weight:700;display:grid;place-items:center}.dots .d.y{background:#1fb86a;color:#fff;font-size:14px}.dots .d.n{background:#ff5d5d;color:#fff;font-size:14px}
+.st{font-size:14px;font-weight:600;background:#eef6f5;color:#0e7c7b;border-radius:999px;padding:2px 10px;margin-left:8px}.st.ok{background:#e8faf0;color:#1fb86a}
+.row .pt small{display:block;font-size:13px;color:#5a7477;font-weight:600;text-align:right}
 .row .pr{font-size:14px;color:var(--mut)}
 .row.first{border-color:var(--sun);background:#fffaeb}
 .head{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px}
@@ -61,7 +66,7 @@ footer{text-align:center;color:var(--mut);font-size:14px;padding:16px}
 </head>
 <body>
 <canvas id="fx"></canvas>
-<div class="top"><b>🏆 Papan Markah · Isyarat Tangan Arab</b><button id="bMus">🎵 Muzik</button></div>
+<div class="top"><div class="cred"><img src="lencana.png" alt="Lencana SK Bukit Mutiara" onerror="this.style.display='none'"><div><b>Oleh Ustaz Mohd Syazwan Ab Rahman</b><span>SK Bukit Mutiara</span></div></div><b style="text-align:center">🏆 Papan Markah · Isyarat Tangan Arab</b><button id="bMus">🎵 Muzik</button></div>
 <main>
   <section class="scr on" id="sSet">
     <h1>Cipta bilik permainan baharu</h1>
@@ -79,7 +84,8 @@ footer{text-align:center;color:var(--mut);font-size:14px;padding:16px}
       <div class="card qrbox">
         <b>Imbas QR dengan kamera iPad</b>
         <div id="qr"></div>
-        <div class="mut">atau masukkan kod bilik</div>
+        <div class="mut">Nama bilik</div>
+        <div class="arname" id="arname"></div>
         <div class="code" id="code"></div>
         <button class="btn sun" id="bDl" style="font-size:18px;padding:10px 20px">⬇ Muat turun QR</button>
       </div>
@@ -110,10 +116,12 @@ footer{text-align:center;color:var(--mut);font-size:14px;padding:16px}
     </div>
   </section>
 </main>
-<footer>Arabic e-Camp · Ustaz Syazwan</footer>
+<footer>Arabic e-Camp · Ustaz Mohd Syazwan Ab Rahman · SK Bukit Mutiara</footer>
 <script>
 {
 const $=s=>document.querySelector(s);
+const ARNAME={QAMAR:['قَمَر','bulan'],SHAMS:['شَمْس','matahari'],NAJM:['نَجْم','bintang'],NUR:['نُوْر','cahaya'],FAJR:['فَجْر','fajar'],BADR:['بَدْر','bulan purnama'],ZAHRAH:['زَهْرَة','bunga'],WARDAH:['وَرْدَة','mawar'],LULU:['لُؤْلُؤ','mutiara'],ASAD:['أَسَد','singa'],SAQR:['صَقْر','helang'],JAMAL:['جَمَل','unta'],TAMR:['تَمْر','kurma'],ZAITUN:['زَيْتُوْن','zaitun'],QALAM:['قَلَم','pena'],KITAB:['كِتَاب','buku'],SALAM:['سَلَام','kesejahteraan'],HILAL:['هِلَال','anak bulan'],BARQ:['بَرْق','kilat'],NAHR:['نَهْر','sungai']};
+const arOf=c=>{const k=String(c).replace(/[0-9]+$/,'');return ARNAME[k]||null};
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const show=id=>document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id===id));
 const COLS=['#0e7c7b','#ff5d5d','#e5a500','#3d7bfd','#9b51e0','#e8590c','#2b8a3e','#d6336c','#1971c2','#795548'];
@@ -138,6 +146,7 @@ function tick(){while(nextT<ac.currentTime+.3){const t=nextT-ac.currentTime,m=ME
 function music(on){clearInterval(musT);if(on&&musOn&&audio()){nextT=ac.currentTime+.05;musT=setInterval(tick,80)}}
 const ding=()=>{tone(784,.2,'triangle',.2);tone(1175,.3,'triangle',.2,.1)};
 const fanfare=()=>[[523,0],[659,.15],[784,.3],[1047,.45],[784,.62],[1047,.75],[1319,.9]].forEach(([f,t])=>{tone(f,.45,'triangle',.25,t);tone(f/2,.45,'sine',.12,t)});
+function announceAr(t,then){try{const v=speechSynthesis.getVoices().find(x=>/^ar/i.test(x.lang)),u=new SpeechSynthesisUtterance(t);u.lang='ar-SA';if(v)u.voice=v;u.rate=.9;u.onend=u.onerror=then;speechSynthesis.speak(u)}catch(e){then&&then()}}
 function announce(t){try{speechSynthesis.cancel();const v=speechSynthesis.getVoices().find(x=>/^(ms|id)/i.test(x.lang)),u=new SpeechSynthesisUtterance(t);u.lang=v?v.lang:'ms-MY';if(v)u.voice=v;u.rate=.95;speechSynthesis.speak(u)}catch(e){}}
 $('#bMus').onclick=()=>{musOn=!musOn;$('#bMus').style.opacity=musOn?1:.5;music(musOn&&!$('#sSet').classList.contains('on'))};
 
@@ -147,13 +156,13 @@ function burst(n){fx.width=innerWidth;fx.height=innerHeight;for(let i=0;i<n;i++)
 function d(){fc.clearRect(0,0,fx.width,fx.height);parts=parts.filter(p=>p.l-->0&&p.y<fx.height+20);parts.forEach(p=>{p.vy+=.05;p.x+=p.vx;p.y+=p.vy;p.r+=.08;fc.save();fc.translate(p.x,p.y);fc.rotate(p.r);fc.fillStyle=p.c;fc.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);fc.restore()});raf=parts.length?requestAnimationFrame(d):0}
 
 /* tetapan */
-$('#segQ').innerHTML=[9,12,15,18,21].map(v=>`<button data-v="${v}" class="${v===nQ?'on':''}">${v} soalan</button>`).join('');
+$('#segQ').innerHTML=[6,9,12,15,18,21,24,30].map(v=>`<button data-v="${v}" class="${v===nQ?'on':''}">${v} soalan</button>`).join('');
 $('#segQ').querySelectorAll('button').forEach(b=>b.onclick=()=>{nQ=+b.dataset.v;$('#segQ').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b))});
 $('#bCreate').onclick=async()=>{
   audio();$('#bCreate').disabled=true;$('#setMsg').textContent='Mencipta bilik…';
   try{
     room=await run('createRoom',nQ);announced=false;colorOf={};
-    $('#code').textContent=room.bilik;$('#qr').innerHTML='';
+    $('#code').textContent=room.bilik;{const a=arOf(room.bilik);$('#arname').innerHTML=a?esc(a[0])+' <span style="font-family:Fredoka,sans-serif;font-size:20px;color:#5a7477">('+esc(a[1])+')</span>':''}$('#qr').innerHTML='';
     const ok=/^https:\/\//.test(room.game);
     $('#warn').innerHTML='';
     const url=(ok?room.game:'')+'?bilik='+room.bilik+'&api='+encodeURIComponent(room.api);
@@ -173,9 +182,9 @@ $('#bDl').onclick=()=>{
   x.fillStyle='#0d2b2e';x.font='600 34px Fredoka, sans-serif';x.fillText('Imbas QR dengan kamera iPad',W/2,220);
   x.fillStyle='#ffc531';x.fillRect(110,260,680,680);x.fillStyle='#fff';x.fillRect(125,275,650,650);
   x.imageSmoothingEnabled=false;x.drawImage(src,150,300,600,600);
-  x.fillStyle='#5a7477';x.font='28px Fredoka, sans-serif';x.fillText('Kod bilik',W/2,1000);
-  x.fillStyle='#0e7c7b';x.font='bold 80px Fredoka, sans-serif';x.fillText(room.bilik.split('').join(' '),W/2,1080);
-  x.fillStyle='#5a7477';x.font='24px Fredoka, sans-serif';x.fillText('Arabic e-Camp · Ustaz Syazwan',W/2,1130);
+  x.fillStyle='#5a7477';x.font='28px Fredoka, sans-serif';x.fillText('Nama bilik',W/2,985);{const a=arOf(room.bilik);if(a){x.fillStyle='#0d2b2e';x.font='bold 46px "Noto Naskh Arabic", serif';x.fillText(a[0]+'  ·  '+a[1],W/2,1035)}}
+  x.fillStyle='#0e7c7b';x.font='bold 64px Fredoka, sans-serif';x.fillText(room.bilik,W/2,1100);
+  x.fillStyle='#5a7477';x.font='24px Fredoka, sans-serif';x.fillText('Arabic e-Camp · Ustaz Syazwan',W/2,1140);
   const a=document.createElement('a');a.download='QR-Isyarat-Tangan-Arab-'+room.bilik+'.png';a.href=c.toDataURL('image/png');document.body.appendChild(a);a.click();a.remove();
 };
 $('#bNew').onclick=()=>{clearInterval(pollT);music(false);show('sSet')};
@@ -197,7 +206,8 @@ function render(b){
   }
 }
 function ranked(g){const s=g.slice().sort((a,b)=>b.skor-a.skor||b.betul-a.betul);let rk=0;s.forEach((x,k)=>{if(k>0&&x.skor<s[k-1].skor)rk=k;x.rk=rk+1});return s}
-function rows(g,n){return ranked(g).map(x=>`<div class="row ${x.rk===1&&x.skor>0?'first':''}" style="--c:${cOf(x.id)}"><div class="rk">${x.rk===1&&x.skor>0?'👑':'#'+x.rk}</div><div><div class="nm">${esc(x.nm)}</div><div class="bar"><i style="width:${Math.round(x.dijawab/n*100)}%"></i></div><div class="pr">${x.selesai?'✅ Selesai':'Soalan '+x.dijawab+'/'+n} · ${x.betul} betul</div></div><div class="pt">${x.skor}</div></div>`).join('')}
+function dots(r,n){let h='';for(let k=0;k<n;k++){const c=r[k];h+=`<i class="d ${c==='1'?'y':c==='0'?'n':''}">${c==='1'?'✓':c==='0'?'✗':k+1}</i>`}return `<div class="dots">${h}</div>`}
+function rows(g,n){return ranked(g).map(x=>{const acc=x.dijawab?Math.round(x.betul/x.dijawab*100):0;return `<div class="row ${x.rk===1&&x.skor>0?'first':''}" style="--c:${cOf(x.id)}"><div class="rk">${x.rk===1&&x.skor>0?'👑':'#'+x.rk}</div><div><div class="nm">${esc(x.nm)} <span class="st ${x.selesai?'ok':''}">${x.selesai?'✅ Selesai':'🎮 Soalan '+Math.min(x.dijawab+1,n)+'/'+n}</span></div>${dots(x.rekod||'',n)}<div class="pr">${x.betul} betul · ${x.dijawab-x.betul} salah · ketepatan ${acc}%</div></div><div class="pt">${x.skor}<small>mata</small></div></div>`}).join('')}
 function winner(b){
   if(announced||!b)return;announced=true;clearInterval(pollT);
   const s=ranked(b.groups),w=s.filter(x=>x.rk===1);
@@ -209,7 +219,7 @@ function winner(b){
   $('#pod').innerHTML=s.filter(x=>x.rk<=3).slice(0,6).map(x=>`<div style="--c:${cOf(x.id)};height:${h[x.rk-1]+40}px"><span>#${x.rk}</span><b>${x.skor}</b><span>${esc(x.nm)}</span></div>`).join('');
   $('#lbEnd').innerHTML=rows(b.groups,b.soalan);
   fanfare();burst(260);setTimeout(()=>burst(200),1500);
-  setTimeout(()=>announce(w.length>1?'Keputusan seri! Tahniah '+w.map(x=>x.nm).join(' dan ')+'!':'Tahniah! Pemenangnya ialah '+w[0].nm+', dengan '+w[0].skor+' mata!'),1300);
+  setTimeout(()=>{try{speechSynthesis.cancel()}catch(e){}announceAr('مبروك! الفائز هو '+w.map(x=>x.nm).join(' و '),()=>announce(w.length>1?'Keputusan seri! Tahniah '+w.map(x=>x.nm).join(' dan ')+'!':'Tahniah! Pemenangnya ialah '+w[0].nm+', dengan '+w[0].skor+' mata!'))},1300);
 }
 }
 </script>
