@@ -73,7 +73,7 @@ function label(text, color, rank) {
   g.fillStyle = '#0b2427'; g.textAlign = 'left'; g.font = '800 40px Arial'; g.fillText(t, x0 + 76, 41);
   const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
   const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, depthTest: false, transparent: true, sizeAttenuation: false }));
-  sp.scale.set(.052, .013, 1); sp.center.set(.5, 0); sp.renderOrder = 10; return sp;
+  sp.scale.set(.088, .022, 1); sp.center.set(.5, 0); sp.renderOrder = 10; return sp;
 }
 
 function palm(x, z, s) {
