@@ -137,6 +137,32 @@ footer{font-weight:600}
 @media(max-width:900px){.hdr-in{grid-template-columns:auto minmax(0,1fr)}.byline{grid-column:1/-1;justify-content:center}.setwrap{grid-template-columns:1fr}}
 
 .circ{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:16px;align-items:start}
+.gp{background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:0 20px 60px #0b24271a}
+.stand{height:58px;background:linear-gradient(#33414d,#26323c);position:relative;overflow:hidden;border-bottom:6px solid #c9a227}
+.crowd{position:absolute;inset:6px 0 0;background:radial-gradient(circle,#ff6b6b 5px,transparent 6px) 0 0/22px 22px,radial-gradient(circle,#ffd43b 5px,transparent 6px) 11px 0/22px 22px,radial-gradient(circle,#4dabf7 5px,transparent 6px) 5px 11px/22px 22px,radial-gradient(circle,#fff 5px,transparent 6px) 16px 11px/22px 22px;animation:cheer .5s ease-in-out infinite alternate}
+.crowd.c2{opacity:.6;animation-delay:-.25s;transform:translateX(7px)}
+@keyframes cheer{to{transform:translateY(-4px)}}
+.banner{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 18px;background:linear-gradient(90deg,#0b6e6d,#11908e);color:#fff;font-weight:800;font-size:13px;letter-spacing:.6px}
+.banner .arL{font-size:22px;color:var(--gold2)}
+.trackS{position:relative;padding:12px 0 14px;background:linear-gradient(#7bbd64,#86c86f 8px,#86c86f calc(100% - 8px),#7bbd64)}
+#lanes{position:relative;margin:0 14px;border-radius:10px;overflow:hidden;box-shadow:0 0 0 6px #fff,0 0 0 12px #d62828}
+.ln{position:relative;height:var(--lh,64px);background:#4b535c;border-bottom:3px dashed #ffffff55}
+.ln:nth-child(odd){background:#454d56}
+.ln:last-child{border-bottom:none}
+.ln.done{background:linear-gradient(90deg,#4b535c 70%,#5b6a4c)}
+.lno{position:absolute;left:0;top:0;bottom:0;width:30px;display:grid;place-items:center;background:#fff;color:#0b2427;font-weight:800;font-size:14px;z-index:1}
+.startl{position:absolute;left:58px;top:12px;bottom:14px;width:6px;background:#fff;z-index:2;opacity:.9}
+.finl{position:absolute;right:14px;top:4px;bottom:6px;width:26px;background:repeating-conic-gradient(#fff 0 25%,#111 0 50%) 0 0/13px 13px;z-index:2;border-radius:4px;box-shadow:0 0 0 3px #c9a227}
+.finl b{position:absolute;top:-2px;right:30px;font-size:11px;color:#fff;background:#d62828;padding:2px 8px;border-radius:6px;letter-spacing:1px}
+.car{position:absolute;top:50%;transform:translateY(-44%);transition:left 1.3s cubic-bezier(.25,1.2,.5,1);z-index:3}
+.car svg{display:block;width:100%;height:auto;filter:drop-shadow(0 4px 3px #0007)}
+.tag{position:absolute;left:8px;bottom:calc(100% - 6px);white-space:nowrap;background:#ffffffee;color:#0b2427;font-weight:800;font-size:12px;padding:2px 8px 2px 2px;border-radius:999px;box-shadow:0 3px 8px #0003}
+.tag b{color:#fff;border-radius:999px;padding:1px 7px;margin-right:4px;font-size:11px}
+.fire{position:absolute;left:-26px;top:30%;font-size:22px;opacity:0;transform:rotate(-90deg)}
+.car.boost .fire{animation:fire 1.2s ease-out}
+.car.boost::before{content:"";position:absolute;right:100%;top:20%;width:140px;height:60%;background:repeating-linear-gradient(0deg,transparent 0 6px,#ffffffaa 6px 8px);opacity:0;animation:lines 1.2s ease-out}
+@keyframes fire{0%,80%{opacity:1}100%{opacity:0}}
+@keyframes lines{0%{opacity:.9}100%{opacity:0;transform:translateX(-40px)}}
 .cwrap{background:#fff;border:1px solid var(--line);border-radius:24px;padding:10px;box-shadow:0 20px 60px #0b24271a}
 .cwrap svg{display:block;width:100%;height:auto;border-radius:16px}
 .tower{background:#0b2427;color:#fff;border-radius:20px;padding:12px;box-shadow:0 20px 50px #0b242733;max-height:calc(100vh - 220px);overflow:auto}
@@ -241,7 +267,31 @@ const horn=()=>{tone(392,.22,'square',.1);tone(494,.22,'square',.08);tone(392,.3
 const cheer=()=>{noise(2.4,.35,1400,0,'bandpass');noise(2.4,.2,3200,.1,'bandpass');[0,.25,.5].forEach(t=>tone(1046,.15,'triangle',.1,t+.2))};
 const beep=hi=>tone(hi?880:440,hi?.7:.3,'square',.15);
 function tick(){while(nextT<ac.currentTime+.3){const t=nextT-ac.currentTime,q=step%16,m=MEL2[step%32],dr=DRUM[q];tone(midi(HIJ[m]+12),.13,'triangle',.05,t,musG);if(step%2===0)tone(midi(HIJ[m]),.2,'sawtooth',.02,t,musG);if(q%8===0)tone(midi(38),.3,'sine',.14,t,musG);if(dr==='D')tone(110,.2,'sine',.22,t,musG);if(dr==='t'||dr==='k')tone(dr==='t'?2600:4200,.04,'square',.02,t,musG);nextT+=.12;step++}}
-function music(on){clearInterval(musT);if(on&&musOn&&audio()){nextT=ac.currentTime+.05;musT=setInterval(tick,80)}}
+/* ===== MUZIK LUMBA (maqam Hijaz + darbuka Maqsum) ===== */
+const RM=(()=>{let bus=null,comp=null,t=null,step=0,nt=0,spd=1,nb=null,on=false;
+ const m2f=m=>440*Math.pow(2,(m-69)/12);
+ function init(){const a=audio();if(!a)return null;if(!bus){comp=a.createDynamicsCompressor();comp.threshold.value=-18;comp.ratio.value=4;bus=a.createGain();bus.gain.value=.55;bus.connect(comp);comp.connect(a.destination);
+   nb=a.createBuffer(1,a.sampleRate,a.sampleRate);const d=nb.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}return a}
+ function osc(a,f,d,type,v,at,cut,slide){const t0=a.currentTime+Math.max(0,at),o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.setValueAtTime(f,t0);if(slide)o.frequency.exponentialRampToValueAtTime(slide,t0+d);g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(v,t0+.005);g.gain.exponentialRampToValueAtTime(.0008,t0+d);
+   if(cut){const fl=a.createBiquadFilter();fl.type='lowpass';fl.frequency.setValueAtTime(cut,t0);fl.frequency.exponentialRampToValueAtTime(Math.max(120,cut/4),t0+d);o.connect(fl);fl.connect(g)}else o.connect(g);g.connect(bus);o.start(t0);o.stop(t0+d+.03)}
+ function nz(a,d,v,f,type,at,sweep){const t0=a.currentTime+Math.max(0,at),s=a.createBufferSource(),fl=a.createBiquadFilter(),g=a.createGain();s.buffer=nb;fl.type=type;fl.frequency.setValueAtTime(f,t0);if(sweep)fl.frequency.exponentialRampToValueAtTime(sweep,t0+d);g.gain.setValueAtTime(sweep?.0008:v,t0);if(sweep)g.gain.exponentialRampToValueAtTime(v,t0+d*.95);else g.gain.exponentialRampToValueAtTime(.0008,t0+d);s.connect(fl);fl.connect(g);g.connect(bus);s.start(t0);s.stop(t0+d+.03)}
+ const BASS=[38,0,38,50, 0,38,39,0, 42,0,43,0, 45,43,42,39];
+ const HIJ=[62,63,66,67,69,70,72,74,75];
+ const LEAD=[4,-1,4,5,6,5,4,3, 4,-1,2,3,4,3,2,1, 0,-1,1,2,3,2,1,0, 2,-1,3,4,5,6,7,8, 8,7,6,5,4,-1,4,3, 2,3,4,3,2,1,0,-1, 4,4,5,4,3,4,2,3, 1,2,0,-1,0,-1,-1,-1];
+ const DR='D.T..TD.D.T..TTk';
+ function tick(){const a=ac;if(!a||!on)return;const st=.117/spd;
+  while(nt<a.currentTime+.25){const at=nt-a.currentTime,s=step%16,bar=Math.floor(step/16);
+   const b=BASS[s];if(b)osc(a,m2f(b),st*1.6,'sawtooth',.16,at,900);
+   const dr=DR[s];if(dr==='D'){osc(a,95,.28,'sine',.5,at,0,48);nz(a,.08,.12,300,'lowpass',at)}else if(dr==='T')nz(a,.07,.28,3200,'bandpass',at);else if(dr==='k')nz(a,.04,.18,5200,'highpass',at);
+   if(s%2===0)nz(a,.03,.06,9000,'highpass',at);
+   if(s%2===0){const li=LEAD[(step/2|0)%LEAD.length];if(li>=0&&bar%8>=2){osc(a,m2f(HIJ[li]),st*1.9,'triangle',.07,at);osc(a,m2f(HIJ[li])*1.006,st*1.9,'square',.025,at,2400)}}
+   if(s===0){[50,54,57].forEach(n=>osc(a,m2f(n+12),st*3,'sawtooth',.035,at,1800))}
+   if(s===0&&bar%4===3)nz(a,st*16,.12,400,'bandpass',at,6000);
+   nt+=st;step++}}
+ return{start(){if(on)return;const a=init();if(!a)return;on=true;nt=a.currentTime+.06;step=0;t=setInterval(tick,60)},
+   stop(){on=false;clearInterval(t)},setSpeed(x){spd=Math.max(1,Math.min(1.35,x))},get on(){return on}};})();
+
+function music(on){if(on&&musOn)RM.start();else RM.stop()}
 const ding=()=>{tone(784,.2,'triangle',.2);tone(1175,.3,'triangle',.2,.1)};
 const fanfare=()=>[[523,0],[659,.15],[784,.3],[1047,.45],[784,.62],[1047,.75],[1319,.9]].forEach(([f,t])=>{tone(f,.45,'triangle',.25,t);tone(f/2,.45,'sine',.12,t)});
 function announceAr(t,then){try{const v=speechSynthesis.getVoices().find(x=>/^ar/i.test(x.lang)),u=new SpeechSynthesisUtterance(t);u.lang='ar-SA';if(v)u.voice=v;u.rate=.9;u.onend=u.onerror=then;speechSynthesis.speak(u)}catch(e){then&&then()}}
@@ -312,55 +362,36 @@ function ranked(g){const s=g.slice().sort((a,b)=>(b.selesai-a.selesai)||(a.seles
 function carSVG(col){return `<svg viewBox="0 0 120 56"><ellipse cx="60" cy="52" rx="54" ry="4" fill="#0003"/><path d="M8 38 Q6 26 18 24 L36 22 L50 10 Q56 6 66 6 L82 6 Q90 6 94 12 L102 22 Q114 24 114 34 L114 40 Q114 44 108 44 L12 44 Q8 44 8 38 Z" fill="${col}" stroke="#0005" stroke-width="2"/><path d="M52 12 L64 10 L64 22 L42 22 Z M68 10 L82 10 Q88 10 90 14 L94 22 L68 22 Z" fill="#cfefff"/><circle cx="32" cy="44" r="10" fill="#222"/><circle cx="32" cy="44" r="4" fill="#ccc"/><circle cx="92" cy="44" r="10" fill="#222"/><circle cx="92" cy="44" r="4" fill="#ccc"/></svg>`}
 function rows(g,n){
   return ranked(g).map(x=>`<div class="row r${x.rk} ${x.rk===1&&(x.skor>0)?'first':''}" style="--c:${cOf(x.id)}"><div class="rk">${x.rk===1&&x.skor>0?'👑':'#'+x.rk}</div><div><div class="nm">${esc(x.nm)}</div><div class="bar"><i style="width:${Math.round(Math.min(1,x.skor/n)*100)}%"></i></div><div class="pr">${x.selesai?'🏁 Sampai penamat':x.skor+'/'+n+' betul'} · ${x.dijawab} jawapan</div></div><div class="pt">${x.skor}</div></div>`).join('')}
-/* ===== LITAR LUMBA ===== */
-const TRK='M500 110 H700 A170 170 0 0 1 700 450 H300 A170 170 0 0 1 300 110 Z';
-let cv=null,cars={},trkLen=0,rafC=0;
-function buildCircuit(){
-  const crowd=Array.from({length:120},(_,k)=>`<circle cx="${60+(k%60)*15}" cy="${14+Math.floor(k/60)*14}" r="5" fill="${['#ff6b6b','#ffd43b','#4dabf7','#69db7c','#f783ac','#fff'][k%6]}"><animate attributeName="cy" values="${14+Math.floor(k/60)*14};${10+Math.floor(k/60)*14};${14+Math.floor(k/60)*14}" dur="${.5+(k%5)/10}s" repeatCount="indefinite"/></circle>`).join('');
-  const tyres=[[120,120],[120,440],[880,120],[880,440],[150,280],[850,280]].map(([x,y])=>`<g><circle cx="${x}" cy="${y}" r="9" fill="#222"/><circle cx="${x+16}" cy="${y}" r="9" fill="#222"/><circle cx="${x+8}" cy="${y-13}" r="9" fill="#222"/></g>`).join('');
-  $('#lb').innerHTML=`<div class="circ"><div class="cwrap"><svg id="csvg" viewBox="0 0 1000 560">
-   <defs><pattern id="mow" width="80" height="80" patternUnits="userSpaceOnUse"><rect width="80" height="80" fill="#86c86f"/><rect width="40" height="80" fill="#7bbd64"/></pattern>
-   <pattern id="chk" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#fff"/><rect width="6" height="6" fill="#111"/><rect x="6" y="6" width="6" height="6" fill="#111"/></pattern></defs>
-   <rect width="1000" height="560" fill="url(#mow)"/>
-   <rect x="40" y="0" width="920" height="42" rx="6" fill="#33414d"/>${crowd}
-   <path d="${TRK}" fill="none" stroke="#efe6cf" stroke-width="150"/>
-   <path d="${TRK}" fill="none" stroke="#fff" stroke-width="124"/>
-   <path d="${TRK}" fill="none" stroke="#d62828" stroke-width="124" stroke-dasharray="18 18"/>
-   <path id="trk" d="${TRK}" fill="none" stroke="#4b535c" stroke-width="112"/>
-   <path d="${TRK}" fill="none" stroke="#ffffff55" stroke-width="2" stroke-dasharray="20 18"/>
-   <path d="M300 110 H700 A170 170 0 0 1 700 450 H300 A170 170 0 0 1 300 110 Z" fill="#9ad482" transform="translate(500 280) scale(.0001) translate(-500 -280)"/>
-   <rect x="494" y="54" width="14" height="112" fill="url(#chk)"/>
-   <text x="530" y="184" font-size="13" font-weight="800" fill="#fff" font-family="Plus Jakarta Sans">START / FINISH</text>
-   ${tyres}
-   <image href="lencana.png" x="440" y="222" width="120" height="120" opacity=".95"/>
-   <text x="500" y="378" text-anchor="middle" font-size="30" font-weight="700" fill="#0b2427" font-family="Noto Naskh Arabic">سِبَاقُ الْمَلَابِسِ</text>
-   <text x="500" y="402" text-anchor="middle" font-size="13" font-weight="800" fill="#0b2427" opacity=".7" font-family="Plus Jakarta Sans">SK BUKIT MUTIARA GRAND PRIX</text>
-   <g id="carsL"></g></svg></div>
-   <div class="tower"><div class="th"><span class="arL">التَّرْتِيبُ</span><small>Kedudukan langsung</small></div><div id="tw"></div></div></div>`;
-  cv=$('#csvg');trkLen=$('#trk').getTotalLength();cars={};
-  if(!rafC)rafC=requestAnimationFrame(stepCars);
+/* ===== TREK LURUS GRAND PRIX ===== */
+let built=false,last={};
+function sideCar(col,num){return `<svg viewBox="0 0 140 60"><ellipse cx="70" cy="55" rx="62" ry="4" fill="#0004"/><path d="M6 40 Q4 30 14 28 L34 26 L52 12 Q58 8 68 8 L92 8 Q100 8 104 14 L114 26 Q130 28 134 36 L134 42 Q134 46 128 46 L12 46 Q6 46 6 40 Z" fill="${col}" stroke="#0006" stroke-width="2"/><path d="M54 14 L66 12 L66 26 L42 26 Z M70 12 L90 12 Q96 12 98 16 L104 26 L70 26 Z" fill="#d6f3ff"/><rect x="118" y="30" width="12" height="6" rx="2" fill="#ffe066"/><rect x="2" y="32" width="8" height="6" rx="2" fill="#ff6b6b"/><circle cx="72" cy="36" r="9" fill="#fff"/><text x="72" y="40" font-size="11" font-weight="800" text-anchor="middle" fill="#0b2427" font-family="Plus Jakarta Sans">${num}</text><circle cx="34" cy="46" r="11" fill="#222"/><circle cx="34" cy="46" r="5" fill="#bbb"/><circle cx="108" cy="46" r="11" fill="#222"/><circle cx="108" cy="46" r="5" fill="#bbb"/></svg>`}
+function buildStrip(){
+  $('#lb').innerHTML=`<div class="circ"><div class="gp">
+    <div class="stand"><div class="crowd"></div><div class="crowd c2"></div></div>
+    <div class="banner"><span>🏁 SK BUKIT MUTIARA GRAND PRIX</span><span class="arL">سِبَاقُ الْمَلَابِسِ</span><span>ARABIC e-CAMP 2026 🏁</span></div>
+    <div class="trackS" id="trackS"><div class="startl"></div><div class="finl"><b>FINISH</b></div><div id="lanes"></div></div>
+  </div><div class="tower"><div class="th"><span class="arL">التَّرْتِيبُ</span><small>Kedudukan langsung</small></div><div id="tw"></div></div></div>`;
+  built=true;last={};
 }
-function topCar(col,num){return `<g class="cbody"><rect x="-17" y="-9" width="34" height="18" rx="6" fill="${col}" stroke="#0006" stroke-width="1.5"/><rect x="-15" y="-12" width="7" height="4" rx="1.5" fill="#222"/><rect x="8" y="-12" width="7" height="4" rx="1.5" fill="#222"/><rect x="-15" y="8" width="7" height="4" rx="1.5" fill="#222"/><rect x="8" y="8" width="7" height="4" rx="1.5" fill="#222"/><rect x="2" y="-6" width="7" height="12" rx="2" fill="#cfefff"/><rect x="18" y="-4" width="3" height="8" fill="#ffd43b"/><text x="-7" y="4" font-size="10" font-weight="800" fill="#fff" text-anchor="middle" font-family="Plus Jakarta Sans">${num}</text></g>`}
 function circuit(g,n){
-  if(!cv||!document.body.contains(cv))buildCircuit();
-  const r=ranked(g),order=g.slice().sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+  if(!built||!document.getElementById('lanes'))buildStrip();
+  const r=ranked(g),order=g.slice().sort((a,b)=>String(a.id).localeCompare(String(b.id))),L=$('#lanes');
+  const h=Math.max(46,Math.min(78,Math.floor(470/Math.max(1,order.length))));
+  L.style.setProperty('--lh',h+'px');
   order.forEach((x,k)=>{
-    let c=cars[x.id];
-    if(!c){const el=document.createElementNS('http://www.w3.org/2000/svg','g');el.innerHTML=topCar(cOf(x.id),k+1)+`<g class="lab"><rect rx="9" height="18" y="-34" fill="#ffffffee" stroke="${cOf(x.id)}" stroke-width="2"/><text y="-21" font-size="11" font-weight="800" fill="#0b2427" text-anchor="middle" font-family="Plus Jakarta Sans"></text></g>`;$('#carsL').appendChild(el);
-      c=cars[x.id]={el,cur:0,tgt:0,off:((k%7)-3)*13};}
-    c.tgt=Math.min(1,x.skor/n);c.done=x.selesai;
-    const pos=r.find(y=>y.id===x.id).rk,t=c.el.querySelector('.lab text');t.textContent=`P${pos} ${x.nm}${x.selesai?' 🏁':''}`;
-    const w=Math.max(40,t.getComputedTextLength?t.getComputedTextLength()+16:80),rc=c.el.querySelector('.lab rect');rc.setAttribute('width',w);rc.setAttribute('x',-w/2);
+    let ln=document.getElementById('ln-'+x.id);
+    if(!ln){ln=document.createElement('div');ln.className='ln';ln.id='ln-'+x.id;ln.innerHTML=`<span class="lno">${k+1}</span><div class="car"><div class="tag"></div><div class="fire">🔥</div>${sideCar(cOf(x.id),k+1)}</div>`;L.appendChild(ln)}
+    const pc=Math.min(1,x.skor/n),car=ln.querySelector('.car'),pos=r.find(y=>y.id===x.id).rk;
+    car.style.left=`calc(${(pc*100).toFixed(2)}% - ${(pc*(h*2.2+40)).toFixed(1)}px + 34px)`;
+    car.style.width=(h*2.2)+'px';
+    ln.querySelector('.tag').innerHTML=`<b style="background:${cOf(x.id)}">P${pos}</b> ${esc(x.nm)}${x.selesai?' 🏁':''}`;
+    if(last[x.id]!=null&&x.skor>last[x.id]){car.classList.remove('boost');void car.offsetWidth;car.classList.add('boost')}
+    last[x.id]=x.skor;ln.classList.toggle('done',x.selesai);
   });
-  const lead=r[0]?r[0].skor:0;
+  const lead=r[0]?r[0].skor:0;RM.setSpeed(1+.3*Math.min(1,lead/n));
   $('#tw').innerHTML=r.map(x=>{const acc=x.dijawab?Math.round(x.betul/x.dijawab*100):0,gap=lead-x.skor;return `<div class="tr ${x.rk<=3?'p'+x.rk:''}"><div class="tp">P${x.rk}</div><i class="tc" style="background:${cOf(x.id)}"></i><div class="tn"><b>${esc(x.nm)}${x.selesai?' 🏁':''}</b><div class="tb"><i style="width:${Math.min(100,x.skor/n*100)}%;background:${cOf(x.id)}"></i></div><div class="td">${(x.rekod||'').slice(-10).split('').map(c=>`<em class="${c==='1'?'y':'n'}"></em>`).join('')}<span>${x.betul}✓ ${x.dijawab-x.betul}✗ · ${acc}%</span></div></div><div class="tg">${x.skor}/${n}<small>${x.rk===1?'Pendahulu':'-'+gap}</small></div></div>`}).join('');
 }
-function stepCars(){
-  for(const id in cars){const c=cars[id];c.cur+=(c.tgt-c.cur)*.05;if(Math.abs(c.tgt-c.cur)<.0005)c.cur=c.tgt;
-    const trk=$('#trk');if(!trk)break;const d=(c.cur>=1?.999:c.cur)*trkLen,p=trk.getPointAtLength(d),q=trk.getPointAtLength((d+2)%trkLen),a=Math.atan2(q.y-p.y,q.x-p.x),nx=-Math.sin(a),ny=Math.cos(a);
-    const x=p.x+nx*c.off,y=p.y+ny*c.off;c.el.querySelector('.cbody').setAttribute('transform',`translate(${x} ${y}) rotate(${a*180/Math.PI})`);c.el.querySelector('.lab').setAttribute('transform',`translate(${x} ${y})`);}
-  rafC=requestAnimationFrame(stepCars);
-}
+function topCar(col,num){return `<g class="cbody"><rect x="-17" y="-9" width="34" height="18" rx="6" fill="${col}" stroke="#0006" stroke-width="1.5"/><rect x="-15" y="-12" width="7" height="4" rx="1.5" fill="#222"/><rect x="8" y="-12" width="7" height="4" rx="1.5" fill="#222"/><rect x="-15" y="8" width="7" height="4" rx="1.5" fill="#222"/><rect x="8" y="8" width="7" height="4" rx="1.5" fill="#222"/><rect x="2" y="-6" width="7" height="12" rx="2" fill="#cfefff"/><rect x="18" y="-4" width="3" height="8" fill="#ffd43b"/><text x="-7" y="4" font-size="10" font-weight="800" fill="#fff" text-anchor="middle" font-family="Plus Jakarta Sans">${num}</text></g>`}
 function winner(b){
   if(announced||!b)return;announced=true;clearInterval(pollT);
   const s=ranked(b.groups),w=s.filter(x=>x.rk===1);

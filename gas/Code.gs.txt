@@ -4,7 +4,7 @@
  *
  * LANGKAH: tampal pautan GitHub Pages permainan anda di bawah.
  */
-const GAME_URL = 'https://g-52008900-ai.github.io/isyarat-arab/';
+const GAME_URL = 'https://arabic-ecamp.github.io/isyarat-arab/';
 const SHEET_ID = '1HilszcEAyL-bpDXfjJ5n41CwzqvDJbQPGNiKuo-tuE4'; // Google Sheet markah
 
 const BILIK_H = ['bilik', 'status', 'soalan', 'seed', 'mulaMs', 'dicipta', 'kunci'];
@@ -70,7 +70,7 @@ function api_(p) {
       const s = sh_('Skor', SKOR_H);
       if (p.action === 'join') {
         if (r.status === 'tamat') return json_({ ok: false, err: 'Permainan ini sudah tamat.' });
-        let nm = String(p.kumpulan || 'Kumpulan').trim().slice(0, 20) || 'Kumpulan';
+        let nm = String(p.kumpulan || 'Kumpulan').trim().slice(0, 40) || 'Kumpulan';
         const names = groups_(code).map(g => g.nm.toLowerCase());
         let base = nm, k = 2;
         while (names.indexOf(nm.toLowerCase()) >= 0) nm = base + ' ' + (k++);

@@ -24,6 +24,7 @@ button{font:inherit;cursor:pointer;border:0;color:inherit}
 .sub{color:var(--mut);margin:0;max-width:520px}
 .card{background:#ffffffe6;border:1px solid var(--line);border-radius:28px;padding:22px;box-shadow:0 18px 50px #0e7c7b22;width:min(460px,100%);display:grid;gap:12px;backdrop-filter:blur(8px)}
 label{font-weight:600;text-align:left;display:grid;gap:6px}
+select{font:inherit;font-size:20px;padding:14px 16px;border-radius:16px;border:2px solid #d6ece8;background:#fff;width:100%;color:#0d2b2e}
 input{font:inherit;font-size:20px;padding:14px 16px;border-radius:16px;border:2px solid var(--line);background:#fff;width:100%;text-transform:none}
 input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
 #inBilik{text-transform:uppercase;letter-spacing:3px;text-align:center;font-weight:700;font-size:28px}
@@ -138,6 +139,7 @@ input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
   <form class="card" id="fJoin">
     <label><span><span class="ar" style="font-size:20px">اِسْمُ الْغُرْفَةِ</span> <small>Nama bilik</small></span><input id="inBilik" maxlength="12" autocomplete="off" required></label>
     <label><span><span class="ar" style="font-size:20px">اِسْمُ الْفَرِيْقِ</span> <small>Nama kumpulan</small></span><input id="inNama" maxlength="20" autocomplete="off" placeholder="cth: Kumpulan Bintang" required></label>
+    <label><span><span class="ar" style="font-size:20px">اِسْمُ الْفَصْلِ</span> <small>Nama kelas</small></span><select id="inKelas" required><option value="">— Pilih kelas —</option><optgroup label="Tahun 3"><option>3 Cambridge</option><option>3 Harvard</option><option>3 Oxford</option><option>3 Malaya</option><option>3 Stanford</option></optgroup><optgroup label="Tahun 1"><option>1 Cambridge</option><option>1 Harvard</option><option>1 Oxford</option><option>1 Malaya</option><option>1 Stanford</option></optgroup><optgroup label="Tahun 2"><option>2 Cambridge</option><option>2 Harvard</option><option>2 Oxford</option><option>2 Malaya</option><option>2 Stanford</option></optgroup><optgroup label="Tahun 4"><option>4 Cambridge</option><option>4 Harvard</option><option>4 Oxford</option><option>4 Malaya</option><option>4 Stanford</option></optgroup><optgroup label="Tahun 5"><option>5 Cambridge</option><option>5 Harvard</option><option>5 Oxford</option><option>5 Malaya</option><option>5 Stanford</option></optgroup><optgroup label="Tahun 6"><option>6 Cambridge</option><option>6 Harvard</option><option>6 Oxford</option><option>6 Malaya</option><option>6 Stanford</option></optgroup></select></label>
     <div class="err" id="joinErr"></div>
     <button class="btn sun" id="btnJoin" type="submit">اُدْخُلْ · Sertai permainan</button>
     <button class="btn link" type="button" id="btnDemo"><span class="ar">تَدْرِيْبٌ</span> · Cuba main latihan dahulu (tanpa markah)</button>
@@ -340,12 +342,13 @@ async function pushScore(){
 /* ================= SERTAI & TUNGGU ================= */
 $('#inBilik').value=(qs.get('bilik')||'').toUpperCase();
 if($('#inBilik').value)setTimeout(()=>$('#inNama').focus(),300);
-(function resume(){try{const o=JSON.parse(localStorage.getItem('ita-sesi')||'null');if(o&&o.bilik&&(!qs.get('bilik')||qs.get('bilik').toUpperCase()===o.bilik)&&o.i<o.n){S=o;$('#inBilik').value=o.bilik;$('#inNama').value=o.nama;$('#btnJoin').textContent='Sambung semula sebagai '+o.nama}}catch(e){}})();
+(function resume(){try{const o=JSON.parse(localStorage.getItem('ita-sesi')||'null');if(o&&o.bilik&&(!qs.get('bilik')||qs.get('bilik').toUpperCase()===o.bilik)&&o.i<o.n){S=o;$('#inBilik').value=o.bilik;{const p=String(o.nama).split(' · ');$('#inNama').value=p[0];if(p[1])$('#inKelas').value=p[1]}$('#btnJoin').textContent='Sambung semula sebagai '+o.nama}}catch(e){}})();
 $('#fJoin').onsubmit=async e=>{
   e.preventDefault();audio();SFX.tap();initCam();
-  const bilik=$('#inBilik').value.trim().toUpperCase(),nama=$('#inNama').value.trim();
+  const bilik=$('#inBilik').value.trim().toUpperCase(),kelas=$('#inKelas').value,nama=$('#inNama').value.trim()+(kelas?' · '+kelas:'');
   if(!/^[A-Z0-9]{3,12}$/.test(bilik))return $('#joinErr').textContent='Semak nama bilik (cth: QAMAR27).';
-  if(!nama)return $('#joinErr').textContent='Tulis nama kumpulan.';
+  if(!$('#inNama').value.trim())return $('#joinErr').textContent='Tulis nama kumpulan.';
+  if(!kelas)return $('#joinErr').textContent='Pilih nama kelas.';
   $('#btnJoin').disabled=true;$('#joinErr').textContent='Menyambung…';
   try{
     if(!(S&&S.bilik===bilik&&S.nama===nama)){

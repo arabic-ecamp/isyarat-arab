@@ -21,6 +21,7 @@ button{font:inherit;cursor:pointer;border:0;color:inherit}
 .sub{color:var(--mut);margin:0;max-width:520px}
 .card{background:#ffffffeb;border:1px solid var(--line);border-radius:28px;padding:22px;box-shadow:0 18px 50px #0e7c7b22;width:min(460px,100%);display:grid;gap:12px}
 label{font-weight:600;text-align:left;display:grid;gap:6px}
+select{font:inherit;font-size:20px;padding:14px 16px;border-radius:16px;border:2px solid #d6ece8;background:#fff;width:100%;color:#0d2b2e}
 input{font:inherit;font-size:20px;padding:14px 16px;border-radius:16px;border:2px solid var(--line);background:#fff;width:100%}
 input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
 #inBilik{text-transform:uppercase;letter-spacing:3px;text-align:center;font-weight:700;font-size:28px}
@@ -101,6 +102,7 @@ input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
   <form class="card" id="fJoin">
     <label><span><span class="ar" style="font-size:20px">اِسْمُ الْغُرْفَةِ</span> <small>Nama bilik</small></span><input id="inBilik" maxlength="12" autocomplete="off" required></label>
     <label><span><span class="ar" style="font-size:20px">اِسْمُ الْفَرِيْقِ</span> <small>Nama kumpulan</small></span><input id="inNama" maxlength="20" autocomplete="off" placeholder="cth: Kumpulan Kilat" required></label>
+    <label><span><span class="ar" style="font-size:20px">اِسْمُ الْفَصْلِ</span> <small>Nama kelas</small></span><select id="inKelas" required><option value="">— Pilih kelas —</option><optgroup label="Tahun 3"><option>3 Cambridge</option><option>3 Harvard</option><option>3 Oxford</option><option>3 Malaya</option><option>3 Stanford</option></optgroup><optgroup label="Tahun 1"><option>1 Cambridge</option><option>1 Harvard</option><option>1 Oxford</option><option>1 Malaya</option><option>1 Stanford</option></optgroup><optgroup label="Tahun 2"><option>2 Cambridge</option><option>2 Harvard</option><option>2 Oxford</option><option>2 Malaya</option><option>2 Stanford</option></optgroup><optgroup label="Tahun 4"><option>4 Cambridge</option><option>4 Harvard</option><option>4 Oxford</option><option>4 Malaya</option><option>4 Stanford</option></optgroup><optgroup label="Tahun 5"><option>5 Cambridge</option><option>5 Harvard</option><option>5 Oxford</option><option>5 Malaya</option><option>5 Stanford</option></optgroup><optgroup label="Tahun 6"><option>6 Cambridge</option><option>6 Harvard</option><option>6 Oxford</option><option>6 Malaya</option><option>6 Stanford</option></optgroup></select></label>
     <div class="err" id="joinErr"></div>
     <button class="btn" id="btnJoin" type="submit">اُدْخُلْ · Masuk trek lumba</button>
     <button class="btn link" type="button" id="btnDemo"><span class="ar">تَدْرِيْبٌ</span> · Cuba latihan dahulu (tanpa markah)</button>
@@ -210,7 +212,31 @@ function musicTick(){if(!ac)return;while(nextT<ac.currentTime+.3){const t=nextT-
   if(s%8===0)tone(midi(38),.3,'sine',.15,t,musG);
   if(dr==='D')tone(110,.2,'sine',.24,t,musG,50);if(dr==='t')noise(.06,.2,3200,t,musG);if(dr==='k')noise(.04,.1,5000,t,musG);
   nextT+=.12;step++}}
-function music(on){clearInterval(musT);musT=null;if(on&&musOn&&audio()){nextT=ac.currentTime+.05;musT=setInterval(musicTick,80)}}
+/* ===== MUZIK LUMBA (maqam Hijaz + darbuka Maqsum) ===== */
+const RM=(()=>{let bus=null,comp=null,t=null,step=0,nt=0,spd=1,nb=null,on=false;
+ const m2f=m=>440*Math.pow(2,(m-69)/12);
+ function init(){const a=audio();if(!a)return null;if(!bus){comp=a.createDynamicsCompressor();comp.threshold.value=-18;comp.ratio.value=4;bus=a.createGain();bus.gain.value=.55;bus.connect(comp);comp.connect(a.destination);
+   nb=a.createBuffer(1,a.sampleRate,a.sampleRate);const d=nb.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}return a}
+ function osc(a,f,d,type,v,at,cut,slide){const t0=a.currentTime+Math.max(0,at),o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.setValueAtTime(f,t0);if(slide)o.frequency.exponentialRampToValueAtTime(slide,t0+d);g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(v,t0+.005);g.gain.exponentialRampToValueAtTime(.0008,t0+d);
+   if(cut){const fl=a.createBiquadFilter();fl.type='lowpass';fl.frequency.setValueAtTime(cut,t0);fl.frequency.exponentialRampToValueAtTime(Math.max(120,cut/4),t0+d);o.connect(fl);fl.connect(g)}else o.connect(g);g.connect(bus);o.start(t0);o.stop(t0+d+.03)}
+ function nz(a,d,v,f,type,at,sweep){const t0=a.currentTime+Math.max(0,at),s=a.createBufferSource(),fl=a.createBiquadFilter(),g=a.createGain();s.buffer=nb;fl.type=type;fl.frequency.setValueAtTime(f,t0);if(sweep)fl.frequency.exponentialRampToValueAtTime(sweep,t0+d);g.gain.setValueAtTime(sweep?.0008:v,t0);if(sweep)g.gain.exponentialRampToValueAtTime(v,t0+d*.95);else g.gain.exponentialRampToValueAtTime(.0008,t0+d);s.connect(fl);fl.connect(g);g.connect(bus);s.start(t0);s.stop(t0+d+.03)}
+ const BASS=[38,0,38,50, 0,38,39,0, 42,0,43,0, 45,43,42,39];
+ const HIJ=[62,63,66,67,69,70,72,74,75];
+ const LEAD=[4,-1,4,5,6,5,4,3, 4,-1,2,3,4,3,2,1, 0,-1,1,2,3,2,1,0, 2,-1,3,4,5,6,7,8, 8,7,6,5,4,-1,4,3, 2,3,4,3,2,1,0,-1, 4,4,5,4,3,4,2,3, 1,2,0,-1,0,-1,-1,-1];
+ const DR='D.T..TD.D.T..TTk';
+ function tick(){const a=ac;if(!a||!on)return;const st=.117/spd;
+  while(nt<a.currentTime+.25){const at=nt-a.currentTime,s=step%16,bar=Math.floor(step/16);
+   const b=BASS[s];if(b)osc(a,m2f(b),st*1.6,'sawtooth',.16,at,900);
+   const dr=DR[s];if(dr==='D'){osc(a,95,.28,'sine',.5,at,0,48);nz(a,.08,.12,300,'lowpass',at)}else if(dr==='T')nz(a,.07,.28,3200,'bandpass',at);else if(dr==='k')nz(a,.04,.18,5200,'highpass',at);
+   if(s%2===0)nz(a,.03,.06,9000,'highpass',at);
+   if(s%2===0){const li=LEAD[(step/2|0)%LEAD.length];if(li>=0&&bar%8>=2){osc(a,m2f(HIJ[li]),st*1.9,'triangle',.07,at);osc(a,m2f(HIJ[li])*1.006,st*1.9,'square',.025,at,2400)}}
+   if(s===0){[50,54,57].forEach(n=>osc(a,m2f(n+12),st*3,'sawtooth',.035,at,1800))}
+   if(s===0&&bar%4===3)nz(a,st*16,.12,400,'bandpass',at,6000);
+   nt+=st;step++}}
+ return{start(){if(on)return;const a=init();if(!a)return;on=true;nt=a.currentTime+.06;step=0;t=setInterval(tick,60)},
+   stop(){on=false;clearInterval(t)},setSpeed(x){spd=Math.max(1,Math.min(1.35,x))},get on(){return on}};})();
+
+function music(on){if(on&&musOn)RM.start();else RM.stop()}
 let arVoice=null;function lv(){try{arVoice=speechSynthesis.getVoices().find(v=>/^ar/i.test(v.lang))||null}catch(e){}}
 try{speechSynthesis.onvoiceschanged=lv;lv()}catch(e){}
 const PRAISE=['أحسنت','ممتاز','صحيح','جيد جدا'];
@@ -244,12 +270,13 @@ async function push(){if(!G||G.demo)return;if(sending){pending=true;return}sendi
 /* ===== SERTAI ===== */
 $('#inBilik').value=(qs.get('bilik')||'').toUpperCase();
 if($('#inBilik').value)setTimeout(()=>$('#inNama').focus(),300);
-(function(){try{const o=JSON.parse(localStorage.getItem('lpa-sesi')||'null');if(o&&o.bilik&&(!qs.get('bilik')||qs.get('bilik').toUpperCase()===o.bilik)&&o.betul<o.n){G=o;$('#inBilik').value=o.bilik;$('#inNama').value=o.nama;$('#btnJoin').textContent='Sambung semula sebagai '+o.nama}}catch(e){}})();
+(function(){try{const o=JSON.parse(localStorage.getItem('lpa-sesi')||'null');if(o&&o.bilik&&(!qs.get('bilik')||qs.get('bilik').toUpperCase()===o.bilik)&&o.betul<o.n){G=o;$('#inBilik').value=o.bilik;{const p=String(o.nama).split(' · ');$('#inNama').value=p[0];if(p[1])$('#inKelas').value=p[1]}$('#btnJoin').textContent='Sambung semula sebagai '+o.nama}}catch(e){}})();
 $('#fJoin').onsubmit=async e=>{
   e.preventDefault();audio();SFX.horn();
-  const bilik=$('#inBilik').value.trim().toUpperCase(),nama=$('#inNama').value.trim();
+  const bilik=$('#inBilik').value.trim().toUpperCase(),kelas=$('#inKelas').value,nama=$('#inNama').value.trim()+(kelas?' · '+kelas:'');
   if(!/^[A-Z0-9]{3,12}$/.test(bilik))return $('#joinErr').textContent='Semak nama bilik (cth: QAMAR27).';
-  if(!nama)return $('#joinErr').textContent='Tulis nama kumpulan.';
+  if(!$('#inNama').value.trim())return $('#joinErr').textContent='Tulis nama kumpulan.';
+  if(!kelas)return $('#joinErr').textContent='Pilih nama kelas.';
   $('#btnJoin').disabled=true;$('#joinErr').textContent='Menyambung…';
   try{
     if(!(G&&G.bilik===bilik&&G.nama===nama)){
