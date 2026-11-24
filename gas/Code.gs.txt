@@ -1,0 +1,116 @@
+/**
+ * ISYARAT TANGAN ARAB – Papan Markah Guru
+ * © 2026 ZuSystem 🌸
+ *
+ * LANGKAH: tampal pautan GitHub Pages permainan anda di bawah.
+ */
+const GAME_URL = 'https://g-52008900-ai.github.io/isyarat-arab/';
+const SHEET_ID = '1HilszcEAyL-bpDXfjJ5n41CwzqvDJbQPGNiKuo-tuE4'; // Google Sheet markah
+
+const BILIK_H = ['bilik', 'status', 'soalan', 'seed', 'mulaMs', 'dicipta'];
+const SKOR_H  = ['bilik', 'id', 'kumpulan', 'skor', 'betul', 'dijawab', 'selesai', 'dikemaskini'];
+
+function doGet(e) {
+  const p = (e && e.parameter) || {};
+  if (p.action) return api_(p);
+  return HtmlService.createHtmlOutputFromFile('Papan')
+    .setTitle('Papan Markah · Isyarat Tangan Arab')
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1')
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+function json_(o) {
+  return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
+}
+function sh_(name, head) {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  let s = ss.getSheetByName(name);
+  if (!s) { s = ss.insertSheet(name); s.appendRow(head); s.setFrozenRows(1); }
+  return s;
+}
+function findRoom_(code) {
+  const v = sh_('Bilik', BILIK_H).getDataRange().getValues();
+  for (let i = v.length - 1; i >= 1; i--) {
+    if (String(v[i][0]) === code) return { row: i + 1, status: v[i][1], soalan: Number(v[i][2]), seed: Number(v[i][3]), mulaMs: Number(v[i][4]) || 0 };
+  }
+  return null;
+}
+function groups_(code) {
+  return sh_('Skor', SKOR_H).getDataRange().getValues().slice(1)
+    .filter(x => String(x[0]) === code)
+    .map(x => ({ id: String(x[1]), nm: String(x[2]), skor: Number(x[3]) || 0, betul: Number(x[4]) || 0, dijawab: Number(x[5]) || 0, selesai: x[6] === true || x[6] === 'TRUE' }));
+}
+
+/* ---------- API untuk iPad murid ---------- */
+function api_(p) {
+  try {
+    const code = String(p.bilik || '').toUpperCase().trim();
+    const r = findRoom_(code);
+    if (!r) return json_({ ok: false, err: 'Kod bilik tidak dijumpai. Semak kod di papan markah.' });
+
+    if (p.action === 'state') {
+      return json_({ ok: true, status: r.status, soalan: r.soalan, seed: r.seed, wait: r.status === 'main' ? Math.max(0, r.mulaMs - Date.now()) : 0 });
+    }
+    if (p.action === 'board') {
+      return json_({ ok: true, status: r.status, groups: groups_(code) });
+    }
+
+    const lock = LockService.getScriptLock();
+    lock.waitLock(15000);
+    try {
+      const s = sh_('Skor', SKOR_H);
+      if (p.action === 'join') {
+        if (r.status === 'tamat') return json_({ ok: false, err: 'Permainan ini sudah tamat.' });
+        let nm = String(p.kumpulan || 'Kumpulan').trim().slice(0, 20) || 'Kumpulan';
+        const names = groups_(code).map(g => g.nm.toLowerCase());
+        let base = nm, k = 2;
+        while (names.indexOf(nm.toLowerCase()) >= 0) nm = base + ' ' + (k++);
+        const id = 'k' + Utilities.getUuid().replace(/-/g, '').slice(0, 10);
+        s.appendRow([code, id, nm, 0, 0, 0, false, new Date()]);
+        return json_({ ok: true, id: id, nama: nm });
+      }
+      if (p.action === 'score') {
+        if (r.status === 'tamat') return json_({ ok: false, err: 'tamat' });
+        const v = s.getDataRange().getValues();
+        for (let i = 1; i < v.length; i++) {
+          if (String(v[i][0]) === code && String(v[i][1]) === String(p.id)) {
+            const dij = Number(p.dijawab) || 0;
+            if (dij < (Number(v[i][5]) || 0)) return json_({ ok: true, lama: true }); // abaikan kemaskini lama
+            s.getRange(i + 1, 4, 1, 5).setValues([[Number(p.skor) || 0, Number(p.betul) || 0, dij, String(p.selesai) === '1', new Date()]]);
+            return json_({ ok: true });
+          }
+        }
+        return json_({ ok: false, err: 'Kumpulan tidak dijumpai' });
+      }
+    } finally { lock.releaseLock(); }
+    return json_({ ok: false, err: 'Tindakan tidak sah' });
+  } catch (err) {
+    return json_({ ok: false, err: String(err) });
+  }
+}
+
+/* ---------- Fungsi guru (dipanggil dari Papan.html) ---------- */
+function createRoom(soalan) {
+  const s = sh_('Bilik', BILIK_H);
+  const A = 'ABCDEFGHJKMNPQRSTUVWXYZ';
+  let code;
+  do { code = ''; for (let i = 0; i < 4; i++) code += A[Math.floor(Math.random() * A.length)]; } while (findRoom_(code));
+  s.appendRow([code, 'menunggu', Number(soalan) || 12, Math.floor(Math.random() * 1e9), 0, new Date()]);
+  return { bilik: code, api: ScriptApp.getService().getUrl(), game: GAME_URL };
+}
+function startRoom(code) {
+  const r = findRoom_(code); if (!r) return null;
+  const s = sh_('Bilik', BILIK_H);
+  s.getRange(r.row, 2).setValue('main');
+  s.getRange(r.row, 5).setValue(Date.now() + 6000); // semua iPad mula serentak selepas 6 saat
+  return getBoard(code);
+}
+function endRoom(code) {
+  const r = findRoom_(code); if (!r) return null;
+  sh_('Bilik', BILIK_H).getRange(r.row, 2).setValue('tamat');
+  return getBoard(code);
+}
+function getBoard(code) {
+  const r = findRoom_(code); if (!r) return null;
+  return { status: r.status, soalan: r.soalan, groups: groups_(code) };
+}

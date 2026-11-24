@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{--ink:#0d2b2e;--teal:#0e7c7b;--sun:#ffc531;--coral:#ff5d5d;--ok:#1fb86a;--line:#d6ece8;--mut:#5a7477}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:linear-gradient(160deg,#e9fbf7 0%,#fff7df 55%,#ffe9e6 100%);color:var(--ink);font:18px/1.45 Fredoka,system-ui,sans-serif}
+button{font:inherit;cursor:pointer;border:0}
+.top{background:var(--teal);color:#fff;padding:12px 24px;display:flex;align-items:center;gap:12px}
+.top b{font-size:22px;flex:1}
+.top button{background:#ffffff22;color:#fff;border:1px solid #ffffff55;border-radius:999px;padding:8px 16px}
+main{max-width:1240px;margin:0 auto;padding:24px}
+.scr{display:none}.scr.on{display:block;animation:f .4s}
+@keyframes f{from{opacity:0;transform:translateY(10px)}}
+h1{font-size:clamp(34px,4.5vw,54px);line-height:1.05;margin:0 0 10px}
+.mut{color:var(--mut)}
+.card{background:#fff;border:1px solid var(--line);border-radius:28px;padding:24px;box-shadow:0 18px 50px #0e7c7b1f}
+.seg{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 20px}
+.seg button{background:#fff;border:2px solid var(--line);border-radius:16px;padding:12px 22px;font-weight:600;font-size:20px}
+.seg button.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.btn{background:var(--teal);color:#fff;border-radius:18px;padding:14px 30px;font-weight:700;font-size:22px;box-shadow:0 6px 0 #09595a}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #09595a}
+.btn.sun{background:var(--sun);color:var(--ink);box-shadow:0 6px 0 #d29d10}
+.btn.red{background:var(--coral);box-shadow:0 6px 0 #c63c3c}
+.btn:disabled{opacity:.5}
+.lobby{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:24px;align-items:start}
+.qrbox{text-align:center}
+#qr{display:inline-block;padding:16px;background:#fff;border-radius:20px;border:4px solid var(--sun)}
+#qr img,#qr canvas{width:min(330px,70vw)!important;height:auto!important}
+.code{font-size:72px;font-weight:700;letter-spacing:14px;color:var(--teal);line-height:1;margin:10px 0}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 20px;min-height:50px}
+.chips span{background:#fff;border:2px solid var(--c);color:var(--c);border-radius:999px;padding:8px 16px;font-weight:700;animation:pop .4s cubic-bezier(.3,1.6,.6,1)}
+@keyframes pop{from{transform:scale(.3)}}
+.warn{background:#fff0f0;color:#b02a2a;border-radius:14px;padding:12px 16px;margin-bottom:14px}
+.lb{display:grid;gap:10px}
+.row{position:relative;display:grid;grid-template-columns:60px minmax(0,1fr) 110px;align-items:center;gap:14px;background:#fff;border-radius:20px;padding:10px 16px;border:2px solid var(--line);transition:transform .4s}
+.row .rk{font-size:30px;font-weight:700;color:var(--mut);text-align:center}
+.row .nm{font-weight:700;font-size:22px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .bar{height:12px;background:#eef6f5;border-radius:999px;overflow:hidden;margin-top:6px}
+.row .bar i{display:block;height:100%;background:var(--c);border-radius:999px;transition:width .6s}
+.row .pt{font-size:38px;font-weight:700;color:var(--c);text-align:right}
+.row .pr{font-size:14px;color:var(--mut)}
+.row.first{border-color:var(--sun);background:#fffaeb}
+.head{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.win{text-align:center;padding:30px 10px}
+.win .tro{font-size:120px;animation:b 1s ease-in-out infinite alternate}
+@keyframes b{to{transform:translateY(-14px) rotate(-5deg)}}
+.win .who{font-size:clamp(44px,7vw,88px);font-weight:700;line-height:1.05}
+.pod{display:flex;justify-content:center;align-items:flex-end;gap:14px;margin:26px 0}
+.pod div{width:170px;border-radius:20px 20px 8px 8px;background:var(--c);color:#fff;padding:14px;font-weight:700;display:flex;flex-direction:column;justify-content:flex-end;box-shadow:0 10px 30px #0003}
+.pod b{font-size:40px}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:9;width:100%;height:100%}
+footer{text-align:center;color:var(--mut);font-size:14px;padding:16px}
+@media(max-width:800px){.lobby{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<canvas id="fx"></canvas>
+<div class="top"><b>🏆 Papan Markah · Isyarat Tangan Arab</b><button id="bMus">🎵 Muzik</button></div>
+<main>
+  <section class="scr on" id="sSet">
+    <h1>Cipta bilik permainan baharu</h1>
+    <p class="mut">Semua kumpulan main serentak di iPad masing-masing. Soalan bergilir: ABCD dengan jari, seret ke kotak, dan pecah belon.</p>
+    <div class="card">
+      <b>Bilangan soalan</b>
+      <div class="seg" id="segQ"></div>
+      <button class="btn sun" id="bCreate">Cipta bilik &amp; papar QR</button>
+      <p class="mut" id="setMsg"></p>
+    </div>
+  </section>
+
+  <section class="scr" id="sLobby">
+    <div class="lobby">
+      <div class="card qrbox">
+        <b>Imbas QR dengan kamera iPad</b>
+        <div id="qr"></div>
+        <div class="mut">atau masukkan kod bilik</div>
+        <div class="code" id="code"></div>
+      </div>
+      <div>
+        <div id="warn"></div>
+        <h1><span id="nJoin">0</span> kumpulan sudah sertai</h1>
+        <div class="chips" id="chips"></div>
+        <button class="btn" id="bStart" disabled>▶ MULA (semua serentak)</button>
+        <p class="mut">Tekan MULA bila semua kumpulan sudah sertai. Semua iPad akan kira 3-2-1 dan bermula pada masa yang sama.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="scr" id="sLive">
+    <div class="head"><h1 style="margin:0">🔥 Markah langsung</h1><div><span class="mut" id="liveInfo"></span> &nbsp; <button class="btn red" id="bEnd">Tamat &amp; umum pemenang</button></div></div>
+    <div class="lb" id="lb"></div>
+  </section>
+
+  <section class="scr" id="sWin">
+    <div class="card win">
+      <div class="tro">🏆</div>
+      <div class="mut" style="font-size:24px;font-weight:600">PEMENANG</div>
+      <div class="who" id="wWho"></div>
+      <div class="mut" id="wPts" style="font-size:26px"></div>
+      <div class="pod" id="pod"></div>
+      <div class="lb" id="lbEnd" style="max-width:720px;margin:0 auto"></div>
+      <p><button class="btn sun" id="bNew">Permainan baharu</button></p>
+    </div>
+  </section>
+</main>
+<footer>© 2026 ZuSystem 🌸</footer>
+<script>
+{
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const show=id=>document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id===id));
+const COLS=['#0e7c7b','#ff5d5d','#e5a500','#3d7bfd','#9b51e0','#e8590c','#2b8a3e','#d6336c','#1971c2','#795548'];
+const col=i=>COLS[i]||`hsl(${(i*67)%360} 65% 42%)`;
+let room=null,nQ=12,pollT=null,announced=false,colorOf={};
+const run=(fn,...a)=>new Promise((res,rej)=>google.script.run.withSuccessHandler(res).withFailureHandler(rej)[fn](...a));
+
+/* bunyi */
+let ac=null,musOn=true,musT=null,step=0,nextT=0,musG;
+function audio(){if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)();musG=ac.createGain();musG.gain.value=.5;musG.connect(ac.destination)}catch(e){}}if(ac&&ac.state==='suspended')ac.resume();return ac}
+function tone(f,d,type,v,at,dest){if(!audio())return;const t=ac.currentTime+(at||0),o=ac.createOscillator(),g=ac.createGain();o.type=type||'sine';o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v||.2,t+.01);g.gain.exponentialRampToValueAtTime(.0008,t+d);o.connect(g);g.connect(dest||ac.destination);o.start(t);o.stop(t+d+.05)}
+const MEL=[62,63,66,67,69,0,67,66,63,62,0,0,69,70,69,67,66,67,63,62,62,63,66,67,69,72,70,69,67,66,63,62],midi=m=>440*Math.pow(2,(m-69)/12);
+function tick(){while(nextT<ac.currentTime+.3){const t=nextT-ac.currentTime,m=MEL[Math.floor(step/2)%MEL.length];if(step%2===0&&m)tone(midi(m),.3,'triangle',.06,t,musG);if(step%8===0)tone(midi(38),.35,'sine',.14,t,musG);if(step%4===0)tone(110,.18,'sine',.18,t,musG);nextT+=.135;step++}}
+function music(on){clearInterval(musT);if(on&&musOn&&audio()){nextT=ac.currentTime+.05;musT=setInterval(tick,80)}}
+const ding=()=>{tone(784,.2,'triangle',.2);tone(1175,.3,'triangle',.2,.1)};
+const fanfare=()=>[[523,0],[659,.15],[784,.3],[1047,.45],[784,.62],[1047,.75],[1319,.9]].forEach(([f,t])=>{tone(f,.45,'triangle',.25,t);tone(f/2,.45,'sine',.12,t)});
+function announce(t){try{speechSynthesis.cancel();const v=speechSynthesis.getVoices().find(x=>/^(ms|id)/i.test(x.lang)),u=new SpeechSynthesisUtterance(t);u.lang=v?v.lang:'ms-MY';if(v)u.voice=v;u.rate=.95;speechSynthesis.speak(u)}catch(e){}}
+$('#bMus').onclick=()=>{musOn=!musOn;$('#bMus').style.opacity=musOn?1:.5;music(musOn&&!$('#sSet').classList.contains('on'))};
+
+/* konfeti */
+const fx=$('#fx'),fc=fx.getContext('2d');let parts=[],raf=0;
+function burst(n){fx.width=innerWidth;fx.height=innerHeight;for(let i=0;i<n;i++)parts.push({x:innerWidth*Math.random(),y:-20,vx:(Math.random()-.5)*4,vy:Math.random()*4+2,s:Math.random()*9+6,c:COLS[i%6],r:Math.random()*6,l:260});if(!raf)raf=requestAnimationFrame(d)}
+function d(){fc.clearRect(0,0,fx.width,fx.height);parts=parts.filter(p=>p.l-->0&&p.y<fx.height+20);parts.forEach(p=>{p.vy+=.05;p.x+=p.vx;p.y+=p.vy;p.r+=.08;fc.save();fc.translate(p.x,p.y);fc.rotate(p.r);fc.fillStyle=p.c;fc.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);fc.restore()});raf=parts.length?requestAnimationFrame(d):0}
+
+/* tetapan */
+$('#segQ').innerHTML=[9,12,15,18,21].map(v=>`<button data-v="${v}" class="${v===nQ?'on':''}">${v} soalan</button>`).join('');
+$('#segQ').querySelectorAll('button').forEach(b=>b.onclick=()=>{nQ=+b.dataset.v;$('#segQ').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b))});
+$('#bCreate').onclick=async()=>{
+  audio();$('#bCreate').disabled=true;$('#setMsg').textContent='Mencipta bilik…';
+  try{
+    room=await run('createRoom',nQ);announced=false;colorOf={};
+    $('#code').textContent=room.bilik;$('#qr').innerHTML='';
+    const ok=/^https:\/\//.test(room.game);
+    $('#warn').innerHTML=ok?'':'<div class="warn">GAME_URL belum ditetapkan dalam Code.gs. Tampal pautan GitHub Pages permainan, kemudian Deploy semula.</div>';
+    const url=(ok?room.game:'')+'?bilik='+room.bilik+'&api='+encodeURIComponent(room.api);
+    try{new QRCode($('#qr'),{text:url,width:360,height:360,correctLevel:QRCode.CorrectLevel.M})}catch(e){$('#qr').textContent=url}
+    show('sLobby');music(true);startPoll();
+  }catch(e){$('#setMsg').textContent='Ralat: '+e.message}
+  $('#bCreate').disabled=false;
+};
+$('#bStart').onclick=async()=>{$('#bStart').disabled=true;ding();try{await run('startRoom',room.bilik);show('sLive')}catch(e){alert('Ralat: '+e.message);$('#bStart').disabled=false}};
+$('#bEnd').onclick=async()=>{$('#bEnd').disabled=true;try{const b=await run('endRoom',room.bilik);winner(b)}catch(e){$('#bEnd').disabled=false}};
+$('#bNew').onclick=()=>{clearInterval(pollT);music(false);show('sSet')};
+
+function startPoll(){clearInterval(pollT);let busy=false;pollT=setInterval(async()=>{if(busy)return;busy=true;try{render(await run('getBoard',room.bilik))}catch(e){}busy=false},2000)}
+function cOf(id){if(!(id in colorOf))colorOf[id]=col(Object.keys(colorOf).length);return colorOf[id]}
+let lastJoin=0;
+function render(b){
+  if(!b)return;const g=b.groups;
+  if($('#sLobby').classList.contains('on')){
+    $('#nJoin').textContent=g.length;$('#bStart').disabled=g.length<1;
+    if(g.length>lastJoin)ding();lastJoin=g.length;
+    $('#chips').innerHTML=g.map(x=>`<span style="--c:${cOf(x.id)}">${esc(x.nm)}</span>`).join('');
+  }
+  if($('#sLive').classList.contains('on')){
+    const done=g.filter(x=>x.selesai).length;$('#liveInfo').textContent=`${done}/${g.length} kumpulan selesai`;
+    $('#lb').innerHTML=rows(g,b.soalan);
+    if(g.length&&done===g.length&&!announced){run('endRoom',room.bilik).then(winner)}
+  }
+}
+function ranked(g){const s=g.slice().sort((a,b)=>b.skor-a.skor||b.betul-a.betul);let rk=0;s.forEach((x,k)=>{if(k>0&&x.skor<s[k-1].skor)rk=k;x.rk=rk+1});return s}
+function rows(g,n){return ranked(g).map(x=>`<div class="row ${x.rk===1&&x.skor>0?'first':''}" style="--c:${cOf(x.id)}"><div class="rk">${x.rk===1&&x.skor>0?'👑':'#'+x.rk}</div><div><div class="nm">${esc(x.nm)}</div><div class="bar"><i style="width:${Math.round(x.dijawab/n*100)}%"></i></div><div class="pr">${x.selesai?'✅ Selesai':'Soalan '+x.dijawab+'/'+n} · ${x.betul} betul</div></div><div class="pt">${x.skor}</div></div>`).join('')}
+function winner(b){
+  if(announced||!b)return;announced=true;clearInterval(pollT);
+  const s=ranked(b.groups),w=s.filter(x=>x.rk===1);
+  show('sWin');music(false);
+  if(!s.length){$('#wWho').textContent='Tiada kumpulan';return}
+  $('#wWho').innerHTML=w.map(x=>`<span style="color:${cOf(x.id)}">${esc(x.nm)}</span>`).join(' &amp; ');
+  $('#wPts').textContent=w[0].skor+' mata'+(w.length>1?' · Keputusan seri!':'');
+  const h=[200,150,115];
+  $('#pod').innerHTML=s.filter(x=>x.rk<=3).slice(0,6).map(x=>`<div style="--c:${cOf(x.id)};height:${h[x.rk-1]+40}px"><span>#${x.rk}</span><b>${x.skor}</b><span>${esc(x.nm)}</span></div>`).join('');
+  $('#lbEnd').innerHTML=rows(b.groups,b.soalan);
+  fanfare();burst(260);setTimeout(()=>burst(200),1500);
+  setTimeout(()=>announce(w.length>1?'Keputusan seri! Tahniah '+w.map(x=>x.nm).join(' dan ')+'!':'Tahniah! Pemenangnya ialah '+w[0].nm+', dengan '+w[0].skor+' mata!'),1300);
+}
+}
+</script>
+</body>
+</html>
