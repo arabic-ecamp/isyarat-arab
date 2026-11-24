@@ -298,18 +298,18 @@ function render(b){
     if(g.length&&done===g.length&&!announced){run('endRoom',room.bilik).then(winner)}
   }
 }
-function ranked(g){const s=g.slice().sort((a,b)=>b.skor-a.skor||b.betul-a.betul);let rk=0;s.forEach((x,k)=>{if(k>0&&x.skor<s[k-1].skor)rk=k;x.rk=rk+1});return s}
+function ranked(g){const s=g.slice().sort((a,b)=>(b.betul-a.betul)||(b.skor-a.skor));let rk=0;s.forEach((x,k)=>{if(k>0&&!(x.betul===s[k-1].betul&&x.skor===s[k-1].skor))rk=k;x.rk=rk+1});return s}
 function dots(r,n){let h='';for(let k=0;k<n;k++){const c=r[k];h+=`<i class="d ${c==='1'?'y':c==='0'?'n':''}">${c==='1'?'✓':c==='0'?'✗':k+1}</i>`}return `<div class="dots">${h}</div>`}
-function rows(g,n){return ranked(g).map(x=>{const acc=x.dijawab?Math.round(x.betul/x.dijawab*100):0;return `<div class="row r${x.rk} ${x.rk===1&&x.skor>0?'first':''}" style="--c:${cOf(x.id)}"><div class="rk">${x.rk===1&&x.skor>0?'👑':'#'+x.rk}</div><div><div class="nm">${esc(x.nm)} <span class="st ${x.selesai?'ok':''}">${x.selesai?'✅ Selesai':'🎮 Soalan '+Math.min(x.dijawab+1,n)+'/'+n}</span></div>${dots(x.rekod||'',n)}<div class="pr">${x.betul} Betul · ${x.dijawab-x.betul} Salah · Ketepatan ${acc}%</div></div><div class="pt">${x.skor}<small>Mata</small></div></div>`}).join('')}
+function rows(g,n){return ranked(g).map(x=>{const acc=x.dijawab?Math.round(x.betul/x.dijawab*100):0;return `<div class="row r${x.rk} ${x.rk===1&&x.skor>0?'first':''}" style="--c:${cOf(x.id)}"><div class="rk">${x.rk===1&&x.skor>0?'👑':'#'+x.rk}</div><div><div class="nm">${esc(x.nm)} <span class="st ${x.selesai?'ok':''}">${x.selesai?'✅ Selesai':'🎮 Soalan '+Math.min(x.dijawab+1,n)+'/'+n}</span></div>${dots(x.rekod||'',n)}<div class="pr">${x.betul} Betul · ${x.dijawab-x.betul} Salah · Ketepatan ${acc}%</div></div><div class="pt">${x.betul}<small>Betul · ${x.skor} mata</small></div></div>`}).join('')}
 function winner(b){
   if(announced||!b)return;announced=true;try{if(window.AE){AE.sfx('tahniah',.9);setTimeout(()=>AE.sfx('tepuk',.8),900);setTimeout(()=>AE.sfx('sorak',.6),1500)}}catch(e){}clearInterval(pollT);
   const s=ranked(b.groups),w=s.filter(x=>x.rk===1);
   show('sWin');music(false);
   if(!s.length){$('#wWho').textContent='Tiada kumpulan';return}
   $('#wWho').innerHTML=w.map(x=>`<span style="color:${cOf(x.id)}">${esc(x.nm)}</span>`).join(' &amp; ');
-  $('#wPts').textContent=w[0].skor+' mata'+(w.length>1?' · Keputusan seri!':'');
+  $('#wPts').textContent=w[0].betul+' jawapan betul · '+w[0].skor+' mata'+(w.length>1?' · Keputusan seri!':'');
   const h=[200,150,115];
-  $('#pod').innerHTML=s.filter(x=>x.rk<=3).slice(0,6).map(x=>`<div style="--c:${cOf(x.id)};height:${h[x.rk-1]+40}px"><span>#${x.rk}</span><b>${x.skor}</b><span>${esc(x.nm)}</span></div>`).join('');
+  $('#pod').innerHTML=s.filter(x=>x.rk<=3).slice(0,6).map(x=>`<div style="--c:${cOf(x.id)};height:${h[x.rk-1]+40}px"><span>#${x.rk}</span><b>${x.betul}✓</b><span>${esc(x.nm)}</span></div>`).join('');
   $('#lbEnd').innerHTML=rows(b.groups,b.soalan);
   fanfare();burst(260);setTimeout(()=>burst(200),1500);
   setTimeout(()=>{try{speechSynthesis.cancel()}catch(e){}announceAr((w.length>1?'مبروك! الفائزون هم ':'مبروك! الفائز هو فريق ')+w.map(x=>String(x.nm).split(' · ')[0]).join(' و ')+'. ألف مبروك!',()=>{})},1300);

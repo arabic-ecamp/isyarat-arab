@@ -227,7 +227,7 @@ footer{font-weight:600}
 
   <div class="bar" id="rumusan">
     <h1 class="bi" style="margin:0"><span class="arL">تَرْتِيبُ الْفِرَقِ الْعَامُّ</span><span class="ms">Kedudukan keseluruhan kumpulan · dikira automatik</span></h1>
-    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span class="live"><i></i> Dikemas kini automatik</span><button class="btn" id="bPdf">📄 <span class="arL">تَقْرِيرٌ</span> · Laporan PDF</button><button class="btn" id="bDoc" style="background:linear-gradient(135deg,#1e4f9a,#2b6cd4)">📝 Laporan Word</button><button class="btn sun" id="bShow"><span class="arL">إِعْلَانُ الْبَطَلِ</span> · Umum Johan Keseluruhan</button></div>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span class="live"><i></i> Dikemas kini automatik</span><button class="btn" id="bReset" style="background:#fff;color:#c92a2a;border:2px solid #ffc9c9;box-shadow:none">🗑️ <span class="arL">مَسْحُ الْبَيَانَاتِ</span> · Kosongkan semua data</button><button class="btn" id="bPdf">📄 <span class="arL">تَقْرِيرٌ</span> · Laporan PDF</button><button class="btn" id="bDoc" style="background:linear-gradient(135deg,#1e4f9a,#2b6cd4)">📝 Laporan Word</button><button class="btn sun" id="bShow"><span class="arL">إِعْلَانُ الْبَطَلِ</span> · Umum Johan Keseluruhan</button></div>
   </div>
   <div class="sum">
     <div class="gcard"><h3><span><span class="arL">لُعْبَةُ الْإِشَارَةِ</span><br><small style="color:var(--mut)">Permainan 1 · Isyarat Tangan</small></span><select id="selT"></select></h3><div class="mini" id="miniT"></div></div>
@@ -255,8 +255,9 @@ const PTS=[10,8,6,5,4];const ptsOf=rk=>rk<=5?PTS[rk-1]:3;
 const key=s=>String(s).toLowerCase().replace(/\s+/g,' ').trim();
 const fmt=ms=>new Date(ms).toLocaleString('ms-MY',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
 let rooms=[],selT='',selL='',selI='',data={tangan:null,lumba:null,irama:null},manual={T:false,L:false,I:false};
-function rankT(g){const s=g.slice().sort((a,b)=>b.skor-a.skor||b.betul-a.betul);let rk=0;s.forEach((x,i)=>{if(i>0&&!(x.skor===s[i-1].skor&&x.betul===s[i-1].betul))rk=i;x.rk=rk+1});return s}
-function rankL(g){const s=g.slice().sort((a,b)=>(b.selesai-a.selesai)||(a.selesai&&b.selesai?(a.masa||0)-(b.masa||0):0)||(b.skor-a.skor)||(b.betul-a.betul));let rk=0;s.forEach((x,i)=>{const p=s[i-1];if(i>0&&!(x.selesai===p.selesai&&x.skor===p.skor&&(!x.selesai||x.masa===p.masa)))rk=i;x.rk=rk+1});return s}
+function rankT(g){const s=g.slice().sort((a,b)=>(b.betul-a.betul)||(b.skor-a.skor));let rk=0;s.forEach((x,i)=>{if(i>0&&!(x.skor===s[i-1].skor&&x.betul===s[i-1].betul))rk=i;x.rk=rk+1});return s}
+const mkL=x=>Math.max(0,(+x.betul||0)*10-((+x.dijawab||0)-(+x.betul||0))*5);
+function rankL(g){const s=g.slice().sort((a,b)=>(mkL(b)-mkL(a))||(b.selesai-a.selesai)||(a.selesai&&b.selesai?(a.masa||0)-(b.masa||0):0)||(b.skor-a.skor));let rk=0;s.forEach((x,i)=>{const p=s[i-1];if(i>0&&!(mkL(x)===mkL(p)&&x.selesai===p.selesai&&(!x.selesai||x.masa===p.masa)))rk=i;x.rk=rk+1});return s}
 function fillSel(el,jenis,cur){const list=rooms.filter(r=>r.jenis===jenis||!r.jenis);el.innerHTML=list.length?list.map(r=>`<option value="${esc(r.bilik)}" ${r.bilik===cur?'selected':''}>${esc(r.bilik)} · ${r.kumpulan} kumpulan · ${fmt(r.dicipta)}${r.jenis?'':' (?)'}</option>`).join(''):'<option value="">Belum ada sesi</option>'}
 async function loadRooms(){try{const r=await api({action:'rooms'});if(!r.ok)return;rooms=r.rooms;
   if(!manual.T){const t=rooms.find(x=>x.jenis==='tangan');selT=t?t.bilik:''}
@@ -271,7 +272,7 @@ let result=[];
 async function refresh(){
   const [T,L,I]=await Promise.all([board(selT),board(selL),board(selI)]);data.tangan=T;data.lumba=L;data.irama=I;
   const rt=T?rankT(T.groups):[],rl=L?rankL(L.groups):[],ri=I?rankT(I.groups):[];
-  const mini=(arr,lumba,n)=>arr.length?arr.map(x=>`<div class="r${x.rk}"><b class="rk">${x.rk}</b><span class="nm">${esc(x.nm)}</span><span class="raw">${lumba?(x.selesai?'🏁 ':'')+x.skor+'/'+n:x.skor+' mata'}</span><span class="pt">+${ptsOf(x.rk)}</span></div>`).join(''):'<p class="note">Belum ada kumpulan.</p>';
+  const mini=(arr,lumba,n)=>arr.length?arr.map(x=>`<div class="r${x.rk}"><b class="rk">${x.rk}</b><span class="nm">${esc(x.nm)}</span><span class="raw">${lumba?(x.selesai?'🏁 ':'')+mkL(x)+' mata · '+x.betul+'✓ '+(x.dijawab-x.betul)+'✗':x.betul+'✓ · '+x.skor+' mata'}</span><span class="pt">+${ptsOf(x.rk)}</span></div>`).join(''):'<p class="note">Belum ada kumpulan.</p>';
   $('#miniT').innerHTML=mini(rt,false,T&&T.soalan);$('#miniL').innerHTML=mini(rl,true,L&&L.soalan);$('#miniI').innerHTML=mini(ri,false,I&&I.soalan);
   const all={};
   const add=(x,g)=>{const k=key(x.nm);all[k]=all[k]||{nm:x.nm,t:null,l:null,i:null,betul:0};all[k][g]={rk:x.rk,pt:ptsOf(x.rk),raw:x};all[k].betul+=x.betul};
@@ -418,13 +419,21 @@ async function reportHTML(){
   <table><tr><th>Kedudukan</th><th>Kumpulan · Kelas</th><th>Isyarat Tangan</th><th>Lumba Kereta</th><th>Irama Warna</th><th>Jumlah Betul</th><th>Jumlah Mata</th></tr>${result.map(o=>`<tr><td>${o.rk}</td><td><b>${esc(o.nm)}</b></td><td>${o.t?`${o.t.pt} mata (#${o.t.rk})`:'Tidak main'}</td><td>${o.l?`${o.l.pt} mata (#${o.l.rk})`:'Tidak main'}</td><td>${o.i?`${o.i.pt} mata (#${o.i.rk})`:'Tidak main'}</td><td>${o.betul}</td><td><b>${o.tot}</b></td></tr>`).join('')}</table>
   <p class="stat">Mata kedudukan: Johan 10 · Naib Johan 8 · Ketiga 6 · Keempat 5 · Kelima 4 · lain-lain 3 · tidak bermain 0.</p>`;
   const gsec=(title,o,b,rows,lumba)=>{if(!o)return `<h3>${title}</h3><p class="stat">Kumpulan ini tidak bermain permainan ini.</p>`;const g=o.raw,acc=g.dijawab?Math.round(g.betul/g.dijawab*100):0;
-    return `<h3>${title} · Kedudukan #${o.rk} (${o.pt} mata kedudukan)</h3><p class="stat">${lumba?`Kemajuan: ${g.skor}/${b.soalan}${g.selesai?' · Sampai penamat 🏁':''}`:`Markah: ${g.skor}`} · Betul: ${g.betul} · Salah: ${g.dijawab-g.betul} · Ketepatan: ${acc}%</p>
+    return `<h3>${title} · Kedudukan #${o.rk} (${o.pt} mata kedudukan)</h3><p class="stat">${lumba?`Markah: ${mkL(g)} (betul ×10, salah −5) · Kemajuan: ${g.skor}/${b.soalan}${g.selesai?' · Sampai penamat 🏁':''}`:`Markah: ${g.skor}`} · Betul: ${g.betul} · Salah: ${g.dijawab-g.betul} · Ketepatan: ${acc}%</p>
     ${rows.length?`<table><tr><th>No</th><th>Jenis</th><th>Soalan</th><th>Jawapan Betul</th><th>Jawapan Murid</th><th>Status</th></tr>${rows.map(r=>`<tr><td>${r.no}</td><td>${r.jenis}</td><td>${esc(r.soalan)}</td><td>${esc(r.betul)}</td><td>${esc(r.murid)}</td><td class="${r.ok?'ok':'no'}">${r.ok?'✓ Betul':'✗ Salah'}</td></tr>`).join('')}</table>`:'<p class="stat">Tiada butiran soalan.</p>'}`};
   const groups=result.map((o,i)=>`<div class="grp"><h2>${i+2}. ${esc(o.nm)} · Kedudukan Keseluruhan #${o.rk} · ${o.tot} mata</h2>${gsec('Permainan 1: Isyarat Tangan (Nombor 21–30)',o.t,T,o.t?qRowsT(T,o.t.raw):[],false)}${gsec('Permainan 2: Lumba Pakaian (Unit 2)',o.l,L,o.l?qRowsL(L,o.l.raw):[],true)}${gsec('Permainan 3: Irama Warna (Unit 3)',o.i,I,o.i?qRowsI(I,o.i.raw):[],false)}</div>`).join('');
   const body=head+sum+groups+`<div class="ft">Laporan dijana secara automatik · Arabic e-Camp 2026 · SK Bukit Mutiara</div>`;
   return {css,body};
 }
 window.QL=QL;window.LL=LL;window.reportHTML=reportHTML;
+$('#bReset').onclick=async()=>{
+  const pin=prompt('KOSONGKAN SEMUA DATA\n\nSemua bilik, kumpulan dan markah ketiga-tiga stesen akan dipadam dan TIDAK boleh dikembalikan.\n\nMasukkan PIN guru untuk teruskan:');
+  if(pin==null)return;
+  if(!confirm('Pasti mahu padam SEMUA rekod pemain dan markah?'))return;
+  const b=$('#bReset'),o=b.innerHTML;b.disabled=true;b.textContent='Memadam…';
+  try{const r=await api({action:'reset',pin});if(!r.ok)throw new Error(r.err||'Gagal');alert('✅ Semua data sudah dikosongkan. Sistem kini seperti baharu.');location.reload()}
+  catch(e){alert('❌ '+(e.message==='PIN salah'?'PIN salah. Data tidak dipadam.':'Tidak dapat memadam: '+e.message))}
+  b.disabled=false;b.innerHTML=o};
 $('#bPdf').onclick=async()=>{const b=$('#bPdf');b.disabled=true;const o=b.innerHTML;b.textContent='Menjana PDF…';
   try{const {css,body}=await reportHTML();const el=document.createElement('div');el.innerHTML=`<style>${css}</style>${body}`;el.style.cssText='width:190mm;padding:0 4mm;background:#fff';
     await html2pdf().set({margin:[10,8,12,8],filename:'Laporan-Arabic-e-Camp-SKBM.pdf',image:{type:'jpeg',quality:.96},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy'],avoid:'tr'}}).from(el).save()}

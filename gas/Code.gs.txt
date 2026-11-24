@@ -42,8 +42,17 @@ function groups_(code) {
 }
 
 /* ---------- API untuk iPad murid ---------- */
+const RESET_PIN = 'SKBM2026';
 function api_(p) {
   try {
+    if (p.action === 'reset') {
+      if (String(p.pin || '').trim().toUpperCase() !== RESET_PIN) return json_({ ok: false, err: 'PIN salah' });
+      const lock = LockService.getScriptLock(); lock.waitLock(20000);
+      try {
+        [['Bilik', BILIK_H], ['Skor', SKOR_H]].forEach(([n, h]) => { const s = sh_(n, h); const lr = s.getLastRow(); if (lr > 1) s.getRange(2, 1, lr - 1, Math.max(s.getLastColumn(), h.length)).clearContent(); });
+      } finally { lock.releaseLock(); }
+      return json_({ ok: true });
+    }
     if (p.action === 'rooms') {
       const rv = sh_('Bilik', BILIK_H).getDataRange().getValues().slice(1);
       const gv = sh_('Skor', SKOR_H).getDataRange().getValues().slice(1);

@@ -112,7 +112,7 @@ function build(el) {
   sand.rotation.x = -Math.PI / 2; sand.position.set(0, .005, -110); scene.add(sand);
   for (let i = 0; i < 9; i++) { const d = new THREE.Mesh(new THREE.SphereGeometry(18 + i % 3 * 6, 24, 12, 0, Math.PI * 2, 0, Math.PI / 2), M('#ecd29a', { roughness: 1 })); d.scale.y = .32; d.position.set(-60 + i * 30, 0, -120 - (i % 2) * 15); scene.add(d); }
   const grp = new THREE.Group(); scene.add(grp);
-  R = { el, renderer, scene, cam, sun, grp, cars: {}, n: 0, built: 0, camX: 10, fire: [], t0: performance.now(), raf: 0, crowd: null };
+  R = { el, renderer, scene, cam, sun, grp, cars: {}, n: 0, built: 0, camX: 10, fire: [], pops: [], t0: performance.now(), raf: 0, crowd: null };
   const ro = new ResizeObserver(() => { const w = el.clientWidth, h = el.clientHeight; if (!w || !h) return; renderer.setSize(w, h); cam.aspect = w / h; cam.updateProjectionMatrix(); });
   ro.observe(el); R.ro = ro;
   loop();
@@ -183,12 +183,34 @@ function update(list) {
     c.obj.position.z = laneZ(k, n);
     const tx = -1 + x.pc * (L - 1.6);
     if (x.pc > c.pc + 1e-6) boost(c);
+    const b = +x.betul || 0, w = (+x.dijawab || 0) - b;
+    if (c.b != null) { if (b > c.b) popup(c, true); if (w > c.w) popup(c, false); }
+    c.b = b; c.w = w;
     c.pc = x.pc; c.tx = tx; c.done = x.done;
     const key = x.rank + '|' + x.name + '|' + (x.done ? 1 : 0);
     if (key !== c.key) { if (c.lab) c.obj.remove(c.lab); c.lab = label((x.done ? '🏁 ' : '') + x.name, x.color, x.rank); c.lab.position.set(0, 3.1, 0); c.obj.add(c.lab); c.key = key; }
   });
 }
 
+function popup(c, ok) {
+  const cv = document.createElement('canvas'); cv.width = 512; cv.height = 192; const g = cv.getContext('2d');
+  const col = ok ? '#1fb86a' : '#e03131';
+  g.fillStyle = col; g.beginPath(); g.arc(96, 96, 84, 0, 7); g.fill(); g.strokeStyle = '#fff'; g.lineWidth = 10; g.stroke();
+  g.strokeStyle = '#fff'; g.lineWidth = 22; g.lineCap = 'round'; g.beginPath();
+  if (ok) { g.moveTo(56, 98); g.lineTo(86, 128); g.lineTo(138, 66); } else { g.moveTo(62, 62); g.lineTo(130, 130); g.moveTo(130, 62); g.lineTo(62, 130); }
+  g.stroke();
+  g.fillStyle = '#fff'; g.strokeStyle = col; g.lineWidth = 8; const rx = 196, rw = 300; g.beginPath(); g.roundRect ? g.roundRect(rx, 40, rw, 112, 40) : g.rect(rx, 40, rw, 112); g.fill(); g.stroke();
+  g.fillStyle = col; g.font = '900 70px Arial'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.direction = 'rtl'; g.fillText(ok ? 'صَحِيحٌ!' : 'خَطَأٌ!', rx + rw / 2, 100);
+  const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace;
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: t, depthTest: false, transparent: true })); sp.renderOrder = 12;
+  sp.scale.set(6.4, 2.4, 1); sp.position.set(0, 4.6, 0); c.obj.add(sp);
+  R.pops.push({ sp, c, life: 1 });
+  if (!ok) {
+    c.wob = 1;
+    for (let i = 0; i < 10; i++) { const m = new THREE.Mesh(new THREE.SphereGeometry(.35 + Math.random() * .3, 8, 6), new THREE.MeshBasicMaterial({ color: '#9aa0a6', transparent: true, opacity: .7 })); m.position.set(-2.2 + Math.random() * .6, .6, (Math.random() - .5) * 1.6); c.obj.add(m); R.fire.push({ m, c, v: -(.6 + Math.random()), life: 1.4, up: 1 }); }
+  }
+  try { const now = performance.now(); if (window.AE && now - (R.lastSnd || 0) > 220) { R.lastSnd = now; AE.sfx(ok ? 'betul' : 'salah', ok ? .45 : .4); } } catch (e) { }
+}
 function boost(c) {
   for (let i = 0; i < 14; i++) {
     const m = new THREE.Mesh(new THREE.SphereGeometry(.18 + Math.random() * .16, 8, 6), new THREE.MeshBasicMaterial({ color: i % 3 ? '#ff922b' : '#ffd43b', transparent: true, opacity: .95 }));
@@ -210,13 +232,20 @@ function loop() {
     c.obj.position.y = Math.abs(moved) > .005 ? Math.sin(now / 45) * .03 : 0;
     lead = Math.max(lead, c.x);
   }
-  R.fire = R.fire.filter(f => { f.life -= dt * 1.6; f.m.position.x += f.v * dt; f.m.material.opacity = Math.max(0, f.life); f.m.scale.setScalar(1 + (1 - f.life) * 1.5); if (f.life <= 0) { f.c.obj.remove(f.m); f.m.geometry.dispose(); return false; } return true; });
+  R.pops = R.pops.filter(p => { p.life -= dt * .75; p.sp.position.y = 4.6 + (1 - p.life) * 2.2; p.sp.material.opacity = Math.min(1, p.life * 2.2); const s = p.life > .85 ? 1 + (p.life - .85) * 3 : 1; p.sp.scale.set(6.4 * s, 2.4 * s, 1); if (p.life <= 0) { p.c.obj.remove(p.sp); p.sp.material.map.dispose(); return false; } return true; });
+  for (const id in R.cars) { const c = R.cars[id]; if (c.wob > 0) { c.wob = Math.max(0, c.wob - dt * .9); c.obj.rotation.y = Math.sin(now / 60) * .35 * c.wob; } else c.obj.rotation.y = 0; }
+  R.fire = R.fire.filter(f => { f.life -= dt * 1.6; f.m.position.x += f.v * dt; if (f.up) f.m.position.y += dt * 1.2; f.m.material.opacity = Math.max(0, f.life); f.m.scale.setScalar(1 + (1 - f.life) * 1.5); if (f.life <= 0) { f.c.obj.remove(f.m); f.m.geometry.dispose(); return false; } return true; });
   if (R.crowd) { const { mesh, base } = R.crowd, m4 = new THREE.Matrix4(), t = now / 1000; base.forEach((b, i) => { m4.setPosition(b[0], b[1] + Math.max(0, Math.sin(t * 5 + b[3])) * .22, b[2]); mesh.setMatrixAt(i, m4); }); mesh.instanceMatrix.needsUpdate = true; }
-  const n = Math.max(2, R.built || 2), target = Math.max(8, Math.min(L - 6, lead));
-  R.camX += (target - R.camX) * Math.min(1, dt * 1.2);
-  const half = R.half || 6;
-  R.cam.position.set(R.camX - 20, 12 + n * .9, half + 17 + n * 1.25);
-  R.cam.lookAt(R.camX + 7, 0, -half * .35);
+  const n = Math.max(2, R.built || 2);
+  let mn = 1e9, mx = -1e9; for (const id in R.cars) { mn = Math.min(mn, R.cars[id].x); mx = Math.max(mx, R.cars[id].x); }
+  if (mn > mx) { mn = 0; mx = 10; }
+  const half = R.half || 6, spread = mx - mn;
+  const tx = (mn + mx) / 2, dist = 1 + Math.max(0, spread - 8) / 26; /* jauhkan kamera bila kereta berselerak supaya SEMUA nampak */
+  R.camX += (tx - R.camX) * Math.min(1, dt * 1.2);
+  R.camD = (R.camD || dist) + (dist - (R.camD || dist)) * Math.min(1, dt * 1.2);
+  const k = R.camD;
+  R.cam.position.set(R.camX - 12 * k, (10 + n * .9) * k, (half + 15 + n * 1.2) * k);
+  R.cam.lookAt(R.camX + 2, 0, -half * .3);
   R.sun.position.set(R.camX + 30, 60, 40); R.sun.target.position.set(R.camX, 0, 0);
   R.renderer.render(R.scene, R.cam);
 }

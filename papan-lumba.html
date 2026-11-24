@@ -380,10 +380,11 @@ function render(b){
     if(g.length&&done===g.length&&!announced){run('endRoom',room.bilik).then(winner)}
   }
 }
-function ranked(g){const s=g.slice().sort((a,b)=>(b.selesai-a.selesai)||(a.selesai&&b.selesai?(a.masa||0)-(b.masa||0):0)||(b.skor-a.skor));let rk=0;s.forEach((x,k)=>{const prev=s[k-1];if(k>0&&!(x.selesai===prev.selesai&&x.skor===prev.skor&&(!x.selesai||x.masa===prev.masa)))rk=k;x.rk=rk+1});return s}
+const mkL=x=>Math.max(0,(+x.betul||0)*10-((+x.dijawab||0)-(+x.betul||0))*5);
+function ranked(g){const s=g.slice().sort((a,b)=>(mkL(b)-mkL(a))||(b.selesai-a.selesai)||(a.selesai&&b.selesai?(a.masa||0)-(b.masa||0):0)||(b.skor-a.skor));let rk=0;s.forEach((x,k)=>{const p=s[k-1];if(k>0&&!(mkL(x)===mkL(p)&&x.selesai===p.selesai&&(!x.selesai||x.masa===p.masa)))rk=k;x.rk=rk+1});return s}
 function carSVG(col){return `<svg viewBox="0 0 120 56"><ellipse cx="60" cy="52" rx="54" ry="4" fill="#0003"/><path d="M8 38 Q6 26 18 24 L36 22 L50 10 Q56 6 66 6 L82 6 Q90 6 94 12 L102 22 Q114 24 114 34 L114 40 Q114 44 108 44 L12 44 Q8 44 8 38 Z" fill="${col}" stroke="#0005" stroke-width="2"/><path d="M52 12 L64 10 L64 22 L42 22 Z M68 10 L82 10 Q88 10 90 14 L94 22 L68 22 Z" fill="#cfefff"/><circle cx="32" cy="44" r="10" fill="#222"/><circle cx="32" cy="44" r="4" fill="#ccc"/><circle cx="92" cy="44" r="10" fill="#222"/><circle cx="92" cy="44" r="4" fill="#ccc"/></svg>`}
 function rows(g,n){
-  return ranked(g).map(x=>`<div class="row r${x.rk} ${x.rk===1&&(x.skor>0)?'first':''}" style="--c:${cOf(x.id)}"><div class="rk">${x.rk===1&&x.skor>0?'👑':'#'+x.rk}</div><div><div class="nm">${esc(x.nm)}</div><div class="bar"><i style="width:${Math.round(Math.min(1,x.skor/n)*100)}%"></i></div><div class="pr">${x.selesai?'🏁 Sampai penamat':x.skor+'/'+n+' betul'} · ${x.dijawab} jawapan</div></div><div class="pt">${x.skor}</div></div>`).join('')}
+  return ranked(g).map(x=>`<div class="row r${x.rk} ${x.rk===1&&(x.skor>0)?'first':''}" style="--c:${cOf(x.id)}"><div class="rk">${x.rk===1&&x.skor>0?'👑':'#'+x.rk}</div><div><div class="nm">${esc(x.nm)}</div><div class="bar"><i style="width:${Math.round(Math.min(1,x.skor/n)*100)}%"></i></div><div class="pr">${x.selesai?'🏁 Sampai penamat':x.skor+'/'+n+' betul'} · ${x.dijawab} jawapan</div></div><div class="pt">${mkL(x)}</div></div>`).join('')}
 /* ===== TREK LURUS GRAND PRIX ===== */
 let built=false,last={};
 function sideCar(col,num){return `<svg viewBox="0 0 140 60"><ellipse cx="70" cy="55" rx="62" ry="4" fill="#0004"/><path d="M6 40 Q4 30 14 28 L34 26 L52 12 Q58 8 68 8 L92 8 Q100 8 104 14 L114 26 Q130 28 134 36 L134 42 Q134 46 128 46 L12 46 Q6 46 6 40 Z" fill="${col}" stroke="#0006" stroke-width="2"/><path d="M54 14 L66 12 L66 26 L42 26 Z M70 12 L90 12 Q96 12 98 16 L104 26 L70 26 Z" fill="#d6f3ff"/><rect x="118" y="30" width="12" height="6" rx="2" fill="#ffe066"/><rect x="2" y="32" width="8" height="6" rx="2" fill="#ff6b6b"/><circle cx="72" cy="36" r="9" fill="#fff"/><text x="72" y="40" font-size="11" font-weight="800" text-anchor="middle" fill="#0b2427" font-family="Plus Jakarta Sans">${num}</text><circle cx="34" cy="46" r="11" fill="#222"/><circle cx="34" cy="46" r="5" fill="#bbb"/><circle cx="108" cy="46" r="11" fill="#222"/><circle cx="108" cy="46" r="5" fill="#bbb"/></svg>`}
@@ -402,7 +403,7 @@ function buildStrip(){
 function circuit(g,n){
   if(!built||!document.getElementById(use3d?'r3d':'lanes'))buildStrip();
   const r=ranked(g),order=g.slice().sort((a,b)=>String(a.id).localeCompare(String(b.id))),L=$('#lanes');
-  if(use3d){try{R3D.update(order.map((x,k)=>({id:x.id,name:x.nm,color:cOf(x.id),pc:Math.min(1,x.skor/n),rank:r.find(y=>y.id===x.id).rk,done:!!x.selesai,lane:k+1})))}catch(e){}
+  if(use3d){try{R3D.update(order.map((x,k)=>({id:x.id,name:x.nm,color:cOf(x.id),pc:Math.min(1,x.skor/n),betul:x.betul,dijawab:x.dijawab,rank:r.find(y=>y.id===x.id).rk,done:!!x.selesai,lane:k+1})))}catch(e){}
     order.forEach(x=>{if(last[x.id]!=null&&x.skor>last[x.id]){}last[x.id]=x.skor})}
   else{
   const h=Math.max(58,Math.min(86,Math.floor(500/Math.max(1,order.length))));
@@ -418,8 +419,8 @@ function circuit(g,n){
     last[x.id]=x.skor;ln.classList.toggle('done',x.selesai);
   });
   }
-  const lead=r[0]?r[0].skor:0;RM.setSpeed(1+.3*Math.min(1,lead/n));
-  $('#tw').innerHTML=r.map(x=>{const acc=x.dijawab?Math.round(x.betul/x.dijawab*100):0,gap=lead-x.skor;return `<div class="tr ${x.rk<=3?'p'+x.rk:''}"><div class="tp">P${x.rk}</div><i class="tc" style="background:${cOf(x.id)}"></i><div class="tn"><b>${esc(x.nm)}${x.selesai?' 🏁':''}</b><div class="tb"><i style="width:${Math.min(100,x.skor/n*100)}%;background:${cOf(x.id)}"></i></div><div class="td">${(x.rekod||'').slice(-10).split('').map(c=>`<em class="${c==='1'?'y':'n'}"></em>`).join('')}<span>${x.betul}✓ ${x.dijawab-x.betul}✗ · ${acc}%</span></div></div><div class="tg">${x.skor}/${n}<small>${x.selesai?'Penamat':x.rk===1?'Pendahulu':'-'+gap}</small></div></div>`}).join('');
+  const lead=Math.max(0,...g.map(y=>y.skor));RM.setSpeed(1+.3*Math.min(1,lead/n));
+  $('#tw').innerHTML=r.map(x=>{const acc=x.dijawab?Math.round(x.betul/x.dijawab*100):0,gap=lead-x.skor;return `<div class="tr ${x.rk<=3?'p'+x.rk:''}"><div class="tp">P${x.rk}</div><i class="tc" style="background:${cOf(x.id)}"></i><div class="tn"><b>${esc(x.nm)}${x.selesai?' 🏁':''}</b><div class="tb"><i style="width:${Math.min(100,x.skor/n*100)}%;background:${cOf(x.id)}"></i></div><div class="td">${(x.rekod||'').slice(-10).split('').map(c=>`<em class="${c==='1'?'y':'n'}"></em>`).join('')}<span>${x.betul}✓ ${x.dijawab-x.betul}✗ · ${acc}%</span></div></div><div class="tg">${mkL(x)}<small>mata · ${x.skor}/${n}${x.selesai?' 🏁':''}</small></div></div>`}).join('');
 }
 function topCar(col,num){return `<g class="cbody"><rect x="-17" y="-9" width="34" height="18" rx="6" fill="${col}" stroke="#0006" stroke-width="1.5"/><rect x="-15" y="-12" width="7" height="4" rx="1.5" fill="#222"/><rect x="8" y="-12" width="7" height="4" rx="1.5" fill="#222"/><rect x="-15" y="8" width="7" height="4" rx="1.5" fill="#222"/><rect x="8" y="8" width="7" height="4" rx="1.5" fill="#222"/><rect x="2" y="-6" width="7" height="12" rx="2" fill="#cfefff"/><rect x="18" y="-4" width="3" height="8" fill="#ffd43b"/><text x="-7" y="4" font-size="10" font-weight="800" fill="#fff" text-anchor="middle" font-family="Plus Jakarta Sans">${num}</text></g>`}
 function winner(b){
@@ -428,9 +429,9 @@ function winner(b){
   show('sWin');music(false);
   if(!s.length){$('#wWho').textContent='Tiada kumpulan';return}
   $('#wWho').innerHTML=w.map(x=>`<span style="color:${cOf(x.id)}">${esc(x.nm)}</span>`).join(' &amp; ');
-  $('#wPts').textContent=(w[0].selesai?'🏁 Sampai penamat pertama':w[0].skor+' jawapan betul')+(w.length>1?' · Seri!':'');
+  $('#wPts').textContent=mkL(w[0])+' mata · '+w[0].betul+' betul, '+(w[0].dijawab-w[0].betul)+' salah'+(w.length>1?' · Seri!':'');
   const h=[200,150,115];
-  $('#pod').innerHTML=s.filter(x=>x.rk<=3).slice(0,6).map(x=>`<div style="--c:${cOf(x.id)};height:${h[x.rk-1]+40}px"><span>#${x.rk}</span><b>${x.skor}</b><span>${esc(x.nm)}</span></div>`).join('');
+  $('#pod').innerHTML=s.filter(x=>x.rk<=3).slice(0,6).map(x=>`<div style="--c:${cOf(x.id)};height:${h[x.rk-1]+40}px"><span>#${x.rk}</span><b>${mkL(x)}</b><span>${esc(x.nm)}</span></div>`).join('');
   $('#lbEnd').innerHTML=rows(b.groups,b.soalan);
   fanfare();cheer();burst(260);setTimeout(()=>burst(200),1500);
   setTimeout(()=>{try{speechSynthesis.cancel()}catch(e){}announceAr((w.length>1?'مبروك! الفائزون هم ':'مبروك! الفائز هو فريق ')+w.map(x=>String(x.nm).split(' · ')[0]).join(' و ')+'. ألف مبروك!',()=>{})},1300);

@@ -187,6 +187,67 @@ input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
 .ch.bad{border-color:#ff5d5d!important;background:linear-gradient(170deg,#fff4f4,#ffe0e0)!important;animation:shake .4s!important}
 .ch.dim{opacity:.3;transform:rotateX(30deg) scale(.95)}
 .fb .ar{text-shadow:0 3px 0 #fff,0 8px 18px #0002;animation:pop .5s}
+
+/* ===== BELON WARNA BERIRAMA ===== */
+.stageQ{justify-content:flex-start!important;gap:10px!important}
+.qbox{padding:10px 18px!important;width:min(560px,100%)!important}
+.qbox .big{font-size:clamp(44px,7vw,74px)!important;line-height:1.25}
+.qbox .blob{width:clamp(90px,14vh,130px)!important;height:clamp(90px,14vh,130px)!important}
+.qbox .photo{width:clamp(110px,17vh,160px)!important;height:clamp(110px,17vh,160px)!important}
+.choices.sky{position:relative;flex:1;min-height:260px;width:min(900px,100%);display:block!important;overflow:visible}
+.sky .ch{position:absolute!important;bottom:-10%;width:clamp(130px,19vw,190px);height:auto;min-height:0!important;background:none!important;border:0!important;box-shadow:none!important;padding:0!important;transform:none;animation:rise var(--t) linear forwards!important;left:var(--x);margin-left:calc(clamp(130px,19vw,190px)/-2)}
+@keyframes rise{0%{bottom:-45%}100%{bottom:105%}}
+.stageQ .orbs{display:none}
+.sky .ch .bwrap{display:block;width:100%;animation:sway 2.67s ease-in-out infinite alternate;animation-delay:var(--dl)}
+@keyframes sway{from{transform:translateX(-14px) rotate(-5deg)}to{transform:translateX(14px) rotate(5deg)}}
+.sky .bal{position:relative;display:grid;place-items:center;width:100%;aspect-ratio:.84;border-radius:50% 50% 48% 48%/55% 55% 45% 45%;
+ background:radial-gradient(circle at 32% 26%,#ffffffd0 0 8%,transparent 24%),radial-gradient(circle at 50% 60%,var(--c) 52%,color-mix(in srgb,var(--c),#000 32%) 100%);
+ box-shadow:inset -10px -16px 26px #0002,0 18px 30px #0002}
+.sky .bal::before{content:"";position:absolute;bottom:-9px;left:50%;margin-left:-9px;border:9px solid transparent;border-bottom:0;border-top:12px solid color-mix(in srgb,var(--c),#000 25%)}
+.sky .bal::after{content:"";position:absolute;top:100%;left:50%;width:2px;height:70px;background:linear-gradient(#8a8a8a,#8a8a8a00);margin-top:10px}
+.sky .bal .ar{font-size:clamp(26px,3.6vw,38px);color:#0d2b2e;text-shadow:0 2px 0 #fff;padding:0 8px;text-align:center;line-height:1.2}
+.sky .bal.lt .ar{color:#0d2b2e}.sky .bal.dk .ar{color:#fff;text-shadow:0 2px 6px #0008}
+.sky .ch .sw{display:none}
+.sky .ch.good,.sky .ch.bad,.sky .ch.dim,.sky .ch.reveal{animation:rise var(--t) linear forwards!important;animation-play-state:paused!important;background:none!important;box-shadow:none!important;transform:none!important}
+.sky .ch.good .bal{animation:popb .45s ease-out forwards}
+@keyframes popb{40%{transform:scale(1.35)}100%{transform:scale(1.9);opacity:0;filter:blur(2px)}}
+.sky .ch.bad .bal{animation:deflate .8s ease-in forwards}
+@keyframes deflate{to{transform:scale(.35) translateY(160px) rotate(40deg);opacity:.2}}
+.sky .ch.dim{opacity:.25}
+.sky .ch.reveal .bal{outline:6px dashed #1fb86a;outline-offset:6px}
+.mascot{position:absolute;left:10px;bottom:6px;font-size:clamp(60px,9vw,96px);z-index:2;filter:drop-shadow(0 10px 10px #0003);transform-origin:50% 100%;transition:transform .1s}
+.stageQ.beat .mascot{transform:translateY(-12px) rotate(-6deg) scale(1.06)}
+.mascot .bub{position:absolute;left:70%;top:-10px;background:#fff;border:2px solid #e7d6a0;border-radius:16px;padding:2px 10px;font-size:18px;white-space:nowrap;opacity:0;transition:.25s}
+.mascot .bub.on{opacity:1}
+.stageQ.fever{background:conic-gradient(from var(--fa,0deg) at 50% 120%,#ff6b6b22,#ffd43b22,#51cf6622,#339af022,#cc5de822,#ff6b6b22);animation:fever 4s linear infinite}
+@property --fa{syntax:'<angle>';inherits:false;initial-value:0deg}
+@keyframes fever{to{--fa:360deg}}
+.feverTag{position:absolute;right:12px;bottom:10px;z-index:3;font-weight:800;color:#c2255c;background:#fff;border-radius:999px;padding:4px 14px;border:2px solid #ffd43b;display:none;animation:pop .6s infinite alternate}
+.stageQ.fever .feverTag{display:block}
+@media(max-width:560px){.sky .ch{width:110px;margin-left:-55px}}
+
+/* ===== ANGKASA WARNA 3D ===== */
+.space3d{position:absolute;inset:0;z-index:0;border-radius:26px;overflow:hidden;display:none}
+.space3d canvas{display:block;width:100%!important;height:100%!important}
+.sp3d .space3d{display:block}
+.stageQ.sp3d{margin:8px 12px 12px;border-radius:26px;box-shadow:0 18px 40px #3b1f6b44}
+.sp3d .qbox{z-index:3;background:linear-gradient(160deg,#fffffff2,#fffaf0ee)!important;width:min(520px,94%)!important;margin-top:4px}
+.sp3d .mascot,.sp3d .feverTag{display:none!important}
+.sp3d .choices.sky{position:absolute;inset:0;width:auto;z-index:2;min-height:0}
+.sp3d .sky .ch{animation:none!important;bottom:0!important;top:0;height:100%!important;width:33.333%!important;margin:0!important;left:calc(var(--k)*33.333%)!important;border-radius:0}
+.sp3d .sky .ch .bwrap{display:none}
+.sp3d .sky .ch .lanetag{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);background:#ffffffe8;border:2px solid #e7d6a0;border-radius:999px;padding:6px 18px;font-weight:800;color:#0d2b2e;white-space:nowrap;display:flex;gap:8px;align-items:center;box-shadow:0 8px 20px #0004}
+.sp3d .sky .ch .lanetag i{width:26px;height:26px;border-radius:50%;background:var(--c);box-shadow:inset 0 -4px 6px #0003;display:inline-block}
+.sp3d .sky .ch .lanetag .ar{font-size:24px}
+.sp3d .sky .ch:active .lanetag{transform:translateX(-50%) scale(.94)}
+.sp3d .sky .ch.good .lanetag{border-color:#1fb86a;background:#eafbf1}
+.sp3d .sky .ch.bad .lanetag{border-color:#ff5d5d;background:#fff0f0}
+.sp3d .sky .ch.dim .lanetag{opacity:.35}
+.sp3d .sky .ch.reveal .lanetag{border-color:#1fb86a;animation:pop .5s 3}
+.sp3d .fb{position:absolute;left:0;right:0;bottom:70px;z-index:4;pointer-events:none}
+.sp3d .fb .ar,.sp3d .fb small{background:#ffffffee;border-radius:16px;padding:2px 14px;display:inline-block}
+.lanetag{display:none}
+.sp3d .lanetag{display:flex}
 #hCombo[hidden]{display:none!important}
 .inst i{font-style:normal;font-size:20px;opacity:.22;filter:grayscale(1);transition:.3s}.inst i.on{opacity:1;filter:none;animation:pop .4s}
 .stageQ.beat .qbox{transform:scale(1.025)!important;transition:transform .08s}
@@ -203,6 +264,7 @@ input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
 @media(prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
 <script src="ae-media.js"></script>
+<script type="module" src="space3d.js"></script>
 <link rel="stylesheet" href="ae-theme.css">
 </head>
 <body data-mus="sJoin:tunggu,sWait:tunggu,sPlay:-,sEnd:menang" data-musvol=".4">
@@ -213,7 +275,7 @@ input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
   <div class="heroN"><span style="--c:#e63946">♪</span><span style="--c:#1d6fe0">♫</span><span style="--c:#2fb344">♪</span><span style="--c:#ffc531">♬</span></div>
   <p class="logo">Irama <span>Warna</span> Arab</p>
   <p class="ar" style="font-size:30px;margin:0">أَهْلًا وَسَهْلًا!</p>
-  <p class="sub">Arabic e-Camp · Unit 3: al-Alwan Haulana. Warna + muzik: jawab betul, lagu makin meriah!</p>
+  <p class="sub">Arabic e-Camp · Unit 3: al-Alwan Haulana. 🚀 Angkasa Warna 3D: terbang menembusi warna yang betul!</p>
   <form class="card" id="fJoin">
     <label><span><span class="ar" style="font-size:20px">اِسْمُ الْغُرْفَةِ</span> <small>Nama bilik</small></span><input id="inBilik" maxlength="12" autocomplete="off" required></label>
     <label><span><span class="ar" style="font-size:20px">اِسْمُ الْفَرِيْقِ</span> <small>Nama kumpulan</small></span><input id="inNama" maxlength="20" autocomplete="off" placeholder="cth: Kumpulan Najm" required></label>
@@ -229,7 +291,7 @@ input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
   <span class="chip"><span class="pulse"></span> <span id="wName"></span> di pentas · bilik <b id="wBilik"></b></span>
   <div class="heroN"><span style="--c:#e63946">♪</span><span style="--c:#1d6fe0">♫</span><span style="--c:#2fb344">♪</span><span style="--c:#ffc531">♬</span></div>
   <h2 class="ar" style="margin:0;font-size:clamp(30px,4.5vw,44px)">اِنْتَظِرْ مِنْ فَضْلِكَ…</h2><p class="sub" style="margin-top:-8px">Tunggu cikgu tekan MULA</p>
-  <p class="sub">Ikut rentak muzik! Setiap warna ada not muziknya. Jawab betul berturut-turut untuk menambah alat muzik 🥁🎸🎹🎺 dalam lagu.</p>
+  <p class="sub">🚀 Pandu kapal angkasa! Tiga gegelang planet berwarna datang ikut rentak muzik. Baca soalan, kemudian tekan lorong (kiri, tengah, kanan) yang betul untuk terbang menembusinya. Jawab betul berturut-turut untuk menambah alat muzik 🥁🎸🎹🎺 dan masuk mod FEVER!</p>
 </div></section>
 
 <section class="scr" id="sPlay">
@@ -241,10 +303,13 @@ input:focus{outline:3px solid var(--sun);border-color:var(--sun)}
   </div>
   <div class="prog"><i id="hBar"></i><span><span class="ar">السُّؤَالُ</span> <b id="hI">1</b>/<span id="hN">20</span></span></div>
   <div class="stageQ" id="stageQ">
+    <div class="space3d" id="space"></div>
     <div class="orbs"><i style="--c:#e63946;--s:90px;--x:4%;--y:18%;--d:5s;--mx:30px"></i><i style="--c:#1d6fe0;--s:60px;--x:88%;--y:12%;--d:6s;--mx:-26px"></i><i style="--c:#2fb344;--s:110px;--x:82%;--y:62%;--d:7s;--mx:-40px"></i><i style="--c:#ffc531;--s:70px;--x:8%;--y:70%;--d:5.5s;--mx:36px"></i><i style="--c:#9b9b9b;--s:44px;--x:48%;--y:86%;--d:4.5s;--mx:20px"></i><i style="--c:#1b1b1b;--s:38px;--x:30%;--y:6%;--d:6.5s;--mx:-18px"></i></div>
     <div class="beats"><i></i><i></i><i></i><i></i></div>
     <div class="qbox" id="qbox"></div>
-    <div class="choices" id="choices"></div>
+    <div class="choices sky" id="choices"></div>
+    <div class="mascot" id="mascot">🐪<span class="bub" id="bub"></span></div>
+    <div class="feverTag">🎉 FEVER! <span class="ar">حَمَاسٌ!</span></div>
     <div class="fb" id="fb"></div>
   </div>
 </section>
@@ -308,6 +373,18 @@ const SFX={
  cheer(){noise(2.2,.3,1400);noise(2.2,.18,3200,.1);[0,.25,.5].forEach(t=>tone(1046,.15,'triangle',.1,t+.2))},
  horn(){tone(392,.25,'square',.12);tone(494,.25,'square',.1);tone(392,.35,'square',.12,.3);tone(494,.35,'square',.1,.3)}
 };
+
+/* ===== BUNYI ANGKASA ===== */
+const SPX={hum:null,
+ engine(on){try{if(!audio())return;if(on&&!SPX.hum){const o=ac.createOscillator(),o2=ac.createOscillator(),f=ac.createBiquadFilter(),g=ac.createGain(),l=ac.createOscillator(),lg=ac.createGain();o.type='sawtooth';o.frequency.value=55;o2.type='sawtooth';o2.frequency.value=55.7;f.type='lowpass';f.frequency.value=320;l.frequency.value=.35;lg.gain.value=90;l.connect(lg);lg.connect(f.frequency);g.gain.value=0;o.connect(f);o2.connect(f);f.connect(g);g.connect(master);o.start();o2.start();l.start();g.gain.linearRampToValueAtTime(.05,ac.currentTime+1.5);SPX.hum={o,o2,l,g}}
+  if(!on&&SPX.hum){const h=SPX.hum;SPX.hum=null;h.g.gain.linearRampToValueAtTime(0,ac.currentTime+.6);setTimeout(()=>{try{h.o.stop();h.o2.stop();h.l.stop()}catch(e){}},800)}}catch(e){}},
+ incoming(){noise(1.4,.14,400,0,null,'bandpass');tone(180,1.3,'sine',.06,0,null,900);tone(1400,.08,'triangle',.05,.2);tone(1760,.08,'triangle',.05,.32)},
+ laser(){tone(2200,.22,'sawtooth',.09,0,null,180);tone(1600,.18,'square',.05,.04,null,140)},
+ boom(){noise(.9,.5,160,.05,null,'lowpass');noise(.5,.3,900,.05,null,'bandpass');tone(70,.7,'sine',.35,.05,null,30)},
+ warp(){tone(220,1.1,'sine',.12,.15,null,1800);tone(330,1.1,'triangle',.06,.2,null,2600);noise(1,.12,4000,.2,null,'highpass')},
+ alarm(){[0,.22,.44].forEach(t=>{tone(880,.16,'square',.07,t);tone(620,.16,'square',.07,t+.11)});noise(.6,.35,300,0,null,'lowpass')},
+ radar(){tone(1320,.07,'sine',.08)}
+};
 /* bunyi sebenar (Pixabay) di atas bunyi sintesis */
 (function(){const M={ok:['betul',.8],no:['salah',.55],win:['tahniah',.8],cheer:['sorak',.7],vroom:['lumba',.55],nitro:['whoosh',.8],streak:['bintang',.6],pop:['whoosh',.4],screech:['whoosh',.5],horn:['enjin',.0]};
  for(const k in M){if(typeof SFX[k]!=='function')continue;const f=SFX[k];SFX[k]=function(){try{if(window.AE&&M[k][1]>0)AE.sfx(M[k][0],M[k][1])}catch(e){}return f.apply(this,arguments)}}})();
@@ -360,6 +437,7 @@ function speak(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUttera
 
 /* ===== KONFETI ===== */
 const fx=$('#fx'),fc=fx.getContext('2d');let parts=[],raf=0;
+function burstAt(x,y,col){fx.width=innerWidth;fx.height=innerHeight;for(let i=0;i<46;i++)parts.push({x,y,vx:(Math.random()-.5)*16,vy:-Math.random()*12-2,s:Math.random()*9+5,c:i%3?col:'#ffd43b',r:Math.random()*6,l:50+Math.random()*30});if(!raf)raf=requestAnimationFrame(dfx)}
 function burst(n=70){fx.width=innerWidth;fx.height=innerHeight;const c=['#ff5d5d','#ffc531','#0e7c7b','#3d7bfd','#9b51e0'];for(let i=0;i<n;i++)parts.push({x:innerWidth/2,y:innerHeight*.5,vx:(Math.random()-.5)*15,vy:-Math.random()*13-3,s:Math.random()*8+5,c:c[i%5],r:Math.random()*6,l:80+Math.random()*40});if(!raf)raf=requestAnimationFrame(dfx)}
 function dfx(){fc.clearRect(0,0,fx.width,fx.height);parts=parts.filter(p=>p.l-->0);parts.forEach(p=>{p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.r+=.12;fc.save();fc.translate(p.x,p.y);fc.rotate(p.r);fc.fillStyle=p.c;fc.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);fc.restore()});raf=parts.length?requestAnimationFrame(dfx):0}
 
@@ -445,57 +523,72 @@ function optsFor(i,c){const R=rng((G.seed>>>0)+i*7919+13),others=COLS.filter(x=>
   for(let k=others.length-1;k>0;k--){const j=Math.floor(R()*(k+1));[others[k],others[j]]=[others[j],others[k]]}
   const o=[c,others[0],others[1]];for(let k=2;k>0;k--){const j=Math.floor(R()*(k+1));[o[k],o[j]]=[o[j],o[k]]}return o}
 const INSTN=['🥁 Darbuka','🎸 Oud','🎹 Melodi','🎺 Orkestra'];
-function setInst(){const L=BM.lvl;document.querySelectorAll('#hInst i').forEach(i=>i.classList.toggle('on',+i.dataset.l<=L))}
+function setInst(){const L=BM.lvl;document.querySelectorAll('#hInst i').forEach(i=>i.classList.toggle('on',+i.dataset.l<=L));const st=$('#stageQ');if(st)st.classList.toggle('fever',L>=3);try{window.SPACE&&SPACE.fever(L>=3)}catch(e){}}
 function lvlTo(x){const p=BM.lvl;BM.setLvl(x);setInst();if(BM.lvl>p){const d=document.createElement('div');d.className='lvlup';d.innerHTML=`<b>${INSTN[BM.lvl].split(' ')[0]}</b><span class="ar">آلَةٌ جَدِيدَةٌ!</span><br><small>Alat muzik baharu: ${INSTN[BM.lvl].split(' ')[1]}</small>`;$('#stageQ').appendChild(d);setTimeout(()=>d.remove(),1400);if(window.AE)AE.sfx('bintang',.5)}}
-window.__beat=bi=>{const st=$('#stageQ');if(!st||!$('#sPlay').classList.contains('on'))return;st.classList.add('beat');setTimeout(()=>st.classList.remove('beat'),140);const ds=st.querySelectorAll('.beats i');ds.forEach((d,k)=>d.classList.toggle('hit',k===bi%4))};
+window.__beat=bi=>{const st=$('#stageQ');if(!st||!$('#sPlay').classList.contains('on'))return;try{window.SPACE&&SPACE.beat()}catch(e){}st.classList.add('beat');setTimeout(()=>st.classList.remove('beat'),140);const ds=st.querySelectorAll('.beats i');ds.forEach((d,k)=>d.classList.toggle('hit',k===bi%4))};
 function startSong(){
   show('sPlay');audio();chart=makeChart(G.seed,G.n);$('#hN').textContent=G.n;
   qi=G.dijawab||0;combo=G.streak||0;
   if(window.AE)AE.play(null);BM.setLvl(Math.min(3,Math.floor(combo/2)));setInst();if(ac)BM.start(ac.currentTime+.15);
   if(!G.demo){clearInterval(rankT);rankT=setInterval(updRank,4000);updRank()}
   if(qi>=G.n)return finish(false);
+  mountSpace();
   ask();
 }
 function hud(){$('#hS').textContent=G.skor||0;$('#hI').textContent=Math.min(G.n,qi+1);$('#hBar').style.width=(qi/G.n*100)+'%';$('#hCombo').hidden=combo<2;$('#hC').textContent=combo}
 async function updRank(){try{const r=await api({action:'board',bilik:G.bilik});if(!r.ok)return;
   const g=sortSong(r.groups);const i=g.findIndex(x=>x.id===G.id);$('#hRank').textContent=i>=0?'#'+(i+1)+'/'+g.length:'–';
   if(r.status==='tamat')finish(true)}catch(e){}}
-function sortSong(g){return g.slice().sort((a,b)=>(b.skor-a.skor)||(b.betul-a.betul))}
+function sortSong(g){return g.slice().sort((a,b)=>(b.betul-a.betul)||(b.skor-a.skor))}
 function ring(){return `<div class="ring"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="#fff" stroke="#eee4c4" stroke-width="4"/><circle id="rg" cx="18" cy="18" r="15" fill="none" stroke="#0e7c7b" stroke-width="4" stroke-linecap="round" stroke-dasharray="94.2" stroke-dashoffset="0"/></svg><b id="rgN">${Math.ceil(QTIME)}</b></div>`}
+const XS=['18%','50%','82%'];
+const sp3d=()=>$('#stageQ').classList.contains('sp3d');
+function mountSpace(){try{if(window.SPACE&&SPACE.ok()&&$('#sPlay').classList.contains('on')){$('#stageQ').classList.add('sp3d');SPACE.mount($('#space'));SPX.engine(true);if(QOPTS.length&&!locked)SPACE.setQuestion(QOPTS,Math.max(1,QTIME-(performance.now()-qStart)/1000))}}catch(e){}}
+addEventListener('space-ready',mountSpace);
+let QOPTS=[];
+function bal(id,k,hex,txt){const dk=['aswad','azraq','ahmar','akhdhar'].includes(id)&&txt&&hex===colOf(id).hex;QOPTS[k]={hex,label:txt.replace(/<br>/g,'\n')};
+ return `<button class="ch" data-c="${id}" style="--x:${XS[k]};--k:${k};--t:${QTIME.toFixed(2)}s;--dl:${(k*.45).toFixed(2)}s" aria-label="${colOf(id).ms}"><span class="bwrap"><span class="bal ${dk?'dk':'lt'}" style="--c:${hex}"><span class="ar">${txt}</span></span></span><span class="lanetag" style="--c:${hex}"><i></i>${txt?`<span class="ar">${txt.replace(/<br>/g,' ')}</span>`:['◀ Kiri','▲ Tengah','Kanan ▶'][k]}</span></button>`}
+function say2(t){const b=$('#bub');if(!b)return;b.textContent=t;b.classList.add('on');clearTimeout(say2.t);say2.t=setTimeout(()=>b.classList.remove('on'),1300)}
 function ask(){
   if(ended)return;locked=false;hud();$('#fb').innerHTML='';
-  const n=chart[qi],c=colOf(n.c),opts=optsFor(qi,n.c);let q='',ch='',say='';
+  const n=chart[qi],c=colOf(n.c),opts=optsFor(qi,n.c);let q='',ch='',say='';QOPTS=[];
   if(n.kind==='pola'){
     const o=n.o,qq=o.f?'مَا لَوْنُهَا؟':'مَا لَوْنُهُ؟';
     q=`<p class="ask">${qq}</p><p class="askm">Apakah warnanya? Pilih ayat yang betul.</p><img class="photo" src="img/${o.img}.jpg" alt="${o.ms}"><div class="oname">${o.ar}</div>`;
-    ch=opts.map(id=>{const x=colOf(id);return `<button class="ch" data-c="${id}"><span class="sw" style="--c:${x.hex}"></span><span class="ar" style="font-size:clamp(22px,3vw,30px)">${o.f?'لَوْنُهَا':'لَوْنُهُ'} ${x.ar}</span></button>`}).join('');
+    ch=opts.map((id,k)=>{const x=colOf(id);return bal(id,k,x.hex,`${o.f?'لَوْنُهَا':'لَوْنُهُ'}<br>${x.ar}`)}).join('');
     say=plain(o.ar)+'. '+(o.f?'ما لونها؟':'ما لونه؟');
   }else if(qi%2===0){
     q=`<p class="ask">اِخْتَرِ اللَّوْنَ الصَّحِيحَ</p><p class="askm">Pilih warna yang betul</p><div class="big">${c.ar}</div>`;
-    ch=opts.map(id=>`<button class="ch" data-c="${id}" aria-label="${colOf(id).ms}"><span class="sw" style="--c:${colOf(id).hex}"></span></button>`).join('');
+    ch=opts.map((id,k)=>bal(id,k,colOf(id).hex,'')).join('');
     say=plain(c.ar);
   }else{
     q=`<p class="ask">مَا هٰذَا اللَّوْنُ؟</p><p class="askm">Apakah warna ini dalam Bahasa Arab?</p><div class="blob" style="--c:${c.hex}"></div>`;
-    ch=opts.map(id=>`<button class="ch" data-c="${id}"><span class="ar">${colOf(id).ar}</span><small>${colOf(id).rm}</small></button>`).join('');
+    ch=opts.map((id,k)=>bal(id,k,['#ffd6e0','#d0ebff','#fff3bf'][k],colOf(id).ar)).join('');
     say='ما هذا اللون؟';
   }
   $('#qbox').innerHTML=ring()+`<button class="say2" id="say2" aria-label="Dengar">🔊</button>`+q;
   $('#qbox').style.animation='none';void $('#qbox').offsetWidth;$('#qbox').style.animation='';
   $('#choices').innerHTML=ch;
   $('#choices').querySelectorAll('.ch').forEach(b=>b.onclick=()=>pick(b.dataset.c,b));
+  if(sp3d()){try{SPACE.setQuestion(QOPTS,QTIME)}catch(e){}SPX.incoming()}
   $('#say2').onclick=()=>speakQ(say,.85);
   if(window.AE)AE.sfx('whoosh',.5);
   setTimeout(()=>speakQ(say,.85),350);
   qStart=performance.now();clearInterval(qT);
   qT=setInterval(()=>{const left=QTIME-(performance.now()-qStart)/1000;const rg=$('#rg');if(rg)rg.style.strokeDashoffset=(94.2*(1-Math.max(0,left)/QTIME)).toFixed(1);const nb=$('#rgN');if(nb){nb.textContent=Math.max(0,Math.ceil(left));if(rg)rg.style.stroke=left<4?'#ff5d5d':'#0e7c7b'}
     if(left<=3.05&&left>2.9)tone(880,.08,'square',.06);
+    if(sp3d()&&left<3.5&&left>0){const k=Math.ceil(left*2);if(k!==window.__rd){window.__rd=k;SPX.radar()}}
     if(left<=0){clearInterval(qT);pick(null,null)}},100);
 }
 const PR=[['مُمْتَازٌ!','#1fb86a'],['أَحْسَنْتَ!','#1d6fe0'],['جَيِّدٌ جِدًّا!','#c08d00']];
 function pick(c,btn){
   if(locked||ended)return;locked=true;clearInterval(qT);
+  const opts2=[...$('#choices').children].map(b=>b.dataset.c);
   const n=chart[qi],ok=c!=null&&c===n.c,cc=colOf(n.c),left=Math.max(0,QTIME-(performance.now()-qStart)/1000);
-  $('#choices').querySelectorAll('.ch').forEach(b=>{b.disabled=true;if(b.dataset.c===n.c)b.classList.add('good');else if(b===btn)b.classList.add('bad');else b.classList.add('dim')});
+  $('#choices').querySelectorAll('.ch').forEach(b=>{b.disabled=true;if(b.dataset.c===n.c)b.classList.add(ok?'good':'reveal');else if(b===btn)b.classList.add('bad');else b.classList.add('dim')});
+  if(sp3d()){if(ok){SPX.laser();setTimeout(SPX.boom,120);setTimeout(SPX.warp,250)}else SPX.alarm()}
+  if(sp3d())try{SPACE.choose(btn?[...$('#choices').children].indexOf(btn):null,ok,opts2.indexOf(n.c))}catch(e){}
+  if(ok&&btn&&!sp3d()){const r=btn.getBoundingClientRect();burstAt(r.left+r.width/2,r.top+r.height*.4,colOf(c).hex);say2('🎉 '+['رَائِعٌ','مُمْتَازٌ','أَحْسَنْتَ'][qi%3])}else say2(c?'😮 أُوه!':'⏰');
   let pts=0;
   if(ok){combo++;pts=100+Math.round(left/QTIME*50)+Math.min(combo,10)*5;G.betul++;BM.phrase(c);if(window.AE)AE.sfx('betul',.5);lvlTo(Math.min(3,Math.floor(combo/2)))}
   else{combo=0;BM.boo();if(window.AE)AE.sfx('salah',.5);lvlTo(Math.max(0,BM.lvl-1))}
@@ -511,7 +604,7 @@ function pick(c,btn){
   setTimeout(()=>{if(ended)return;if(qi>=G.n)finish(false);else ask()},ok?1900:2900);
 }
 async function finish(byTeacher){
-  if(ended)return;ended=true;clearInterval(rankT);clearInterval(pollT);clearInterval(qT);BM.stop();if(window.AE){AE.play('menang',.6);AE.sfx('sorak',.7)}
+  if(ended)return;ended=true;clearInterval(rankT);clearInterval(pollT);clearInterval(qT);BM.stop();try{SPX.engine(false)}catch(e){}if(window.AE){AE.play('menang',.6);AE.sfx('sorak',.7)}
   show('sEnd');SFX.win();setTimeout(()=>speakQ('مبروك',.9),900);SFX.cheer();burst(160);
   const done=G.dijawab>=G.n,acc=G.dijawab?Math.round(G.betul/G.dijawab*100):0;
   $('#eIcon').textContent=done?'🎵':'⏱️';
@@ -522,7 +615,7 @@ async function finish(byTeacher){
   try{localStorage.removeItem('irm-sesi')}catch(e){}
   push();
   const rk=async()=>{try{const r=await api({action:'board',bilik:G.bilik});if(!r.ok)return;const g=sortSong(r.groups);
-    $('#eRank').innerHTML=g.map((x,i)=>`<div class="${x.id===G.id?'me':''}"><span>#${i+1} ${x.selesai?'🎵 ':''}${esc(x.nm)}</span><span>${x.skor} mata</span></div>`).join('');
+    $('#eRank').innerHTML=g.map((x,i)=>`<div class="${x.id===G.id?'me':''}"><span>#${i+1} ${x.selesai?'🎵 ':''}${esc(x.nm)}</span><span>${x.betul}✓ · ${x.skor} mata</span></div>`).join('');
     if(r.status==='tamat'){clearInterval(t);$('#eNote').textContent=g[0]&&g[0].id===G.id?'🏆 Kumpulan anda JOHAN! 🏆':'Johan: '+(g[0]?g[0].nm:'-');if(g[0]&&g[0].id===G.id){burst(200);SFX.win()}}}catch(e){}};
   const t=setInterval(rk,3000);rk();
 }

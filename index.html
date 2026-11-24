@@ -563,9 +563,9 @@ async function finish(byTeacher){
   try{localStorage.removeItem('ita-sesi')}catch(e){}
   pushScore();
   const rank=async()=>{try{const r=await api({action:'board',bilik:S.bilik});if(!r.ok)return;
-    const g=r.groups.sort((a,b)=>b.skor-a.skor);let rk=0;
-    $('#eRank').innerHTML=g.map((x,k)=>{if(k>0&&x.skor<g[k-1].skor)rk=k;return `<div class="${x.id===S.id?'me':''}"><span>#${rk+1} ${esc(x.nm)}</span><span>${x.skor}</span></div>`}).join('');
-    if(r.status==='tamat'){clearInterval(rt);const w=g.filter(x=>x.skor===g[0].skor);$('#eNote').textContent=w.some(x=>x.id===S.id)?'🏆 Kumpulan anda JOHAN! 🏆':'Pemenang: '+w.map(x=>x.nm).join(' & ');if(w.some(x=>x.id===S.id)){burst(200);SFX.win()}}
+    const g=r.groups.sort((a,b)=>(b.betul-a.betul)||(b.skor-a.skor));let rk=0;
+    $('#eRank').innerHTML=g.map((x,k)=>{if(k>0&&!(x.betul===g[k-1].betul&&x.skor===g[k-1].skor))rk=k;return `<div class="${x.id===S.id?'me':''}"><span>#${rk+1} ${esc(x.nm)}</span><span>${x.betul}✓ · ${x.skor} mata</span></div>`}).join('');
+    if(r.status==='tamat'){clearInterval(rt);const w=g.filter(x=>x.betul===g[0].betul&&x.skor===g[0].skor);$('#eNote').textContent=w.some(x=>x.id===S.id)?'🏆 Kumpulan anda JOHAN! 🏆':'Pemenang: '+w.map(x=>x.nm).join(' & ');if(w.some(x=>x.id===S.id)){burst(200);SFX.win()}}
   }catch(e){}};
   const rt=setInterval(rank,3000);rank();
 }

@@ -350,7 +350,8 @@ function moveCar(){const w=$('#track').clientWidth-112;$('#meCar').style.left=Ma
 async function updRank(){try{const r=await api({action:'board',bilik:G.bilik});if(!r.ok)return;
   const g=sortRace(r.groups);const i=g.findIndex(x=>x.id===G.id);$('#hRank').textContent=i>=0?'#'+(i+1)+'/'+g.length:'–';
   if(r.status==='tamat')finish(true)}catch(e){}}
-function sortRace(g){return g.slice().sort((a,b)=>(b.selesai-a.selesai)||(a.selesai&&b.selesai?(a.masa||0)-(b.masa||0):0)||(b.skor-a.skor))}
+const mkL=x=>Math.max(0,(+x.betul||0)*10-((+x.dijawab||0)-(+x.betul||0))*5);
+function sortRace(g){return g.slice().sort((a,b)=>(mkL(b)-mkL(a))||(b.selesai-a.selesai)||(a.selesai&&b.selesai?(a.masa||0)-(b.masa||0):0)||(b.skor-a.skor))}
 function next(){
   if(ended)return;if(G.betul>=G.n)return finish(false);
   locked=false;cur=gen();const q=cur,a=q.ans,qw=$('#qwrap');
@@ -395,7 +396,7 @@ async function finish(byTeacher){
   try{localStorage.removeItem('lpa-sesi')}catch(e){}
   push();
   const rk=async()=>{try{const r=await api({action:'board',bilik:G.bilik});if(!r.ok)return;const g=sortRace(r.groups);
-    $('#eRank').innerHTML=g.map((x,i)=>`<div class="${x.id===G.id?'me':''}"><span>#${i+1} ${x.selesai?'🏁 ':''}${esc(x.nm)}</span><span>${x.skor}/${r.soalan||G.n}</span></div>`).join('');
+    $('#eRank').innerHTML=g.map((x,i)=>`<div class="${x.id===G.id?'me':''}"><span>#${i+1} ${x.selesai?'🏁 ':''}${esc(x.nm)}</span><span>${mkL(x)} mata · ${x.betul}✓ ${x.dijawab-x.betul}✗</span></div>`).join('');
     if(r.status==='tamat'){clearInterval(t);$('#eNote').textContent=g[0]&&g[0].id===G.id?'🏆 Kumpulan anda JOHAN! 🏆':'Johan: '+(g[0]?g[0].nm:'-');if(g[0]&&g[0].id===G.id){burst(200);SFX.win()}}}catch(e){}};
   const t=setInterval(rk,3000);rk();
 }
