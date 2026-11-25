@@ -1,4 +1,6 @@
 /* Arabic e-Camp · muzik & bunyi bersama (Pixabay, lesen Pixabay Content License) */
+/* Mula baharu: padam simpanan lama peranti (nama kumpulan, sesi permainan) sekali sahaja */
+(function(){try{const V='20261125-baharu';if(localStorage.getItem('ae-reset')!==V){['ae-kumpulan','ae-mute','ita-sesi','lpa-sesi','irm-sesi'].forEach(k=>localStorage.removeItem(k));document.cookie='aek=;max-age=0;path=/';localStorage.setItem('ae-reset',V)}}catch(e){}})();
 (function(){
   const BASE=(document.currentScript&&document.currentScript.src||location.href).replace(/[^\/]*$/,'');
   const LIST={
